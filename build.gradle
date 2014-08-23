@@ -1,0 +1,105 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
+import java.awt.*
+
+buildscript {
+    apply from: "gradle/buildscript.gradle", to: buildscript
+}
+
+version = '0.1.0'
+group = 'ru.vyarus'
+description = 'Embedded OrientDB server for dropwizard'
+
+// convention: project.name == github project name == bintray package page
+project.ext {
+    github = {
+        user = 'xvik'
+    }
+    bintray = {
+        user = project.hasProperty('bintrayUser') ? bintrayUser : 'USER' // configured in ~/.gradle/gradle.properties
+        key = project.hasProperty('bintrayKey') ? bintrayKey : 'KEY' // configured in ~/.gradle/gradle.properties
+        repo = 'xvik'
+        tags = ['dropwizard', 'orientdb']
+        dryRun = false // whether to run this as dry-run, without deploying (TEST RUN)
+        publish = true //If version should be auto published after an upload
+    }
+    license = 'MIT'
+    licenseDesc = 'The MIT License'
+    // extend pom for maven central acceptance
+    pomConfig = {
+        scm {
+            url github.scm
+            connection github.scmConnection
+        }
+        licenses {
+            license {
+                name licenseDesc
+                url github.licenseUrl
+                distribution "repo"
+            }
+        }
+        developers {
+            developer {
+                id "xvik"
+                name "Vyacheslav Rusakov"
+                email "vyarus@gmail.com"
+            }
+        }
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'project-report'
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+apply from: 'gradle/github.gradle'
+apply from: 'gradle/maven.gradle'
+apply from: 'gradle/bintray.gradle'
+apply from: 'gradle/quality.gradle'
+
+
+repositories {
+    mavenLocal()
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile "io.dropwizard:dropwizard-core:0.7.1"
+    compile "com.orientechnologies:orientdb-server:1.7.8"
+    compile "com.orientechnologies:orientdb-tools:1.7.8"
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile 'ch.qos.logback:logback-classic:1.1.2'
+    testCompile 'org.slf4j:jul-to-slf4j:1.7.7'
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    // used to catch System.exit statements
+    testCompile 'com.github.stefanbirkner:system-rules:1.6.0'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+task checkOutOfDate(type: DependencyUpdatesTask, description: 'Checks dependencies updates availability') {
+    revision 'release'
+}
+
+task showDependenciesTree(dependsOn: 'htmlDependencyReport', description:
+        'Generates dependencies tree report and opens it in browser (useful to analyze dependencies)') << {
+    Desktop.getDesktop().open(file('/build/reports/project/dependencies/root.html'))
+}
+
+
+task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal', description: 'Install to local maven repository') << {
+    logger.warn "INSTALLED $project.group:$project.name:$project.version"
+}
+
+task release(dependsOn: [bintrayUpload, bintraySign], description: 'Publish version to bintray') << {
+    logger.warn "RELEASED $project.group:$project.name:$project.version"
+}

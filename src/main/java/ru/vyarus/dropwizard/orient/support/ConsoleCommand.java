@@ -1,0 +1,135 @@
+package ru.vyarus.dropwizard.orient.support;
+
+import com.google.common.collect.Lists;
+import com.orientechnologies.orient.console.OConsoleDatabaseApp;
+import com.orientechnologies.orient.server.config.OServerUserConfiguration;
+import io.dropwizard.Configuration;
+import io.dropwizard.cli.ConfiguredCommand;
+import io.dropwizard.setup.Bootstrap;
+import net.sourceforge.argparse4j.inf.Namespace;
+import net.sourceforge.argparse4j.inf.Subparser;
+import ru.vyarus.dropwizard.orient.configuration.HasOrientConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.OrientConfiguration;
+
+import java.io.File;
+import java.util.List;
+
+/**
+ * Command is launched in interactive mode if started without parameters: console config.yml.
+ * <p>Also can be used to launch commands directly or external commands file. This time process will
+ * exit right after commands execution.</p>
+ * <p>To execute sql file: console config.yml commands.sql</p>
+ * <p>To execute commands: console config.yml command1;command2</p>
+ * <p>NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
+ * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
+ * Also, if server already started, then you can use remote connections.</p>
+ * <a href="http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html">
+ * See orient console documentation</a>
+ *
+ * @param <T> configuration type
+ * @see com.orientechnologies.orient.console.OConsoleDatabaseApp
+ */
+public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> extends ConfiguredCommand<T> {
+
+    public static final String COMMANDS = "commands";
+    private Class<T> configClass;
+
+    /**
+     * @param configClass configuration class
+     */
+    public ConsoleCommand(final Class<T> configClass) {
+        this(configClass, "console");
+    }
+
+    /**
+     * @param configClass configuration class
+     * @param commandName command name to override default 'console' name
+     */
+    public ConsoleCommand(final Class<T> configClass, final String commandName) {
+        super(commandName, "Run orient db console");
+        this.configClass = configClass;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected Class<T> getConfigurationClass() {
+        // configuration class is required, because real application configuration class is unreachable
+        return configClass;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void configure(final Subparser subparser) {
+        super.configure(subparser);
+        subparser.addArgument(COMMANDS).nargs("*").help("orient console commands or commands file");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void run(final Bootstrap<T> bootstrap, final Namespace namespace,
+                       final T configuration) throws Exception {
+        final OrientConfiguration conf = configuration.getOrientConfiguration();
+        final List<String> commands = namespace.get(COMMANDS);
+        printHelp(conf, commands);
+
+        OConsoleDatabaseApp.main(commands.toArray(new String[commands.size()]));
+    }
+
+    private void printHelp(final OrientConfiguration conf, final List<String> commands) {
+        System.out.println("See details of command usage: "
+                + "http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html");
+
+        final boolean isInteractiveMode = commands.isEmpty();
+        final List<String> availableDatabases = getDatabases(conf);
+        final OServerUserConfiguration dbUser = getAdminUser(conf);
+
+        // print help message
+        if (isInteractiveMode && availableDatabases.size() > 0) {
+            final String user = dbUser == null ? "user" : dbUser.name;
+            final String password = dbUser == null ? "password" : dbUser.password;
+            System.out.println("To connect database use one of the following commands:");
+            for (String db : availableDatabases) {
+                if (conf.isStart()) {
+                    System.out.println(String.format("$ connect remote:127.0.0.1/%s %s %s", db, user, password));
+                }
+                System.out.println(String.format("$ connect plocal:%s %s %s", db, user, password));
+            }
+        }
+    }
+
+    private List<String> getDatabases(final OrientConfiguration conf) {
+        final List<String> availableDatabases = Lists.newArrayList();
+        final String dbFolder = conf.getFilesPath() + "/databases/";
+        final File file = new File(dbFolder);
+        if (file.exists() && file.isDirectory()) {
+            for (File db : file.listFiles()) {
+                if (db.isDirectory()) {
+                    availableDatabases.add(db.getName());
+                }
+            }
+        }
+        return availableDatabases;
+    }
+
+    private OServerUserConfiguration getAdminUser(final OrientConfiguration conf) {
+        OServerUserConfiguration dbUser = null;
+
+        // find user from configuration
+        final OServerUserConfiguration[] users = conf.getConfig().users;
+        if (users != null) {
+            for (OServerUserConfiguration user : users) {
+                // looking for default admin user or take just first one
+                if ("admin".equals(user.name) || dbUser == null) {
+                    dbUser = user;
+                }
+            }
+        }
+        return dbUser;
+    }
+}
