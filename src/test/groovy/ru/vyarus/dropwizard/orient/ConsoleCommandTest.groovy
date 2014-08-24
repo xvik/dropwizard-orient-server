@@ -20,11 +20,11 @@ class ConsoleCommandTest extends AbstractTest {
     TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
     def "Check interactive console"() {
-        setup:
+        setup: "create db to check help message"
         createLocalDb('test')
         exit.expectSystemExitWithStatus(0)
-        systemInMock.provideText('exit')
-        when: "run console with command"
+        systemInMock.provideText('exit\n')
+        when: "run interactive console and type exit command"
         command 'console src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
         then: "all good"
         thrown(CheckExitCalled)
