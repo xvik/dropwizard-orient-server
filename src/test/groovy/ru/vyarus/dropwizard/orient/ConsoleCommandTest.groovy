@@ -1,7 +1,9 @@
 package ru.vyarus.dropwizard.orient
 
+import com.orientechnologies.orient.core.Orient
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream
 import org.junit.contrib.java.lang.system.internal.CheckExitCalled
 
 /**
@@ -10,11 +12,23 @@ import org.junit.contrib.java.lang.system.internal.CheckExitCalled
  */
 class ConsoleCommandTest extends AbstractTest {
 
-    /*
-     * Console is using system exit, so have to use additional rule to catch this
-     */
+    // Console is using system exit, so have to use additional rule to catch this
     @Rule
     ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @Rule
+    TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
+
+    def "Check interactive console"() {
+        setup:
+        createLocalDb('test')
+        exit.expectSystemExitWithStatus(0)
+        systemInMock.provideText('exit')
+        when: "run console with command"
+        command 'console src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
+        then: "all good"
+        thrown(CheckExitCalled)
+    }
 
     def "Check sql file execution"() {
         setup:

@@ -1,5 +1,8 @@
 package ru.vyarus.dropwizard.orient
 
+import com.orientechnologies.orient.client.remote.OServerAdmin
+import com.orientechnologies.orient.core.Orient
+import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import ru.vyarus.dropwizard.orient.support.TestApplication;
 import spock.lang.Specification
 
@@ -11,7 +14,29 @@ import spock.lang.Specification
  */
 abstract class AbstractTest extends Specification {
 
+    String dbFolderPath = System.getProperty("java.io.tmpdir") + '/db/';
+
+    void setup() {
+        new File(dbFolderPath).deleteDir()
+        // reset engines state after console exit
+        Orient.instance().startup()
+    }
+
+    void cleanup() {
+        new File(dbFolderPath).deleteDir()
+    }
+
     def command(String attrs) {
         new TestApplication().run(attrs.split(' '))
+    }
+
+    def createRemoteDb(String name){
+        OServerAdmin admin = new OServerAdmin('remote:localhost/'+name).connect('admin', 'admin')
+        admin.createDatabase('document', 'local')
+    }
+
+    def createLocalDb(String name) {
+        OObjectDatabaseTx db = new OObjectDatabaseTx("plocal:${dbFolderPath}databases/$name")
+        if (!db.exists()) db.create()
     }
 }
