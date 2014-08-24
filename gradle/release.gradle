@@ -6,5 +6,4 @@ confirmReleaseVersion << {
     jar.version = project.version
     javadocJar.version = project.version
     sourceJar.version = project.version
-    publishing.publications.mavenJava.setArtifacts([jar, sourceJar, javadocJar])
 }
