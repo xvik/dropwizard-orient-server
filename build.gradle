@@ -56,10 +56,10 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 apply from: 'gradle/github.gradle'
+apply from: 'gradle/release.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/bintray.gradle'
 apply from: 'gradle/quality.gradle'
-apply from: 'gradle/release.gradle'
 
 
 repositories {
@@ -100,7 +100,7 @@ task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal', description: 
     logger.warn "INSTALLED $project.group:$project.name:$project.version"
 }
 
-// release task provided by gradle-release plugin
+//release task provided by gradle-release plugin
 createReleaseTag.dependsOn bintrayUpload, bintraySign
 release.doLast {
     logger.warn "RELEASED $project.group:$project.name:$project.version"
