@@ -7,4 +7,12 @@ confirmReleaseVersion << {
     javadocJar.version = project.version
     sourcesJar.version = project.version
     publishing.publications.mavenJava.setArtifacts([jar, sourcesJar, javadocJar])
+
+    // reset bintray versions
+    if (bintrayUpload.versionName.contains('SNAPSHOT')) {
+        bintrayUpload.versionName = project.version
+    }
+    if (bintrayUpload.versionVcsTag.contains('SNAPSHOT')) {
+        bintrayUpload.versionVcsTag = project.version
+    }
 }
