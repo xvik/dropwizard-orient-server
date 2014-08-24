@@ -25,6 +25,17 @@ class ConsoleCommandTest extends AbstractTest {
         exit.expectSystemExitWithStatus(0)
         systemInMock.provideText('exit\n')
         when: "run interactive console and type exit command"
+        command 'console src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml'
+        then: "all good"
+        thrown(CheckExitCalled)
+    }
+
+    def "Check interactive console with default help user"() {
+        setup: "create db to check help message"
+        createLocalDb('test')
+        exit.expectSystemExitWithStatus(0)
+        systemInMock.provideText('exit\n')
+        when: "run interactive console wit config without defined users"
         command 'console src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
         then: "all good"
         thrown(CheckExitCalled)
