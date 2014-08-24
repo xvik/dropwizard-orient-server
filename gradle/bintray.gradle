@@ -13,8 +13,8 @@ def bintrayCfg = project.ext.bintray
 
 def bitrayApiUrl = "https://api.bintray.com"
 // bintray will not accept snapshot versions, so its safe to fix version manually
-bintrayCfg.signApiUrl = "$bitrayApiUrl/gpg/$bintrayCfg.user/$bintrayCfg.repo/$project.name/versions/$project.version".replaceAll('-SNAPSHOT','')
-bintrayCfg.publishApiUrl = "$bitrayApiUrl/content/$bintrayCfg.user/$bintrayCfg.repo/$project.name/$project.version/publish".replaceAll('-SNAPSHOT','')
+bintrayCfg.signApiUrl = ("$bitrayApiUrl/gpg/$bintrayCfg.user/$bintrayCfg.repo/$project.name/versions/$project.version".replace('-SNAPSHOT',''))
+bintrayCfg.publishApiUrl = ("$bitrayApiUrl/content/$bintrayCfg.user/$bintrayCfg.repo/$project.name/$project.version/publish".replace('-SNAPSHOT',''))
 
 bintray {
     user = bintrayCfg.user
