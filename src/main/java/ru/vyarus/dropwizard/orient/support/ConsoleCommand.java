@@ -29,9 +29,11 @@ import java.util.List;
  * @param <T> configuration type
  * @see com.orientechnologies.orient.console.OConsoleDatabaseApp
  */
+@SuppressWarnings("PMD.SystemPrintln")
 public class ConsoleCommand<T extends Configuration & HasOrientServerConfiguration> extends ConfiguredCommand<T> {
 
-    public static final String COMMANDS = "commands";
+    public static final String COMMANDS_ARG = "commands";
+    public static final String ADMIN = "admin";
     private Class<T> configClass;
 
     /**
@@ -65,7 +67,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
     @Override
     public void configure(final Subparser subparser) {
         super.configure(subparser);
-        subparser.addArgument(COMMANDS).nargs("*").help("orient console commands or commands file");
+        subparser.addArgument(COMMANDS_ARG).nargs("*").help("orient console commands or commands file");
     }
 
     /**
@@ -75,12 +77,13 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
     protected void run(final Bootstrap<T> bootstrap, final Namespace namespace,
                        final T configuration) throws Exception {
         final OrientServerConfiguration conf = configuration.getOrientServerConfiguration();
-        final List<String> commands = namespace.get(COMMANDS);
+        final List<String> commands = namespace.get(COMMANDS_ARG);
         printHelp(conf, commands);
 
         OConsoleDatabaseApp.main(commands.toArray(new String[commands.size()]));
     }
 
+    @SuppressWarnings("PMD.UselessParentheses")
     private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
                 + "http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html");
@@ -89,26 +92,26 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
             return;
         }
         final boolean isInteractiveMode = commands.isEmpty();
-        final List<String> availableDatabases = getDatabases(conf);
-        final OServerUserConfiguration dbUser = getAdminUser(conf);
+        final String dbFolder = (conf.getFilesPath() + "/databases/").replaceAll("//", "/");
+        final List<String> availableDatabases = getDatabases(dbFolder);
 
         // print help message
-        if (isInteractiveMode && availableDatabases.size() > 0) {
-            final String user = dbUser == null ? "user" : dbUser.name;
-            final String password = dbUser == null ? "password" : dbUser.password;
+        if (isInteractiveMode && !availableDatabases.isEmpty()) {
             System.out.println("To connect database use one of the following commands:");
+            final OServerUserConfiguration dbUser = getAdminUser(conf);
             for (String db : availableDatabases) {
                 if (conf.isStart()) {
-                    System.out.println(String.format("$ connect remote:127.0.0.1/%s %s %s", db, user, password));
+                    System.out.println(String.format("$ connect remote:localhost/%s %s %s",
+                            db, dbUser.name, dbUser.password));
                 }
-                System.out.println(String.format("$ connect plocal:%s %s %s", db, user, password));
+                System.out.println(String.format("$ connect plocal:%s%s %s %s",
+                        dbFolder, db, dbUser.name, dbUser.password));
             }
         }
     }
 
-    private List<String> getDatabases(final OrientServerConfiguration conf) {
+    private List<String> getDatabases(final String dbFolder) {
         final List<String> availableDatabases = Lists.newArrayList();
-        final String dbFolder = conf.getFilesPath() + "/databases/";
         final File file = new File(dbFolder);
         if (file.exists() && file.isDirectory()) {
             for (File db : file.listFiles()) {
@@ -128,10 +131,14 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
         if (users != null) {
             for (OServerUserConfiguration user : users) {
                 // looking for default admin user or take just first one
-                if ("admin".equals(user.name) || dbUser == null) {
+                if (ADMIN.equals(user.name) || dbUser == null) {
                     dbUser = user;
                 }
             }
+        }
+        if (dbUser == null) {
+            // user not found, using default strings
+            dbUser = new OServerUserConfiguration("user", "password", null);
         }
         return dbUser;
     }

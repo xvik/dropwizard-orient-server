@@ -108,9 +108,7 @@ public class OrientServerConfiguration {
 
     private String parseDbPath(final String path) {
         final String trimmedPath = Strings.emptyToNull(path);
-        if (trimmedPath == null) {
-            return null;
-        }
-        return trimmedPath.replace("$TMP", System.getProperty("java.io.tmpdir"));
+        return trimmedPath == null ? null
+                : trimmedPath.replace("$TMP", System.getProperty("java.io.tmpdir"));
     }
 }

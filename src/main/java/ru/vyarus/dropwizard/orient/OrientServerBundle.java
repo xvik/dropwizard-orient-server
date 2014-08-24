@@ -34,7 +34,7 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
         implements ConfiguredBundle<T> {
     private final Logger logger = LoggerFactory.getLogger(OrientServerBundle.class);
 
-    private Class<T> configClass;
+    private final Class<T> configClass;
 
     /**
      * @param configClass configuration class
