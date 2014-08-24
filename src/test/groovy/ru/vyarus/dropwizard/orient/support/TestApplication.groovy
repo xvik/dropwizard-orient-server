@@ -3,7 +3,7 @@ package ru.vyarus.dropwizard.orient.support
 import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
-import ru.vyarus.dropwizard.orient.OrientDbBundle
+import ru.vyarus.dropwizard.orient.OrientServerBundle
 
 /**
  * @author Vyacheslav Rusakov 
@@ -17,7 +17,7 @@ class TestApplication extends Application<TestConfiguration> {
 
     @Override
     void initialize(Bootstrap<TestConfiguration> bootstrap) {
-        bootstrap.addBundle(new OrientDbBundle(getConfigurationClass()))
+        bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()))
         bootstrap.addCommand(new DummyCommand())
     }
 

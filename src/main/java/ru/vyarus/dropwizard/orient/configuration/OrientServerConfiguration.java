@@ -22,8 +22,8 @@ import java.io.IOException;
  * <a href="http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration">
  * See configuration documentation.</a>
  */
-public class OrientConfiguration {
-    private final Logger logger = LoggerFactory.getLogger(OrientConfiguration.class);
+public class OrientServerConfiguration {
+    private final Logger logger = LoggerFactory.getLogger(OrientServerConfiguration.class);
 
     @NotEmpty
     private String filesPath;

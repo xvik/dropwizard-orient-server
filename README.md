@@ -11,10 +11,13 @@ Best fits for development environment (to easily try orient or simplify develope
 may be used in production for small to middle projects.
 
 Features:
-* Embedded orient server, managed by dropwizard
-* Configuration in main yaml configuration file or with external orient xml configuration file
-* Console command (interactive mode, command execution, commands file execution)
-* Embedded orient studio
+* [Embedded orient server](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Embedded-Server.html), 
+managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.html#managed-objects))
+* Configuration in main yaml configuration file or with external 
+[orient xml configuration](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration) file
+* [Console command](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html) 
+(interactive mode, command execution, commands file execution)
+* Embedded [orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html)
 
 ### Setup
 
@@ -39,35 +42,35 @@ compile 'ru.vyarus:dropwizard-orient-server:1.0.0'
 
 ### Usage
 
-Configuration class must implement `HasOrientConfiguration`:
+Configuration class must implement `HasOrientServerConfiguration`:
 
 ```java
-public class YourConfiguration extends Configuration implements HasOrientConfiguration {
+public class YourConfiguration extends Configuration implements HasOrientServerConfiguration {
 
     @NotNull
     @Valid
-    private OrientConfiguration orientServer;
+    private OrientServerConfiguration orientServer;
 
     @Override
-    OrientConfiguration getOrientConfiguration() {
+    OrientConfiguration getOrientServerConfiguration() {
         return orientServer
     }
 
     @JsonProperty("orient-server")
-    void setOrientServer(OrientConfiguration orientServer) {
+    void setOrientServer(OrientServerConfiguration orientServer) {
         this.orientServer = orientServer
     }
 }
 ```
 
-NOTE: It's not required to have not null orient configuration. If `OrientConfiguration` is null server will simply not start.
+NOTE: It's not required to have not null orient configuration. If `OrientServerConfiguration` is null server will simply not start.
 
 Register orient bundle in application class:
 
 ```java
 @Override
 void initialize(Bootstrap<TestConfiguration> bootstrap) {
-    bootstrap.addBundle(new OrientDbBundle(getConfigurationClass()))
+    bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()))
 }
 ```
 
@@ -91,9 +94,10 @@ You can start with this [configuration file](https://github.com/xvik/dropwizard-
 * `start` enables or disables orient server start (the same effect will be if orient configuration section will not exist, 
 this option exist to allow disabling server without removing entire config section)
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
+Support special placeholder `$TMP`, which is replaced to `java.io.tmpdir`.
 * `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
-* `config-file` used to specify path to xml configuration file instead of yaml configuration in `config`. 
+* `config-file` used to specify path to xml configuration file instead of direct yaml configuration in `config` section. 
 See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
 (taken from orient distribution)
 
@@ -102,8 +106,7 @@ See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/m
 Internally bundle registers orient console command (`ConsoleCommand`). Console may be used in interactive mode, to execute command(s) 
 or to process commands file.
 
-Console is very efficient for learning orient (playing with queries) and not interactive mode allows to predefine 
-reusable set of most useful commands or scripts.
+Console is very efficient for learning orient (playing with queries) and may be used to easily run predefined scripts.
 
 If started without additional parameters, console will be in interactive mode:
 
@@ -154,19 +157,19 @@ After jetty server start (usual dropwizard startup):
 $ [..] server config.yml
 ```
 
-Studio will be available on url: http://localhost:2480/studio/
+Studio will be available on url: [http://localhost:2480/studio/](http://localhost:2480/studio/)
 
-NOTE: Studio will not start if static content listener is not defined in configuration (by default, it's defined)
+NOTE: Studio will not start if static content listener is not defined in configuration (defined in example configuration)
 
 ```yaml
-          commands:
-              - pattern: 'GET|www GET|studio/ GET| GET|*.htm GET|*.html GET|*.xml GET|*.jpeg GET|*.jpg GET|*.png GET|*.gif GET|*.js GET|*.css GET|*.swf GET|*.ico GET|*.txt GET|*.otf GET|*.pjs GET|*.svg'
-                implementation: 'com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent'
-                parameters:
-                    - name: 'http.cache:*.htm *.html'
-                      value: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
-                    - name: 'http.cache:default'
-                      value: 'Cache-Control: max-age=120'
+commands:
+  - pattern: 'GET|www GET|studio/ GET| GET|*.htm GET|*.html GET|*.xml GET|*.jpeg GET|*.jpg GET|*.png GET|*.gif GET|*.js GET|*.css GET|*.swf GET|*.ico GET|*.txt GET|*.otf GET|*.pjs GET|*.svg'
+    implementation: 'com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent'
+    parameters:
+        - name: 'http.cache:*.htm *.html'
+          value: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
+        - name: 'http.cache:default'
+          value: 'Cache-Control: max-age=120'
 ```
 
 -

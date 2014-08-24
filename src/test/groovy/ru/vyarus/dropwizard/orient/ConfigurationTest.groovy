@@ -19,7 +19,7 @@ class ConfigurationTest extends AbstractTest {
 
         when: "inline configuration"
         command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml'
-        def conf = DummyCommand.config.orientConfiguration
+        def conf = DummyCommand.config.orientServerConfiguration
 
         then: "configuration parsed"
         conf != null
@@ -33,7 +33,7 @@ class ConfigurationTest extends AbstractTest {
 
         when: "external configuration"
         command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
-        def conf = DummyCommand.config.orientConfiguration
+        def conf = DummyCommand.config.orientServerConfiguration
 
         then: "configuration parsed"
         conf != null
@@ -47,7 +47,7 @@ class ConfigurationTest extends AbstractTest {
 
         when: "start disabled"
         command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/disabledServer.yml'
-        def conf = DummyCommand.config.orientConfiguration
+        def conf = DummyCommand.config.orientServerConfiguration
 
         then: "configuration parsed"
         conf != null

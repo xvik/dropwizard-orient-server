@@ -7,8 +7,8 @@ import io.dropwizard.setup.Environment;
 import org.hibernate.validator.internal.engine.ValidatorFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.vyarus.dropwizard.orient.configuration.HasOrientConfiguration;
-import ru.vyarus.dropwizard.orient.configuration.OrientConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.internal.DummyTraversableResolver;
 import ru.vyarus.dropwizard.orient.internal.EmbeddedOrientServer;
 import ru.vyarus.dropwizard.orient.support.ConsoleCommand;
@@ -30,16 +30,16 @@ import java.lang.reflect.Field;
  * Also, if server already started, then you can use remote connections.
  * @param <T> configuration type
  */
-public class OrientDbBundle<T extends Configuration & HasOrientConfiguration>
+public class OrientServerBundle<T extends Configuration & HasOrientServerConfiguration>
         implements ConfiguredBundle<T> {
-    private final Logger logger = LoggerFactory.getLogger(OrientDbBundle.class);
+    private final Logger logger = LoggerFactory.getLogger(OrientServerBundle.class);
 
     private Class<T> configClass;
 
     /**
      * @param configClass configuration class
      */
-    public OrientDbBundle(final Class<T> configClass) {
+    public OrientServerBundle(final Class<T> configClass) {
         this.configClass = configClass;
     }
 
@@ -59,7 +59,7 @@ public class OrientDbBundle<T extends Configuration & HasOrientConfiguration>
     @Override
     public void run(final T configuration, final Environment environment) throws Exception {
 
-        final OrientConfiguration conf = configuration.getOrientConfiguration();
+        final OrientServerConfiguration conf = configuration.getOrientServerConfiguration();
         if (conf == null || !conf.isStart()) {
             logger.debug("Orient server start disabled. Set 'start: true' in configuration to enable.");
             return;

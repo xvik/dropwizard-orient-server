@@ -10,7 +10,7 @@ import java.lang.annotation.ElementType;
  * (required dependency of orient object database).
  *
  * @author Vyacheslav Rusakov
- * @see ru.vyarus.dropwizard.orient.OrientDbBundle for details
+ * @see ru.vyarus.dropwizard.orient.OrientServerBundle for details
  * @since 17.08.2014
  */
 public class DummyTraversableResolver implements TraversableResolver {

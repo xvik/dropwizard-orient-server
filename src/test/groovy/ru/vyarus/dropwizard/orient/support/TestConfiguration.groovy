@@ -2,8 +2,8 @@ package ru.vyarus.dropwizard.orient.support
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import io.dropwizard.Configuration
-import ru.vyarus.dropwizard.orient.configuration.HasOrientConfiguration
-import ru.vyarus.dropwizard.orient.configuration.OrientConfiguration
+import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration
+import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration
 
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
@@ -12,19 +12,19 @@ import javax.validation.constraints.NotNull
  * @author Vyacheslav Rusakov 
  * @since 18.08.2014
  */
-class TestConfiguration extends Configuration implements HasOrientConfiguration {
+class TestConfiguration extends Configuration implements HasOrientServerConfiguration {
 
     @NotNull
     @Valid
-    private OrientConfiguration orientServer;
+    private OrientServerConfiguration orientServer;
 
     @Override
-    OrientConfiguration getOrientConfiguration() {
+    OrientServerConfiguration getOrientServerConfiguration() {
         return orientServer
     }
 
     @JsonProperty("orient-server")
-    void setOrientServer(OrientConfiguration orientServer) {
+    void setOrientServer(OrientServerConfiguration orientServer) {
         this.orientServer = orientServer
     }
 }

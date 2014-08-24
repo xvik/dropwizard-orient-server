@@ -11,7 +11,7 @@ import com.orientechnologies.orient.server.network.protocol.http.command.get.OSe
 import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.vyarus.dropwizard.orient.configuration.OrientConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
@@ -25,12 +25,12 @@ import java.net.URL;
 public class EmbeddedOrientServer implements Managed {
     private final Logger logger = LoggerFactory.getLogger(EmbeddedOrientServer.class);
 
-    private OrientConfiguration conf;
+    private OrientServerConfiguration conf;
 
     /**
      * @param conf orient server configuration object
      */
-    public EmbeddedOrientServer(final OrientConfiguration conf) {
+    public EmbeddedOrientServer(final OrientServerConfiguration conf) {
         this.conf = conf;
     }
 

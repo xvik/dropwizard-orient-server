@@ -8,8 +8,8 @@ import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
-import ru.vyarus.dropwizard.orient.configuration.HasOrientConfiguration;
-import ru.vyarus.dropwizard.orient.configuration.OrientConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import java.io.File;
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
  * @param <T> configuration type
  * @see com.orientechnologies.orient.console.OConsoleDatabaseApp
  */
-public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> extends ConfiguredCommand<T> {
+public class ConsoleCommand<T extends Configuration & HasOrientServerConfiguration> extends ConfiguredCommand<T> {
 
     public static final String COMMANDS = "commands";
     private Class<T> configClass;
@@ -74,14 +74,14 @@ public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> ex
     @Override
     protected void run(final Bootstrap<T> bootstrap, final Namespace namespace,
                        final T configuration) throws Exception {
-        final OrientConfiguration conf = configuration.getOrientConfiguration();
+        final OrientServerConfiguration conf = configuration.getOrientServerConfiguration();
         final List<String> commands = namespace.get(COMMANDS);
         printHelp(conf, commands);
 
         OConsoleDatabaseApp.main(commands.toArray(new String[commands.size()]));
     }
 
-    private void printHelp(final OrientConfiguration conf, final List<String> commands) {
+    private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
                 + "http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html");
 
@@ -106,7 +106,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> ex
         }
     }
 
-    private List<String> getDatabases(final OrientConfiguration conf) {
+    private List<String> getDatabases(final OrientServerConfiguration conf) {
         final List<String> availableDatabases = Lists.newArrayList();
         final String dbFolder = conf.getFilesPath() + "/databases/";
         final File file = new File(dbFolder);
@@ -120,7 +120,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> ex
         return availableDatabases;
     }
 
-    private OServerUserConfiguration getAdminUser(final OrientConfiguration conf) {
+    private OServerUserConfiguration getAdminUser(final OrientServerConfiguration conf) {
         OServerUserConfiguration dbUser = null;
 
         // find user from configuration
