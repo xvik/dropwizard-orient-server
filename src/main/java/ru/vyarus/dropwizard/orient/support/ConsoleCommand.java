@@ -85,6 +85,9 @@ public class ConsoleCommand<T extends Configuration & HasOrientConfiguration> ex
         System.out.println("See details of command usage: "
                 + "http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html");
 
+        if (conf == null) {
+            return;
+        }
         final boolean isInteractiveMode = commands.isEmpty();
         final List<String> availableDatabases = getDatabases(conf);
         final OServerUserConfiguration dbUser = getAdminUser(conf);

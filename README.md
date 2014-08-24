@@ -1,15 +1,20 @@
-#dropwizard-orient-server
+#Embedded OrientDB server for dropwizard
+
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
 [![Build Status](http://img.shields.io/travis/xvik/dropwizard-orient-server.svg?style=flat&branch=master)](https://travis-ci.org/xvik/dropwizard-orient-server)
 [![Coverage Status](https://img.shields.io/coveralls/xvik/dropwizard-orient-server.svg?style=flat)](https://coveralls.io/r/xvik/dropwizard-orient-server?branch=master)
 
 ### About
 
-Embedded OrientDB server for dropwizard
+Simplifies [OrientDB](http://www.orientechnologies.com/orientdb/) usage with [dropwizard](http://dropwizard.io/). 
+Best fits for development environment (to easily try orient or simplify developer environment installation), but
+may be used in production for small to middle projects.
 
 Features:
-* Feature 1
-* Feature 2
+* Embedded orient server, managed by dropwizard
+* Configuration in main yaml configuration file or with external orient xml configuration file
+* Console command (interactive mode, command execution, commands file execution)
+* Embedded orient studio
 
 ### Setup
 
@@ -22,17 +27,147 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>0.1.0</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:0.1.0'
+compile 'ru.vyarus:dropwizard-orient-server:1.0.0'
 ```
 
 ### Usage
+
+Configuration class must implement `HasOrientConfiguration`:
+
+```java
+public class YourConfiguration extends Configuration implements HasOrientConfiguration {
+
+    @NotNull
+    @Valid
+    private OrientConfiguration orientServer;
+
+    @Override
+    OrientConfiguration getOrientConfiguration() {
+        return orientServer
+    }
+
+    @JsonProperty("orient-server")
+    void setOrientServer(OrientConfiguration orientServer) {
+        this.orientServer = orientServer
+    }
+}
+```
+
+NOTE: It's not required to have not null orient configuration. If `OrientConfiguration` is null server will simply not start.
+
+Register orient bundle in application class:
+
+```java
+@Override
+void initialize(Bootstrap<TestConfiguration> bootstrap) {
+    bootstrap.addBundle(new OrientDbBundle(getConfigurationClass()))
+}
+```
+
+Example application could be found [in tests](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/groovy/ru/vyarus/dropwizard/orient/support/TestApplication.groovy)
+
+### Configuration
+
+Define orient section in application config yaml file:
+
+```yaml
+orient-server:
+  start: true
+  files-path: $TMP/db/
+  
+  config:
+    ...
+```
+
+You can start with this [configuration file](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml). 
+
+* `start` enables or disables orient server start (the same effect will be if orient configuration section will not exist, 
+this option exist to allow disabling server without removing entire config section)
+* `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
+* `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration).
+Orient use xml format for configuration files and this section is simply yaml representation of xml config.
+* `config-file` used to specify path to xml configuration file instead of yaml configuration in `config`. 
+See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
+(taken from orient distribution)
+
+### Console
+
+Internally bundle registers orient console command (`ConsoleCommand`). Console may be used in interactive mode, to execute command(s) 
+or to process commands file.
+
+Console is very efficient for learning orient (playing with queries) and not interactive mode allows to predefine 
+reusable set of most useful commands or scripts.
+
+If started without additional parameters, console will be in interactive mode:
+
+```bash
+$ [..] console config.yml
+```
+
+Where [..] is main class definition (like `java MyApp` or `java -jar app.jar MyApp`) and `config.yml` is your application yaml config.
+
+NOTE: console launching will not start orient server, but you can use it alongside with started application. Also, 
+you can use plocal connection to work with db from console even without server (see console output, it will suggest connection commands)
+
+To execute command directly, write it as additional argument:
+
+```bash
+$ [..] console config.yaml help
+```
+
+This will start console, execute help command and exit. More than one command may be executed (commands must be separated with ';')
+
+And the last option is to launch sql fie, for example commands.sql:
+
+```sql
+set echo true;
+create database memory:test;
+select from OUser;
+drop database;
+```
+
+```bash
+$ [..] console config.yaml commands.sql
+```
+
+Will execute all commands in file and exit.
+Note that `set echo true` enables additional logs (may be useful for debug). Another useful flag is `set ignoreErrors true`.
+
+For complete documentation see [orient console wiki](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html)
+
+### Orient studio
+
+[Orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html) 
+is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
+debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
+
+After jetty server start (usual dropwizard startup):
+
+```bash
+$ [..] server config.yml
+```
+
+Studio will be available on url: http://localhost:2480/studio/
+
+NOTE: Studio will not start if static content listener is not defined in configuration (by default, it's defined)
+
+```yaml
+          commands:
+              - pattern: 'GET|www GET|studio/ GET| GET|*.htm GET|*.html GET|*.xml GET|*.jpeg GET|*.jpg GET|*.png GET|*.gif GET|*.js GET|*.css GET|*.swf GET|*.ico GET|*.txt GET|*.otf GET|*.pjs GET|*.svg'
+                implementation: 'com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent'
+                parameters:
+                    - name: 'http.cache:*.htm *.html'
+                      value: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
+                    - name: 'http.cache:default'
+                      value: 'Cache-Control: max-age=120'
+```
 
 -
 [![Slush java lib generator](http://img.shields.io/badge/Powered%20by-Slush%20java%20lib%20generator-orange.svg?style=flat-square)](https://github.com/xvik/slush-lib-java)
