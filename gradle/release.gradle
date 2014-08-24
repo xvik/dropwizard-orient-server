@@ -5,5 +5,5 @@ confirmReleaseVersion << {
     publishing.publications.mavenJava.version = project.version
     jar.version = project.version
     javadocJar.version = project.version
-    sourceJar.version = project.version
+    sourcesJar.version = project.version
 }
