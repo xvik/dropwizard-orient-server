@@ -1,0 +1,10 @@
+apply plugin: 'release'
+
+// confirmReleaseVersion will remove the -SNAPSHOT, but the jar task are already configured with the SNAPSHOT name
+confirmReleaseVersion << {
+    publishing.publications.mavenJava.version = project.version
+    jar.version = project.version
+    javadocJar.version = project.version
+    sourceJar.version = project.version
+    publishing.publications.mavenJava.setArtifacts([jar, sourceJar, javadocJar])
+}

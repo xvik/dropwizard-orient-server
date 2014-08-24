@@ -6,7 +6,6 @@ buildscript {
     apply from: "gradle/buildscript.gradle", to: buildscript
 }
 
-version = '1.0.0'
 group = 'ru.vyarus'
 description = 'Embedded OrientDB server for dropwizard'
 
@@ -60,6 +59,7 @@ apply from: 'gradle/github.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/bintray.gradle'
 apply from: 'gradle/quality.gradle'
+apply from: 'gradle/release.gradle'
 
 
 repositories {
@@ -96,11 +96,12 @@ task showDependenciesTree(dependsOn: 'htmlDependencyReport', description:
     Desktop.getDesktop().open(file('/build/reports/project/dependencies/root.html'))
 }
 
-
 task install(dependsOn: 'publishMavenJavaPublicationToMavenLocal', description: 'Install to local maven repository') << {
     logger.warn "INSTALLED $project.group:$project.name:$project.version"
 }
 
-task release(dependsOn: [bintrayUpload, bintraySign], description: 'Publish version to bintray') << {
+// release task provided by gradle-release plugin
+createReleaseTag.dependsOn bintrayUpload, bintraySign
+release.doLast {
     logger.warn "RELEASED $project.group:$project.name:$project.version"
 }
