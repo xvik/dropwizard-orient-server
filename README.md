@@ -147,7 +147,7 @@ For complete documentation see [orient console wiki](http://www.orientechnologie
 
 ### Orient studio
 
-[Orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html) 
+[Orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html)
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
@@ -171,6 +171,9 @@ commands:
         - name: 'http.cache:default'
           value: 'Cache-Control: max-age=120'
 ```
+
+[Studio github repository](https://github.com/orientechnologies/orientdb-studio).
+You can check version, packaged inside jar [here](https://github.com/xvik/dropwizard-orient-server/blob/master/src/main/resources/ru/vyarus/dropwizard/orient/studio/version.txt)
 
 -
 [![Slush java lib generator](http://img.shields.io/badge/Powered%20by-Slush%20java%20lib%20generator-orange.svg?style=flat-square)](https://github.com/xvik/slush-lib-java)
