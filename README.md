@@ -12,13 +12,13 @@ Best fits for development environment (to easily try orient or simplify develope
 may be used in production for small to middle projects.
 
 Features:
-* [Embedded orient server](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Embedded-Server.html), 
+* [Embedded orient server](http://www.orientechnologies.com/docs/last/orientdb.wiki/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration) file
-* [Console command](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html) 
+[orient xml configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration) file
+* [Console command](http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Embedded [orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html)
+* Embedded [orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
 
 ### Setup
 
@@ -96,7 +96,7 @@ You can start with this [configuration file](https://github.com/xvik/dropwizard-
 this option exist to allow disabling server without removing entire config section)
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
 Support special placeholder '$TMP', which is replaced to 'java.io.tmpdir'.
-* `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration).
+* `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
 * `config-file` used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. 
 See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
@@ -144,11 +144,11 @@ $ [..] console config.yaml commands.sql
 Will execute all commands in file and exit.
 Note that `set echo true` enables additional logs (may be useful for debug). Another useful flag is `set ignoreErrors true`.
 
-For complete documentation see [orient console wiki](http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html)
+For complete documentation see [orient console wiki](http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html)
 
 ### Orient studio
 
-[Orient studio](http://www.orientechnologies.com/docs/1.7.8/orientdb-studio.wiki/Home-page.html)
+[Orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
