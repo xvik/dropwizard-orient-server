@@ -2,7 +2,6 @@ package ru.vyarus.dropwizard.orient.support;
 
 import com.google.common.collect.Lists;
 import com.orientechnologies.orient.console.OConsoleDatabaseApp;
-import com.orientechnologies.orient.server.config.OServerUserConfiguration;
 import io.dropwizard.Configuration;
 import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
@@ -33,7 +32,6 @@ import java.util.List;
 public class ConsoleCommand<T extends Configuration & HasOrientServerConfiguration> extends ConfiguredCommand<T> {
 
     public static final String COMMANDS_ARG = "commands";
-    public static final String ADMIN = "admin";
     private Class<T> configClass;
 
     /**
@@ -98,14 +96,11 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
         // print help message
         if (isInteractiveMode && !availableDatabases.isEmpty()) {
             System.out.println("To connect database use one of the following commands:");
-            final OServerUserConfiguration dbUser = getAdminUser(conf);
             for (String db : availableDatabases) {
                 if (conf.isStart()) {
-                    System.out.println(String.format("$ connect remote:localhost/%s %s %s",
-                            db, dbUser.name, dbUser.password));
+                    System.out.println(String.format("$ connect remote:localhost/%s admin admin", db));
                 }
-                System.out.println(String.format("$ connect plocal:%s%s %s %s",
-                        dbFolder, db, dbUser.name, dbUser.password));
+                System.out.println(String.format("$ connect plocal:%s%s admin admin", dbFolder, db));
             }
         }
     }
@@ -114,32 +109,15 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
         final List<String> availableDatabases = Lists.newArrayList();
         final File file = new File(dbFolder);
         if (file.exists() && file.isDirectory()) {
-            for (File db : file.listFiles()) {
-                if (db.isDirectory()) {
-                    availableDatabases.add(db.getName());
+            final File[] files = file.listFiles();
+            if (files != null) {
+                for (File db : files) {
+                    if (db.isDirectory()) {
+                        availableDatabases.add(db.getName());
+                    }
                 }
             }
         }
         return availableDatabases;
-    }
-
-    private OServerUserConfiguration getAdminUser(final OrientServerConfiguration conf) {
-        OServerUserConfiguration dbUser = null;
-
-        // find user from configuration
-        final OServerUserConfiguration[] users = conf.getConfig().users;
-        if (users != null) {
-            for (OServerUserConfiguration user : users) {
-                // looking for default admin user or take just first one
-                if (ADMIN.equals(user.name) || dbUser == null) {
-                    dbUser = user;
-                }
-            }
-        }
-        if (dbUser == null) {
-            // user not found, using default strings
-            dbUser = new OServerUserConfiguration("user", "password", null);
-        }
-        return dbUser;
     }
 }

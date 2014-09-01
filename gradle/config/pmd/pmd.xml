@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset name="Base ruleset" xmlns="http://pmd.sourceforge.net/ruleset/2.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
 
-    <description>Juan Roperto's base ruleset</description>
+    <description>Based on Juan Roperto's ruleset (https://github.com/jroperto)</description>
 
     <rule ref="rulesets/java/basic.xml"/>
 
@@ -30,6 +30,16 @@
             <property name="maxmethods" value="25"/>
         </properties>
     </rule>
+    <rule ref="rulesets/java/codesize.xml/CyclomaticComplexity">
+        <properties>
+            <property name="reportLevel" value="11"/>
+        </properties>
+    </rule>
+    <rule ref="rulesets/java/codesize.xml/NPathComplexity">
+        <properties>
+            <property name="minimum" value="201"/>
+        </properties>
+    </rule>
 
     <rule ref="rulesets/java/controversial.xml">
         <exclude name="AtLeastOneConstructor"/>
@@ -37,6 +47,7 @@
         <exclude name="CouplingBetweenObjects"/>
         <exclude name="ExcessiveImports"/>
         <exclude name="DataflowAnomalyAnalysis"/>
+        <exclude name="CallSuperInConstructor"/>
     </rule>
 
     <rule ref="rulesets/java/design.xml">
@@ -62,15 +73,6 @@
         <exclude name="TooManyStaticImports" />
     </rule>
 
-    <rule ref="rulesets/java/j2ee.xml">
-        <exclude name="MDBAndSessionBeanNamingConvention" />
-        <exclude name="RemoteSessionInterfaceNamingConvention" />
-        <exclude name="LocalInterfaceSessionNamingConvention" />
-        <exclude name="LocalHomeNamingConvention" />
-        <exclude name="RemoteInterfaceNamingConvention" />
-        <exclude name="StaticEJBFieldShouldBeFinal" />
-    </rule>
-
     <rule ref="rulesets/java/javabeans.xml">
         <exclude name="BeanMembersShouldSerialize" />
         <exclude name="MissingSerialVersionUID" />
@@ -86,6 +88,7 @@
     <rule ref="rulesets/java/logging-jakarta-commons.xml">
         <exclude name="UseCorrectExceptionLogging" />
         <exclude name="GuardDebugLogging" />
+        <exclude name="GuardLogStatement"/>
     </rule>
 
     <rule ref="rulesets/java/logging-java.xml">
@@ -112,11 +115,14 @@
     <rule ref="rulesets/java/strictexception.xml">
         <exclude name="SignatureDeclareThrowsException" />
         <exclude name="AvoidCatchingGenericException" />
+        <exclude name="AvoidCatchingThrowable"/>
     </rule>
 
     <rule ref="rulesets/java/strings.xml" />
 
-    <rule ref="rulesets/java/sunsecure.xml" />
+    <rule ref="rulesets/java/sunsecure.xml">
+        <exclude name="ArrayIsStoredDirectly"/>
+    </rule>
 
     <rule ref="rulesets/java/typeresolution.xml">
         <exclude name="SignatureDeclareThrowsException" />
