@@ -25,7 +25,7 @@ Releases are published to [bintray jcenter](https://bintray.com/bintray/jcenter)
 and then to maven central (require few days after release to be published). 
 
 [![Download](https://api.bintray.com/packages/vyarus/xvik/dropwizard-orient-server/images/download.png) ](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server/badge.svg?style=flat)](https://maven-badges.hrokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
 
 Maven:
 
