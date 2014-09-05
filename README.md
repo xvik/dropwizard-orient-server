@@ -178,5 +178,9 @@ commands:
 [Studio github repository](https://github.com/orientechnologies/orientdb-studio).
 You can check version, packaged inside jar [here](https://github.com/xvik/dropwizard-orient-server/blob/master/src/main/resources/ru/vyarus/dropwizard/orient/studio/version.txt)
 
+### Might also like
+
+* [dropwizard-guicey](https://github.com/xvik/dropwizard-guicey) - dropwizard guice integration
+
 -
 [![Slush java lib generator](http://img.shields.io/badge/Powered%20by-Slush%20java%20lib%20generator-orange.svg?style=flat-square)](https://github.com/xvik/slush-lib-java)
