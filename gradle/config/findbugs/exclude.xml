@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- http://findbugs.sourceforge.net/manual/filter.html -->
+<FindBugsFilter>
+    <!-- not a problem -->
+    <Match>
+        <Class name="ru.vyarus.dropwizard.orient.OrientServerBundle"/>
+        <Bug pattern="BC_UNCONFIRMED_CAST"/>
+    </Match>
+
+    <!-- not a problem -->
+    <Match>
+        <Class name="ru.vyarus.dropwizard.orient.support.ConsoleCommand"/>
+        <Bug pattern="BC_UNCONFIRMED_CAST"/>
+    </Match>
+</FindBugsFilter>
