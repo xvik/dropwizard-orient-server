@@ -19,7 +19,7 @@ import java.io.IOException;
  * Server configuration could be provided inside yaml file (yaml representation of xml format)
  * or using external xml configuration file (native orient format).
  * <p>Server start could be disabled with 'start' option.</p>
- * <a href="http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/DB-Server.html#configuration">
+ * <a href="http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration">
  * See configuration documentation.</a>
  */
 public class OrientServerConfiguration {
