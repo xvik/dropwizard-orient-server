@@ -24,7 +24,7 @@ managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.h
 Releases are published to [bintray jcenter](https://bintray.com/bintray/jcenter) (package appear immediately after release) 
 and then to maven central (require few days after release to be published). 
 
-[![Download](https://api.bintray.com/packages/vyarus/xvik/dropwizard-orient-server/images/download.png) ](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
+[![Download](https://api.bintray.com/packages/vyarus/xvik/dropwizard-orient-server/images/download.svg) ](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
 
 Maven:
@@ -78,6 +78,26 @@ void initialize(Bootstrap<TestConfiguration> bootstrap) {
 ```
 
 Example application could be found [in tests](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/groovy/ru/vyarus/dropwizard/orient/support/TestApplication.groovy)
+
+
+##### Client initialization
+
+Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command). 
+Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access
+it from these methods.
+
+It's better to do your orient client initialization inside your own `Managed` object, to make sure this logic run after server start.
+(for example, when you use remote connection, the only whey to properly check database existence on startup would be using Managed object)
+
+You can use `plocal` connection together with embedded server: plocal doesn't requires started server and it's faster than remote connection,
+but with embedded server you would be able to use studio together with your application (win-win).
+
+Server stores database files in '${files-path}/databases' folder, so plocal connection for server managed database would be:
+
+```
+plocal:${files-path}/databases/dbname
+```
+where `${files-path}` should be replaced with path from server configuration and `dbname` is database name.
 
 ### Configuration
 

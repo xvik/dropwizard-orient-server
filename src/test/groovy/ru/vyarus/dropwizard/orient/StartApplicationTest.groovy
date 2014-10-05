@@ -30,5 +30,10 @@ class StartApplicationTest extends AbstractTest {
         def data = new URL("http://localhost:2480/studio/").getText()
         then: "all good"
         data != null
+
+        when: "accessing health checks"
+        data = new URL("http://localhost:8081/healthcheck").getText()
+        then: "all good"
+        data && data.contains('"orient-server":{"healthy":true,"message":"OK"}')
     }
 }

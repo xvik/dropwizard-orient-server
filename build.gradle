@@ -64,9 +64,9 @@ apply from: 'gradle/quality.gradle'
 
 
 repositories {
-    mavenLocal()
     jcenter()
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -82,6 +82,7 @@ dependencies {
     testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
     // used to catch System.exit statements
     testCompile 'com.github.stefanbirkner:system-rules:1.6.0'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7'
 }
 
 task wrapper(type: Wrapper) {

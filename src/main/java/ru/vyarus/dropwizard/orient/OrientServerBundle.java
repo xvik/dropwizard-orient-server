@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
+import ru.vyarus.dropwizard.orient.health.OrientServerHealthCheck;
 import ru.vyarus.dropwizard.orient.internal.DummyTraversableResolver;
 import ru.vyarus.dropwizard.orient.internal.EmbeddedOrientServer;
 import ru.vyarus.dropwizard.orient.support.ConsoleCommand;
@@ -65,8 +66,8 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
             return;
         }
 
-        environment.lifecycle()
-                .manage(new EmbeddedOrientServer(conf));
+        environment.lifecycle().manage(new EmbeddedOrientServer(conf));
+        environment.healthChecks().register("orient-server", new OrientServerHealthCheck());
     }
 
     /**
