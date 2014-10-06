@@ -1,3 +1,4 @@
+### 1.1.0 (2014-09-06)
 * Update orient (1.7.8 > 1.7.9) - [important hotfix](https://groups.google.com/forum/#!topic/orient-database/vPF85I5Blts)
 * Add health check
 
@@ -6,5 +7,4 @@
 * Fix pom (fix scope of dropwizard-test dependency)
 
 ### 1.0.0 (2014-08-25)
-
 * Initial release
