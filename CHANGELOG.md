@@ -1,4 +1,4 @@
-### 1.1.0 (2014-09-06)
+### 1.1.0 (2014-10-06)
 * Update orient (1.7.8 > 1.7.9) - [important hotfix](https://groups.google.com/forum/#!topic/orient-database/vPF85I5Blts)
 * Add health check
 
