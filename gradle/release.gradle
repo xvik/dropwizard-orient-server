@@ -19,6 +19,7 @@ if (file("$project.rootDir/.git").exists()) {
         }
     }
 
+    createReleaseTag.dependsOn bintrayUpload
     release.doLast {
         logger.warn "RELEASED $project.group:$project.name:$project.version"
     }
