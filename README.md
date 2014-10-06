@@ -33,14 +33,14 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0/version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.0.1'
+compile 'ru.vyarus:dropwizard-orient-server:1.1.0'
 ```
 
 ### Usage
