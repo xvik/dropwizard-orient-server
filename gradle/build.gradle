@@ -2,8 +2,11 @@
 logger.debug("$project.ext.build")
 def buildCfg = project.ext.build
 
-sourceCompatibility = buildCfg.source
-targetCompatibility = buildCfg.target
+// compatibility required only for main classes - test don't need restrictions
+compileJava {
+    sourceCompatibility = buildCfg.java
+    targetCompatibility = buildCfg.java
+}
 
 boolean signatureSet = buildCfg.signature
 if (signatureSet) {
@@ -20,5 +23,5 @@ if (signatureSet) {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = buildCfg.gradleVersion
+    gradleVersion = buildCfg.gradle
 }
