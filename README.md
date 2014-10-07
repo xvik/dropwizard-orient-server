@@ -33,7 +33,7 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.1.0/version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
