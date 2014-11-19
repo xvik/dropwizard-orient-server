@@ -11,10 +11,10 @@ description = 'Embedded OrientDB server for dropwizard'
 // convention: project.name == github project name == bintray package page
 project.ext {
     build = {
-        gradle = 2.1
-        java = 1.6
+        gradle = 2.2
+        java = 1.7
         // if not empty runs animal sniffer on compile to guarantee binary compatibility; set '' to disable
-        signature = 'org.codehaus.mojo.signature:java16-sun:+@signature'
+        signature = 'org.codehaus.mojo.signature:java17:+@signature'
     }
     github = {
         user = 'xvik'

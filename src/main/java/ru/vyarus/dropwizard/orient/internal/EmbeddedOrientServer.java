@@ -1,6 +1,6 @@
 package ru.vyarus.dropwizard.orient.internal;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.orientechnologies.common.util.OCallable;
 import com.orientechnologies.orient.server.OServer;
@@ -71,7 +71,7 @@ public class EmbeddedOrientServer implements Managed {
             @Override
             public Object call(final String iArgument) {
                 final String fileName = "/ru/vyarus/dropwizard/orient/studio/"
-                        + Objects.firstNonNull(Strings.emptyToNull(iArgument), "index.html");
+                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), "index.html");
                 final URL url = getClass().getResource(fileName);
                 if (url != null) {
                     final OServerCommandGetStaticContent.OStaticContent content =
