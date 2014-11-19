@@ -43,6 +43,8 @@ Gradle:
 compile 'ru.vyarus:dropwizard-orient-server:1.1.0'
 ```
 
+Compatible with dropwizard 0.8
+
 ### Usage
 
 Configuration class must implement `HasOrientServerConfiguration`:
