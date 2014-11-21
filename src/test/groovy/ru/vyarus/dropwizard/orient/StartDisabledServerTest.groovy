@@ -1,13 +1,11 @@
 package ru.vyarus.dropwizard.orient
 
-import com.orientechnologies.common.io.OIOException
+import com.orientechnologies.orient.core.exception.OStorageException
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import ru.vyarus.dropwizard.orient.support.TestConfiguration
-import spock.lang.Specification
-
 
 /**
  * @author Vyacheslav Rusakov 
@@ -25,7 +23,7 @@ class StartDisabledServerTest extends AbstractTest {
         OObjectDatabaseTx db = new OObjectDatabaseTx('remote:localhost/test');
         db.open('admin', 'admin');
         then: "remote connection failed"
-        thrown(OIOException)
+        thrown(OStorageException)
 
         when: "accessing orient studio"
         new URL("http://localhost:2480/studio/").getText()
