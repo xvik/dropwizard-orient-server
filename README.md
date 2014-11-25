@@ -33,17 +33,17 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.1.0'
+compile 'ru.vyarus:dropwizard-orient-server:1.1.1'
 ```
 
-Compatible with dropwizard 0.8
+for dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
 
 ### Usage
 
