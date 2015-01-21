@@ -11,7 +11,7 @@ description = 'Embedded OrientDB server for dropwizard'
 // convention: project.name == github project name == bintray package page
 project.ext {
     build = {
-        gradle = 2.2
+        gradle = '2.2.1'
         java = 1.7
         // if not empty runs animal sniffer on compile to guarantee binary compatibility; set '' to disable
         signature = 'org.codehaus.mojo.signature:java17:+@signature'
@@ -26,8 +26,13 @@ project.ext {
         tags = ['dropwizard', 'orientdb']
         dryRun = false // whether to run this as dry-run, without deploying (TEST RUN)
         publish = true //If version should be auto published after an upload
+
         signFiles = true // true to gpg sign files on bintray (certificate must be installed on bintray account)
         gpgPassphrase = project.hasProperty('gpgPassphrase') ? gpgPassphrase : '' // optionally configured in ~/.gradle/gradle.properties if certificate requires it
+
+        mavenCentralSync = true // true to sync with maven central (files signing required)
+        ossUser = project.hasProperty('sonatypeUser') ? sonatypeUser : 'USER' // configured in ~/.gradle/gradle.properties
+        ossPassword = project.hasProperty('sonatypePassword') ? sonatypePassword : 'PASSWORD' // configured in ~/.gradle/gradle.properties
     }
     license = 'MIT'
     licenseDesc = 'The MIT License'
@@ -67,28 +72,7 @@ apply from: 'gradle/release.gradle'
 apply from: 'gradle/maven.gradle'
 apply from: 'gradle/quality.gradle'
 
-
-repositories {
-    jcenter()
-    mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.7'
-    compile "io.dropwizard:dropwizard-core:0.8.0-rc1"
-    compile "com.orientechnologies:orientdb-server:1.7.10"
-    compile "com.orientechnologies:orientdb-tools:1.7.10"
-
-    testCompile 'junit:junit:4.11'
-    testCompile 'ch.qos.logback:logback-classic:1.1.2'
-    testCompile 'org.slf4j:jul-to-slf4j:1.7.7'
-    testCompile "io.dropwizard:dropwizard-testing:0.8.0-rc1"
-    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
-    // used to catch System.exit statements
-    testCompile 'com.github.stefanbirkner:system-rules:1.7.0'
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
-}
+apply from: 'build-deps.gradle'
 
 task checkOutOfDate(type: DependencyUpdatesTask, description: 'Checks dependencies updates availability') {
     revision 'release'

@@ -1,0 +1,20 @@
+{
+  "generator-lib-java": {
+    "githubUser": "xvik",
+    "authorName": "Vyacheslav Rusakov",
+    "authorEmail": "vyarus@gmail.com",
+    "libName": "dropwizard-orient-server",
+    "libGroup": "ru.vyarus",
+    "libPackage": "ru.vyarus.dropwizard.orient",
+    "libVersion": "0.1.0",
+    "libDesc": "Embedded OrientDB server for dropwizard",
+    "targetJava": "1.7",
+    "libTags": "dropwizard, orientdb",
+    "bintrayUser": "vyarus",
+    "bintrayRepo": "xvik",
+    "bintraySignFiles": true,
+    "mavenCentralSync": true,
+    "enableQualityChecks": true,
+    "usedGeneratorVersion": "1.0.0"
+  }
+}

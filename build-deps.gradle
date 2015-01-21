@@ -1,0 +1,21 @@
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+    compile "io.dropwizard:dropwizard-core:0.8.0-rc1"
+    compile "com.orientechnologies:orientdb-server:1.7.10"
+    compile "com.orientechnologies:orientdb-tools:1.7.10"
+
+    testCompile 'junit:junit:4.11'
+    testCompile 'ch.qos.logback:logback-classic:1.1.2'
+    testCompile 'org.slf4j:jul-to-slf4j:1.7.7'
+    testCompile "io.dropwizard:dropwizard-testing:0.8.0-rc1"
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+    // used to catch System.exit statements
+    testCompile 'com.github.stefanbirkner:system-rules:1.7.0'
+    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
+}
