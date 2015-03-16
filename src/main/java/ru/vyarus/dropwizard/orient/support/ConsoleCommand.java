@@ -11,6 +11,7 @@ import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -100,7 +101,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
                 if (conf.isStart()) {
                     System.out.println(String.format("$ connect remote:localhost/%s root root", db));
                 }
-                System.out.println(String.format("$ connect plocal:%s%s root root", dbFolder, db));
+                System.out.println(String.format("$ connect plocal:%s root root", cleanupDbPath(dbFolder, db)));
             }
         }
     }
@@ -119,5 +120,16 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
             }
         }
         return availableDatabases;
+    }
+
+    @SuppressWarnings("PMD.EmptyCatchBlock")
+    private String cleanupDbPath(final String basedir, final String name) {
+        String res = basedir + name;
+        try {
+            res = new File(res).getCanonicalPath();
+        } catch (IOException ignored) {
+            // ignore: in worse case badly formatted path will be shown
+        }
+        return res;
     }
 }

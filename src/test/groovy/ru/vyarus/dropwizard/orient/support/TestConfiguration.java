@@ -24,7 +24,8 @@ public class TestConfiguration extends Configuration implements HasOrientServerC
         this.orientServer = orientServer;
     }
 
-    @NotNull
     @Valid
     private OrientServerConfiguration orientServer;
+    @JsonProperty
+    private String foo;
 }

@@ -1,10 +1,12 @@
 package ru.vyarus.dropwizard.orient.internal;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.orientechnologies.common.util.OCallable;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
+import com.orientechnologies.orient.server.config.OServerConfiguration;
 import com.orientechnologies.orient.server.network.OServerNetworkListener;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
 import com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent;
@@ -19,6 +21,9 @@ import java.net.URL;
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
  * Server will be activated only when 'server' command used (jetty manage lifecycle of Managed objects).
+ * <p>User 'root' must be defined in configuration, otherwise orient will always ask for root user password on start
+ * (it would not be able to store password somewhere). As a side effect default guest user would not be created
+ * (but you can define it in config).</p>
  * <p>If static handler registered, registers orient studio.
  * Studio available on url: http://localhost:2480/studio/index.html</p>
  */
@@ -31,6 +36,7 @@ public class EmbeddedOrientServer implements Managed {
      * @param conf orient server configuration object
      */
     public EmbeddedOrientServer(final OrientServerConfiguration conf) {
+        validateConfiguration(conf);
         this.conf = conf;
     }
 
@@ -63,6 +69,14 @@ public class EmbeddedOrientServer implements Managed {
     public void stop() throws Exception {
         OServerMain.server().shutdown();
         logger.info("Orient server stopped");
+    }
+
+    private void validateConfiguration(final OrientServerConfiguration conf) {
+        Preconditions.checkNotNull(conf, "Configuration object required");
+        Preconditions.checkNotNull(conf.getConfig(), "Orient server configuration required");
+        Preconditions.checkState(conf.getConfig().getUser(OServerConfiguration.SRV_ROOT_ADMIN) != null,
+                "User '%s' must be defined in configuration because otherwise orient will ask "
+                        + "for user password on each application start.", OServerConfiguration.SRV_ROOT_ADMIN);
     }
 
     private void registerStudio(final OServerCommandGetStaticContent command) {

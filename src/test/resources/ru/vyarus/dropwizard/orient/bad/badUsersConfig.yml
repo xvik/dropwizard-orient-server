@@ -1,0 +1,10 @@
+
+orient-server:
+  files-path: $TMP/db/
+
+  config:
+    users:
+        # user root/root shoudl be defined, without it error must be thrown
+      - name: admin
+        password: admin
+        resources: '*'
