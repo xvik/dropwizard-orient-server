@@ -6,8 +6,8 @@ repositories {
 
 dependencies {
     compile "io.dropwizard:dropwizard-core:0.8.0"
-    compile "com.orientechnologies:orientdb-server:1.7.10"
-    compile "com.orientechnologies:orientdb-tools:1.7.10"
+    compile "com.orientechnologies:orientdb-server:2.0.5"
+    compile "com.orientechnologies:orientdb-tools:2.0.5"
 
     testCompile 'junit:junit:4.12'
     testCompile "io.dropwizard:dropwizard-testing:0.8.0"

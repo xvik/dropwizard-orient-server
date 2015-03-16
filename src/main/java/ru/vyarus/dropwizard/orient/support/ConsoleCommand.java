@@ -84,7 +84,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
     @SuppressWarnings("PMD.UselessParentheses")
     private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
-                + "http://www.orientechnologies.com/docs/1.7.8/orientdb.wiki/Console-Commands.html");
+                + "http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html");
 
         if (conf == null) {
             return;
@@ -98,9 +98,9 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
             System.out.println("To connect database use one of the following commands:");
             for (String db : availableDatabases) {
                 if (conf.isStart()) {
-                    System.out.println(String.format("$ connect remote:localhost/%s admin admin", db));
+                    System.out.println(String.format("$ connect remote:localhost/%s root root", db));
                 }
-                System.out.println(String.format("$ connect plocal:%s%s admin admin", dbFolder, db));
+                System.out.println(String.format("$ connect plocal:%s%s root root", dbFolder, db));
             }
         }
     }

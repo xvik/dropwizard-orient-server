@@ -4,8 +4,8 @@ orient-server:
 
   config:
     users:
-      - name: root
-        password: root
+      - name: admin
+        password: admin
         resources: '*'
 
     handlers:

@@ -26,6 +26,18 @@ class HealthCheckFailTest extends AbstractTest {
         then: "health check fails"
         def ex = thrown(HttpResponseException)
         ex.response.status == 500
+        ex.response.data['orient-server']['message'] == 'Database not started'
+
+    }
+
+    def "Check health check storages failure detection"() {
+
+        when: "accidentally shutdown storages orient server"
+        Orient.instance().closeAllStorages()
+        new RESTClient('http://localhost:8081/healthcheck').get([:])
+        then: "health check fails"
+        def ex = thrown(HttpResponseException)
+        ex.response.status == 500
         ex.response.data['orient-server']['message'] == 'No registered storages'
 
     }

@@ -31,8 +31,8 @@ abstract class AbstractTest extends Specification {
     }
 
     def createRemoteDb(String name){
-        OServerAdmin admin = new OServerAdmin('remote:localhost/'+name).connect('admin', 'admin')
-        admin.createDatabase('document', 'local')
+        OServerAdmin admin = new OServerAdmin('remote:localhost/'+name).connect('root', 'root')
+        admin.createDatabase('document', 'plocal')
     }
 
     def createLocalDb(String name) {
