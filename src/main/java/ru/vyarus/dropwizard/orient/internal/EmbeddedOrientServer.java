@@ -25,7 +25,7 @@ import java.net.URL;
  * (it would not be able to store password somewhere). As a side effect default guest user would not be created
  * (but you can define it in config).</p>
  * <p>If static handler registered, registers orient studio.
- * Studio available on url: http://localhost:2480/studio/index.html</p>
+ * Studio available on url: http://localhost:2480/studio/</p>
  */
 public class EmbeddedOrientServer implements Managed {
     private final Logger logger = LoggerFactory.getLogger(EmbeddedOrientServer.class);
@@ -85,7 +85,7 @@ public class EmbeddedOrientServer implements Managed {
             @Override
             public Object call(final String iArgument) {
                 final String fileName = "/ru/vyarus/dropwizard/orient/studio/"
-                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), "index.html");
+                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), "index.htm");
                 final URL url = getClass().getResource(fileName);
                 if (url != null) {
                     final OServerCommandGetStaticContent.OStaticContent content =
