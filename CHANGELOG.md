@@ -1,3 +1,11 @@
+### 1.2.0 (2015-03-19)
+* Update orient (1.7.10 -> 2.0.5)
+* Update studio
+* Update example configurations
+* Add validation for root user presence in configuration: otherwise orient would ask for password on each start
+* Health check now checks that server is active and storages available (memory check removed because its not available in orient 2)
+* Fix console command help (clean urls)
+
 ### 1.1.1 (2014-11-25)
 * Update dropwizard (0.7 -> 0.8.rc1)
 * Update orient (1.7.9 -> 1.7.10)

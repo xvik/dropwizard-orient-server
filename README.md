@@ -11,6 +11,7 @@ Best fits for development environment (to easily try orient or simplify develope
 may be used in production for small to middle projects.
 
 Features:
+* For orient 2 and dropwizard 0.8
 * [Embedded orient server](http://www.orientechnologies.com/docs/last/orientdb.wiki/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
@@ -33,17 +34,18 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.1.1</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.1.1'
+compile 'ru.vyarus:dropwizard-orient-server:1.2.0'
 ```
 
-for dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
+For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
+For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
 
 ### Usage
 
@@ -84,7 +86,7 @@ Example application could be found [in tests](https://github.com/xvik/dropwizard
 
 ##### Client initialization
 
-Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command). 
+Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command) or with environment command.
 Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access
 it from these methods.
 
@@ -125,6 +127,65 @@ Orient use xml format for configuration files and this section is simply yaml re
 * `config-file` used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. 
 See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
 (taken from orient distribution)
+
+**IMPORTANT**: user 'root' must be defined in configuration, because orient 2 asks for root user password on start, and in embedded mode it can't save it (so will ask on each start).
+To avoid this case, error is thrown if no 'root' user defined.
+
+Also, note that server users and database users are different! In default configuration root and guest users defined for server.
+When new database created, orient will create default database users: admin, reader, writer.
+
+#### Graph server
+
+By default, server supports document and object databases.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.0.5`.
+
+Graph related sections are commented in default [yaml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml):
+
+```yaml
+clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
+        parameters:
+        ...
+```
+
+and
+
+```yaml
+pattern: 'GET|gephi/*'
+implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
+```
+
+[Example](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlGraphConfig.yml)
+
+Note: graph db also depends on gremlin-groovy, which will bring groovy (1.8.9). You can safely exclude it (to reduce dependencies size).
+
+```groovy
+compile("com.orientechnologies:orientdb-graphdb:2.0.5") {
+     exclude module: 'gremlin-groovy'
+}
+```
+
+#### Lucene plugin
+
+Orient 2 distribution includes lucene plugin out of the box.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.0.5`.
+
+And register lucene plugin in handlers section:
+
+```yaml
+handlers:
+    - clazz: com.orientechnologies.lucene.OLuceneIndexPlugin
+```
+
+[Example](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlLuceneConfig.yml)
+
+This registration is completely equivalent to default lucene plugin registration in orient distribution.
+
+When lucene plugin registered, you can avoid graph dependency declaration (lucene includes it).
+
+#### ETL
+
+To use [ETL](http://www.orientechnologies.com/docs/2.0/orientdb-etl.wiki/Introduction.html)
+add dependency `com.orientechnologies:orientdb-etl:2.0.5`
 
 ### Console
 
@@ -203,6 +264,7 @@ You can check version, packaged inside jar [here](https://github.com/xvik/dropwi
 ### Might also like
 
 * [dropwizard-guicey](https://github.com/xvik/dropwizard-guicey) - dropwizard guice integration
+* [guice-persist-orient](https://github.com/xvik/guice-persist-orient) - guice integration for orient
 
 -
 [![java lib generator](http://img.shields.io/badge/Powered%20by-%20Java%20lib%20generator-green.svg?style=flat-square)](https://github.com/xvik/generator-lib-java)
