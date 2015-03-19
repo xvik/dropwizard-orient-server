@@ -160,7 +160,7 @@ implementation: com.orientechnologies.orient.graph.server.command.OServerCommand
 If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
 
 ```groovy
-testCompile ("com.orientechnologies:orientdb-graphdb:2.0.5") {
+compile ("com.orientechnologies:orientdb-graphdb:2.0.5") {
     exclude module: 'gremlin-java'
     exclude module: 'gremlin-groovy'
 }
