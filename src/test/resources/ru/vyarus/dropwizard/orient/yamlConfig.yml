@@ -12,7 +12,7 @@ orient-server:
         resources: 'connect,server.listDatabases,server.dblist'
 
     handlers:
-    # enable below lines if graph version used
+    # enable below lines if graph version used and gremlin support required
 #      - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
 #        parameters:
 #            - name: enabled
@@ -86,7 +86,7 @@ orient-server:
                       value: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
                     - name: 'http.cache:default'
                       value: 'Cache-Control: max-age=120'
-  # enable below lines if graph version used
+  # enable below lines if graph version used and gephi support required
   #            - pattern: 'GET|gephi/*'
   #              implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
 

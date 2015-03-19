@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <orient-server>
     <handlers>
-        <handler class="com.orientechnologies.orient.graph.handler.OGraphServerHandler">
-            <parameters>
-                <parameter name="enabled" value="true"/>
-                <parameter name="graph.pool.max" value="50"/>
-            </parameters>
-        </handler>
+        <!-- enable below lines if graph version used and gremlin support required -->
+        <!--<handler class="com.orientechnologies.orient.graph.handler.OGraphServerHandler">-->
+            <!--<parameters>-->
+                <!--<parameter name="enabled" value="true"/>-->
+                <!--<parameter name="graph.pool.max" value="50"/>-->
+            <!--</parameters>-->
+        <!--</handler>-->
         <!-- JMX SERVER, TO TURN ON SET THE 'ENABLED' PARAMETER TO 'true' -->
         <handler class="com.orientechnologies.orient.server.handler.OJMXPlugin">
             <parameters>
@@ -107,7 +108,8 @@
                             <entry name="http.cache:default" value="Cache-Control: max-age=120"/>
                         </parameters>
                     </command>
-                    <command pattern="GET|gephi/*" implementation="com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi"/>
+                    <!-- enable below line if graph version used and gephi support required -->
+                    <!--<command pattern="GET|gephi/*" implementation="com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi"/>-->
                 </commands>
             </listener>
         </listeners>

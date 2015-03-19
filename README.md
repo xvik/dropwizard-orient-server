@@ -142,20 +142,29 @@ If graph db required you'll need to add graph dependency: `com.orientechnologies
 
 Graph related sections are commented in default [yaml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml):
 
+Enable this section if [gremlin](http://www.orientechnologies.com/docs/last/orientdb.wiki/Gremlin.html) support required
+
 ```yaml
 clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
         parameters:
         ...
 ```
 
-and
+Enable this section if [gephi](http://www.orientechnologies.com/docs/last/orientdb.wiki/Gephi.html) support required (requires OGraphServerHandler if gremlin queries used)
 
 ```yaml
 pattern: 'GET|gephi/*'
 implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
 ```
 
-[Example](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlGraphConfig.yml)
+If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
+
+```groovy
+testCompile ("com.orientechnologies:orientdb-graphdb:2.0.5") {
+    exclude module: 'gremlin-java'
+    exclude module: 'gremlin-groovy'
+}
+```
 
 #### Lucene plugin
 
@@ -173,12 +182,14 @@ handlers:
 
 This registration is completely equivalent to default lucene plugin registration in orient distribution.
 
-When lucene plugin registered, you can avoid graph dependency declaration (lucene includes it).
+Lucene plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
 #### ETL
 
 To use [ETL](http://www.orientechnologies.com/docs/2.0/orientdb-etl.wiki/Introduction.html)
 add dependency `com.orientechnologies:orientdb-etl:2.0.5`
+
+ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
 ### Console
 
