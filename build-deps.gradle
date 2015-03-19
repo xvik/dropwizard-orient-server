@@ -18,9 +18,6 @@ dependencies {
 
     // check everything works together
     // lucene includes graph dependency
-    testCompile ("com.orientechnologies:orientdb-lucene:2.0.5") {
-        // excluded to remove old groovy dependency
-        exclude module: 'gremlin-groovy'
-    }
+    testCompile "com.orientechnologies:orientdb-lucene:2.0.5"
     testCompile "com.orientechnologies:orientdb-etl:2.0.5"
 }

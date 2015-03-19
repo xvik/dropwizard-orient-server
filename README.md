@@ -157,14 +157,6 @@ implementation: com.orientechnologies.orient.graph.server.command.OServerCommand
 
 [Example](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlGraphConfig.yml)
 
-Note: graph db also depends on gremlin-groovy, which will bring groovy (1.8.9). You can safely exclude it (to reduce dependencies size).
-
-```groovy
-compile("com.orientechnologies:orientdb-graphdb:2.0.5") {
-     exclude module: 'gremlin-groovy'
-}
-```
-
 #### Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
