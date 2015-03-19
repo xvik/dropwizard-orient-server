@@ -5,7 +5,7 @@ import com.orientechnologies.orient.core.Orient;
 
 /**
  * Checks embedded orient server state.
- * Looks for registered storage instances.
+ * Looks for registered storage instances and server active status.
  *
  * @author Vyacheslav Rusakov
  * @since 05.10.2014

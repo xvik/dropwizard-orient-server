@@ -15,4 +15,12 @@ dependencies {
     // used to catch System.exit statements
     testCompile 'com.github.stefanbirkner:system-rules:1.9.0'
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
+
+    // check everything works together
+    // lucene includes graph dependency
+    testCompile ("com.orientechnologies:orientdb-lucene:2.0.5") {
+        // excluded to remove old groovy dependency
+        exclude module: 'gremlin-groovy'
+    }
+    testCompile "com.orientechnologies:orientdb-etl:2.0.5"
 }
