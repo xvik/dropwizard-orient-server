@@ -45,6 +45,7 @@ compile 'ru.vyarus:dropwizard-orient-server:1.2.0'
 ```
 
 For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
+
 For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
 
 ### Usage
@@ -128,11 +129,11 @@ Orient use xml format for configuration files and this section is simply yaml re
 See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
 (taken from orient distribution)
 
-**IMPORTANT**: user 'root' must be defined in configuration, because orient 2 asks for root user password on start, and in embedded mode it can't save it (so will ask on each start).
+**IMPORTANT**: user `root` must be defined in configuration, because orient 2 asks for root user password on start, and in embedded mode it can't save it (so will ask on each start).
 To avoid this case, error is thrown if no 'root' user defined.
 
-Also, note that server users and database users are different! In default configuration root and guest users defined for server.
-When new database created, orient will create default database users: admin, reader, writer.
+Also, note that server users and database users are different! In default configuration `root` and `guest` users defined for server.
+When new database created, orient will create default database users: `admin`, `reader`, `writer`.
 
 #### Graph server
 
