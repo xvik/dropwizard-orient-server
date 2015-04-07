@@ -5,12 +5,12 @@ repositories {
 }
 
 dependencies {
-    compile "io.dropwizard:dropwizard-core:0.8.0"
+    compile "io.dropwizard:dropwizard-core:0.8.1"
     compile "com.orientechnologies:orientdb-server:2.0.6"
     compile "com.orientechnologies:orientdb-tools:2.0.6"
 
     testCompile 'junit:junit:4.12'
-    testCompile "io.dropwizard:dropwizard-testing:0.8.0"
+    testCompile "io.dropwizard:dropwizard-testing:0.8.1"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     // used to catch System.exit statements
     testCompile 'com.github.stefanbirkner:system-rules:1.9.0'
