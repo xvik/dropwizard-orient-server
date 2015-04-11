@@ -54,20 +54,20 @@ For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://gith
 Configuration class must implement `HasOrientServerConfiguration`:
 
 ```java
-public class YourConfiguration extends Configuration implements HasOrientServerConfiguration {
+public class MyConfiguration extends Configuration implements HasOrientServerConfiguration {
 
     @NotNull
     @Valid
-    private OrientServerConfiguration orientServer;
+    private OrientServerConfiguration orientServerConfiguration;
 
     @Override
-    OrientConfiguration getOrientServerConfiguration() {
-        return orientServer
+    public OrientConfiguration getOrientServerConfiguration() {
+        return orientServerConfiguration;
     }
 
     @JsonProperty("orient-server")
-    void setOrientServer(OrientServerConfiguration orientServer) {
-        this.orientServer = orientServer
+    public void setOrientServer(OrientServerConfiguration orientServerConfiguration) {
+        this.orientServerConfiguration = orientServerConfiguration;
     }
 }
 ```
@@ -78,8 +78,8 @@ Register orient bundle in application class:
 
 ```java
 @Override
-void initialize(Bootstrap<TestConfiguration> bootstrap) {
-    bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()))
+public void initialize(final Bootstrap<MyConfiguration> bootstrap) {
+    bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()));
 }
 ```
 
