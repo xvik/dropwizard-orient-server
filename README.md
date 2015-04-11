@@ -124,6 +124,7 @@ You can start with this [configuration file](https://github.com/xvik/dropwizard-
 this option exist to allow disabling server without removing entire config section)
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
 Support special placeholder '$TMP', which is replaced to 'java.io.tmpdir'.
+Support special placeholder '$JAR', which is replaced by the current jar's directory path - in fat jars this will be the folder containing the fat jar.
 * `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
 * `config-file` used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. 
