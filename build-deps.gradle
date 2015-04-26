@@ -6,8 +6,8 @@ repositories {
 
 dependencies {
     compile "io.dropwizard:dropwizard-core:0.8.1"
-    compile "com.orientechnologies:orientdb-server:2.0.7"
-    compile "com.orientechnologies:orientdb-tools:2.0.7"
+    compile "com.orientechnologies:orientdb-server:2.0.8"
+    compile "com.orientechnologies:orientdb-tools:2.0.8"
 
     testCompile 'junit:junit:4.12'
     testCompile "io.dropwizard:dropwizard-testing:0.8.1"
@@ -18,11 +18,11 @@ dependencies {
 
     // check everything works together
     // lucene includes graph dependency
-    testCompile ("com.orientechnologies:orientdb-lucene:2.0.7") {
+    testCompile ("com.orientechnologies:orientdb-lucene:2.0.8") {
         exclude module: 'gremlin-java'
         exclude module: 'gremlin-groovy'
     }
-    testCompile ("com.orientechnologies:orientdb-etl:2.0.7") {
+    testCompile ("com.orientechnologies:orientdb-etl:2.0.8") {
         exclude module: 'gremlin-java'
         exclude module: 'gremlin-groovy'
     }
