@@ -4,13 +4,18 @@ repositories {
     mavenLocal()
 }
 
+ext {
+    orient = '2.0.8'
+    dropwizard = '0.8.1'
+}
+
 dependencies {
-    compile "io.dropwizard:dropwizard-core:0.8.1"
-    compile "com.orientechnologies:orientdb-server:2.0.8"
-    compile "com.orientechnologies:orientdb-tools:2.0.8"
+    compile "io.dropwizard:dropwizard-core:$dropwizard"
+    compile "com.orientechnologies:orientdb-server:$orient"
+    compile "com.orientechnologies:orientdb-tools:$orient"
 
     testCompile 'junit:junit:4.12'
-    testCompile "io.dropwizard:dropwizard-testing:0.8.1"
+    testCompile "io.dropwizard:dropwizard-testing:$dropwizard"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     // used to catch System.exit statements
     testCompile 'com.github.stefanbirkner:system-rules:1.9.0'
@@ -18,11 +23,11 @@ dependencies {
 
     // check everything works together
     // lucene includes graph dependency
-    testCompile ("com.orientechnologies:orientdb-lucene:2.0.8") {
+    testCompile ("com.orientechnologies:orientdb-lucene:$orient") {
         exclude module: 'gremlin-java'
         exclude module: 'gremlin-groovy'
     }
-    testCompile ("com.orientechnologies:orientdb-etl:2.0.8") {
+    testCompile ("com.orientechnologies:orientdb-etl:$orient") {
         exclude module: 'gremlin-java'
         exclude module: 'gremlin-groovy'
     }
