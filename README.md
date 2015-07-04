@@ -49,6 +49,14 @@ For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://gith
 
 For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
 
+##### Snapshots
+
+You can use snapshot versions through [JitPack](https://jitpack.io):
+
+* Go to [JitPack project page](https://jitpack.io/#xvik/dropwizard-orient-server)
+* Select `Commits` section and click `Get it` on commit you want to use (top one - the most recent)
+* Follow displayed instruction: add repository and change dependency (NOTE: due to JitPack convention artifact group will be different)
+
 ### Usage
 
 Configuration class must implement `HasOrientServerConfiguration`:
