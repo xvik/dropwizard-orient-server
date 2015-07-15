@@ -6,7 +6,7 @@ repositories {
 
 ext {
     orient = '2.0.12'
-    dropwizard = '0.8.1'
+    dropwizard = '0.8.2'
 }
 
 dependencies {
