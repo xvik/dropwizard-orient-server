@@ -1,3 +1,5 @@
+* Orient studio removed from jar: external optional [studio webjar](https://github.com/webjars/orientdb-studio) used instead
+
 ### 1.2.0 (2015-03-19)
 * Update orient (1.7.10 -> 2.0.5)
 * Update studio

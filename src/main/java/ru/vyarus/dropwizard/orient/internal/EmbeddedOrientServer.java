@@ -1,9 +1,6 @@
 package ru.vyarus.dropwizard.orient.internal;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.orientechnologies.common.util.OCallable;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
@@ -14,9 +11,6 @@ import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
-
-import java.io.BufferedInputStream;
-import java.net.URL;
 
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
@@ -53,11 +47,12 @@ public class EmbeddedOrientServer implements Managed {
 
         // install studio (available on url http://localhost:2480/studio/index.html)
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
-        final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
-                .getCommand(OServerCommandGetStaticContent.class);
-
-        if (command != null) {
-            registerStudio(command);
+        if (httpListener != null) {
+            final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
+                    .getCommand(OServerCommandGetStaticContent.class);
+            if (command != null) {
+                new OrientStudioInstaller(command).install();
+            }
         }
         logger.info("Orient server started");
     }
@@ -77,26 +72,5 @@ public class EmbeddedOrientServer implements Managed {
         Preconditions.checkState(conf.getConfig().getUser(OServerConfiguration.SRV_ROOT_ADMIN) != null,
                 "User '%s' must be defined in configuration because otherwise orient will ask "
                         + "for user password on each application start.", OServerConfiguration.SRV_ROOT_ADMIN);
-    }
-
-    private void registerStudio(final OServerCommandGetStaticContent command) {
-        logger.debug("Registering studio application");
-        command.registerVirtualFolder("studio", new OCallable<Object, String>() {
-            @Override
-            public Object call(final String iArgument) {
-                final String fileName = "/ru/vyarus/dropwizard/orient/studio/"
-                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), "index.htm");
-                final URL url = getClass().getResource(fileName);
-                if (url != null) {
-                    final OServerCommandGetStaticContent.OStaticContent content =
-                            new OServerCommandGetStaticContent.OStaticContent();
-                    content.is = new BufferedInputStream(getClass().getResourceAsStream(fileName));
-                    content.contentSize = -1;
-                    content.type = OServerCommandGetStaticContent.getContentType(url.getFile());
-                    return content;
-                }
-                return null;
-            }
-        });
     }
 }

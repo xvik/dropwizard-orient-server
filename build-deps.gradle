@@ -10,6 +10,8 @@ ext {
 }
 
 dependencies {
+    provided 'org.webjars:orientdb-studio:2.0.12'
+
     compile "io.dropwizard:dropwizard-core:$dropwizard"
     compile "com.orientechnologies:orientdb-server:$orient"
     compile "com.orientechnologies:orientdb-tools:$orient"
