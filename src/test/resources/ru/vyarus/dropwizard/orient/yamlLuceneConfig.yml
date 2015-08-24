@@ -92,8 +92,9 @@ orient-server:
 #                implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
 
     properties:
-       #important for embedded mode, because in other case "no ORIENT_HOME" warnings will be in logs
        - name: plugin.dynamic
+         value: true
+       - name: plugin.hotReload
          value: false
        - name: db.pool.min
          value: 1
