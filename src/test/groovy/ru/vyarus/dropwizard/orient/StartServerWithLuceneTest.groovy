@@ -37,5 +37,10 @@ class StartServerWithLuceneTest extends AbstractTest {
         data = new URL("http://localhost:8081/healthcheck").getText()
         then: "all good"
         data && data.contains('"orient-server":{"healthy":true,"message":"OK"}')
+
+        when: "accessing orient servlet"
+        data = new URL("http://localhost:8081/orient").getText()
+        then: "all good"
+        data != null
     }
 }

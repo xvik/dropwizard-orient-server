@@ -1,0 +1,5 @@
+orient-server:
+  files-path: /tmp/db/
+  config-file: 'src/test/resources/ru/vyarus/dropwizard/orient/sample.xml'
+  admin-servlet: false
+  start: true

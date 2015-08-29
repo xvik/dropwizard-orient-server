@@ -19,7 +19,7 @@ import java.io.IOException;
  * Server configuration could be provided inside yaml file (yaml representation of xml format)
  * or using external xml configuration file (native orient format).
  * <p>Server start could be disabled with 'start' option.</p>
- * <a href="http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration">
+ * <a href="http://orientdb.com/docs/last/DB-Server.html#configuration">
  * See configuration documentation.</a>
  */
 public class OrientServerConfiguration {
@@ -29,6 +29,7 @@ public class OrientServerConfiguration {
     private String filesPath;
     private boolean start = true;
     private String configFile;
+    private boolean adminServlet = true;
     @NotNull
     private OServerConfiguration config;
 
@@ -75,6 +76,21 @@ public class OrientServerConfiguration {
     public void setConfigFile(final String configFile) {
         this.configFile = configFile;
         this.config = parseXmlConfigFile(configFile);
+    }
+
+    /**
+     * @return true to deploy orient info servlet (/orient) on admin context, false to avoid installing
+     */
+    public boolean isAdminServlet() {
+        return adminServlet;
+    }
+
+    /**
+     * @param adminServlet true to start orient info servlet on admin context, false to avoid installation
+     */
+    @JsonProperty("admin-servlet")
+    public void setAdminServlet(final boolean adminServlet) {
+        this.adminServlet = adminServlet;
     }
 
     /**

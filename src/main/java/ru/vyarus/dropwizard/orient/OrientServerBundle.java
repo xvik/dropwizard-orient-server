@@ -2,6 +2,7 @@ package ru.vyarus.dropwizard.orient;
 
 import io.dropwizard.Configuration;
 import io.dropwizard.ConfiguredBundle;
+import io.dropwizard.jetty.NonblockingServletHolder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.hibernate.validator.internal.engine.ValidatorFactoryImpl;
@@ -13,6 +14,7 @@ import ru.vyarus.dropwizard.orient.health.OrientServerHealthCheck;
 import ru.vyarus.dropwizard.orient.internal.DummyTraversableResolver;
 import ru.vyarus.dropwizard.orient.internal.EmbeddedOrientServer;
 import ru.vyarus.dropwizard.orient.support.ConsoleCommand;
+import ru.vyarus.dropwizard.orient.support.OrientServlet;
 
 import java.lang.reflect.Field;
 
@@ -29,6 +31,7 @@ import java.lang.reflect.Field;
  * NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
  * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
  * Also, if server already started, then you can use remote connections.
+ *
  * @param <T> configuration type
  */
 public class OrientServerBundle<T extends Configuration & HasOrientServerConfiguration>
@@ -66,8 +69,13 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
             return;
         }
 
-        environment.lifecycle().manage(new EmbeddedOrientServer(conf));
+        final EmbeddedOrientServer orientServer = new EmbeddedOrientServer(conf);
+        environment.lifecycle().manage(orientServer);
         environment.healthChecks().register("orient-server", new OrientServerHealthCheck());
+        if (conf.isAdminServlet()) {
+            environment.getAdminContext().addServlet(new NonblockingServletHolder(
+                    new OrientServlet(orientServer.getServerInfo())), "/orient/*");
+        }
     }
 
     /**

@@ -5,6 +5,7 @@ import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
 import com.orientechnologies.orient.server.network.OServerNetworkListener;
+import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
 import com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent;
 import io.dropwizard.lifecycle.Managed;
@@ -25,6 +26,7 @@ public class EmbeddedOrientServer implements Managed {
     private final Logger logger = LoggerFactory.getLogger(EmbeddedOrientServer.class);
 
     private final OrientServerConfiguration conf;
+    private final Info serverInfo = new Info();
 
     /**
      * @param conf orient server configuration object
@@ -43,17 +45,17 @@ public class EmbeddedOrientServer implements Managed {
         System.setProperty("orientdb.www.path", "");
         final OServer server = OServerMain.create();
         server.startup(conf.getConfig()).activate();
+        String studioVersion = null;
 
-
-        // install studio (available on url http://localhost:2480/studio/index.html)
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
         if (httpListener != null) {
             final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
                     .getCommand(OServerCommandGetStaticContent.class);
             if (command != null) {
-                new OrientStudioInstaller(command).install();
+                studioVersion = new OrientStudioInstaller(command).install();
             }
         }
+        fillServerInfo(server, studioVersion);
         logger.info("Orient server started");
     }
 
@@ -66,11 +68,42 @@ public class EmbeddedOrientServer implements Managed {
         logger.info("Orient server stopped");
     }
 
+    /**
+     * @return server installation information
+     */
+    public Info getServerInfo() {
+        return serverInfo;
+    }
+
     private void validateConfiguration(final OrientServerConfiguration conf) {
         Preconditions.checkNotNull(conf, "Configuration object required");
         Preconditions.checkNotNull(conf.getConfig(), "Orient server configuration required");
         Preconditions.checkState(conf.getConfig().getUser(OServerConfiguration.SRV_ROOT_ADMIN) != null,
                 "User '%s' must be defined in configuration because otherwise orient will ask "
                         + "for user password on each application start.", OServerConfiguration.SRV_ROOT_ADMIN);
+    }
+
+    private void fillServerInfo(final OServer server, final String studioVersion) {
+        serverInfo.studioVersion = studioVersion;
+        final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
+        if (httpListener != null) {
+            serverInfo.httpPort = String.valueOf(httpListener.getInboundAddr().getPort());
+        }
+        final OServerNetworkListener binaryListener = server.getListenerByProtocol(ONetworkProtocolBinary.class);
+        if (binaryListener != null) {
+            serverInfo.binaryPort = String.valueOf(binaryListener.getInboundAddr().getPort());
+        }
+    }
+
+    /**
+     * Server installation info.
+     */
+    @SuppressWarnings({
+            "checkstyle:visibilitymodifier",
+            "PMD.AbstractClassWithoutAnyMethod"})
+    public static class Info {
+        public String studioVersion;
+        public String httpPort;
+        public String binaryPort;
     }
 }
