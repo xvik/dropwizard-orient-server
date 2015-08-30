@@ -7,9 +7,11 @@
 
 ### About
 
-Simplifies [OrientDB](http://www.orientechnologies.com/orientdb/) usage with [dropwizard](http://dropwizard.io/). 
-Best fits for development environment (to easily try orient or simplify developer environment installation), but
-may be used in production for small to middle projects.
+Embeds [OrientDB](http://www.orientechnologies.com/orientdb/) server into [dropwizard](http://dropwizard.io/).
+ 
+Simplifies development environment (no need to maintain separate server) without sacrificing functionality (embedded server is 100% the same as usual server).
+Also, simplifies production deployment and allows to slightly reduce memory consumption on server due to single (shared) vm.
+To switch application to external server simply switch off embedded server in configuration. 
 
 Features:
 * For orient 2 and dropwizard 0.8
@@ -19,7 +21,8 @@ managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.h
 [orient xml configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration) file
 * [Console command](http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Embedded [orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
+* Optional embedded [orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
+* Full support of [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins) (and [enterprise edition](https://github.com/xvik/dropwizard-orient-server/wiki/Enterprise-edition))
 
 ### Setup
 
@@ -35,14 +38,14 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.2.0'
+compile 'ru.vyarus:dropwizard-orient-server:1.3.0'
 ```
 
 For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
@@ -130,6 +133,7 @@ You can start with this [configuration file](https://github.com/xvik/dropwizard-
 
 * `start` enables or disables orient server start (the same effect will be if orient configuration section will not exist, 
 this option exist to allow disabling server without removing entire config section)
+* `admin-servlet` enables or disables orient admin servlet installation (/orient). Enabled by default.
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
 Support special placeholder '$TMP', which is replaced to 'java.io.tmpdir'.
 * `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration).
@@ -200,6 +204,20 @@ add dependency `com.orientechnologies:orientdb-etl:2.0.5`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
+### Admin servlet
+
+If embedded server is started, special orient info servlet is available in admin context: [http://localhost:8081/orient](http://localhost:8081/orient).
+It shows basic info about server configuration, link to embedded studio and links to most useful orient documentation pages.
+  
+Special url [http://localhost:8081/orient/studio/](http://localhost:8081/orient/studio/) redirects to embedded studio.
+
+Servlet installation may be disabled in configuration:
+
+```yaml
+orient-server:
+    admin-servlet: false
+```
+
 ### Console
 
 Internally bundle registers orient console command (`ConsoleCommand`). Console may be used in interactive mode, to execute command(s) 
@@ -250,13 +268,28 @@ For complete documentation see [orient console wiki](http://www.orientechnologie
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
+Studio could be embedded using [webjar](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.webjars%22%20AND%20a%3A%22orientdb-studio%22)
+(by default, it is not included).
+
+Add dependency:
+
+```groovy
+compile 'org.webjars:orientdb-studio:2.0.12'
+```
+
+Studio is usually the same for minor orient versions (e.g. for 2.0 - 2.0.14).
+Use version `2.0.12` for orient 2.0.x and `2.1.0` for orient 2.1.x.
+If required studio version is not published yet request it by [creating new issue](https://github.com/webjars/orientdb-studio/issues).
+
 After jetty server start (usual dropwizard startup):
 
 ```bash
 $ [..] server config.yml
 ```
 
-Studio will be available on url: [http://localhost:2480/studio/](http://localhost:2480/studio/)
+Studio will be available on url: [http://localhost:2480/studio/](http://localhost:2480/studio/). 
+Port number depends on orient configuration. You can use universal url in admin servlet: [http://localhost:8081/orient/studio/](http://localhost:8081/orient/studio/),
+ which will redirect to actual studio location.
 
 NOTE: Studio will not start if static content listener is not defined in configuration (defined in example configuration)
 
@@ -272,7 +305,6 @@ commands:
 ```
 
 [Studio github repository](https://github.com/orientechnologies/orientdb-studio).
-You can check version, packaged inside jar [here](https://github.com/xvik/dropwizard-orient-server/blob/master/src/main/resources/ru/vyarus/dropwizard/orient/studio/version.txt)
 
 ### Might also like
 

@@ -1,3 +1,4 @@
+### 1.3.0 (2015-08-31)
 * Orient studio removed from jar: external optional [studio webjar](https://github.com/webjars/orientdb-studio) used instead
 * Add orient info servlet installed in admin context (`/orient`). Special url `/orient/studio` redirects to embedded studio (automatically resolve correct port from configuration)
 
