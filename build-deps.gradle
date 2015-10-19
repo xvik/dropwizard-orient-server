@@ -5,12 +5,12 @@ repositories {
 }
 
 ext {
-    orient = '2.0.12'
-    dropwizard = '0.8.2'
+    orient = '2.1.4'
+    dropwizard = '0.8.4'
 }
 
 dependencies {
-    provided 'org.webjars:orientdb-studio:2.0.12'
+    provided 'org.webjars:orientdb-studio:2.1.0'
 
     compile "io.dropwizard:dropwizard-core:$dropwizard"
     compile "com.orientechnologies:orientdb-server:$orient"
