@@ -98,9 +98,7 @@ public class EmbeddedOrientServer implements Managed {
     /**
      * Server installation info.
      */
-    @SuppressWarnings({
-            "checkstyle:visibilitymodifier",
-            "PMD.AbstractClassWithoutAnyMethod"})
+    @SuppressWarnings("checkstyle:VisibilityModifier")
     public static class Info {
         public String studioVersion;
         public String httpPort;
