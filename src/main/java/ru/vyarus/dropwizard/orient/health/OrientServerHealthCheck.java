@@ -16,12 +16,12 @@ public class OrientServerHealthCheck extends HealthCheck {
     protected Result check() throws Exception {
         final Orient instance = Orient.instance();
         final boolean noStorages = instance.getStorages().isEmpty();
-        Result result;
+        final Result result;
         if (!instance.isActive()) {
             result = Result.unhealthy("Database not started");
         } else if (noStorages) {
             result = Result.unhealthy("No registered storages");
-        } else  {
+        } else {
             result = Result.healthy("OK");
         }
         return result;

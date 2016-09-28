@@ -2,21 +2,20 @@ plugins {
     id 'groovy'
     id 'jacoco'
     id 'project-report'
-    id 'ru.vyarus.java-lib' version '1.0.1'
-    id 'ru.vyarus.github-info' version '1.0.0'
-    id 'ru.vyarus.animalsniffer' version '1.0.0'
-    id 'ru.vyarus.quality' version '1.2.0'
-    id 'com.github.kt3k.coveralls' version '2.4.0x'
-    id 'com.jfrog.bintray' version '1.5'
-    id 'net.researchgate.release' version '2.3.4'
-    id 'com.github.ben-manes.versions' version '0.11.3'
+    id 'ru.vyarus.java-lib' version '1.0.4'
+    id 'ru.vyarus.github-info' version '1.1.0'
+    id 'ru.vyarus.animalsniffer' version '1.2.0'
+    id 'ru.vyarus.quality' version '2.0.0'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
+    id 'com.jfrog.bintray' version '1.7.1'
+    id 'net.researchgate.release' version '2.4.1'
+    id 'com.github.ben-manes.versions' version '0.13.0'
 }
 
 sourceCompatibility = 1.7
-targetCompatibility = 1.7
 
 wrapper {
-    gradleVersion = 2.10
+    gradleVersion = 3.0
 }
 
 ext {
@@ -26,7 +25,7 @@ ext {
 
 repositories { jcenter(); mavenCentral(); mavenLocal() }
 dependencies {
-    signature 'org.codehaus.mojo.signature:java17:+@signature'
+    signature 'org.codehaus.mojo.signature:java17:1.0@signature'
 
     provided 'org.webjars:orientdb-studio:2.1.0'
 
@@ -63,16 +62,16 @@ github {
 pom {
     developers {
         developer {
-            id "xvik"
-            name "Vyacheslav Rusakov"
-            email "vyarus@gmail.com"
+            id 'xvik'
+            name 'Vyacheslav Rusakov'
+            email 'vyarus@gmail.com'
         }
     }
 }
 
 bintray {
-    user = project.hasProperty('bintrayUser') ? bintrayUser : 'USER'
-    key = project.hasProperty('bintrayKey') ? bintrayKey : 'KEY'
+    user = findProperty('bintrayUser')
+    key = findProperty('bintrayKey')
     publications = ['maven']
     dryRun = false
     publish = true
@@ -85,12 +84,12 @@ bintray {
         version {
             gpg {
                 sign = true
-                passphrase = project.hasProperty('gpgPassphrase') ? gpgPassphrase : ''
+                passphrase = findProperty('gpgPassphrase')
             }
             mavenCentralSync {
                 sync = true
-                user = project.hasProperty('sonatypeUser') ? sonatypeUser : 'USER'
-                password = project.hasProperty('sonatypePassword') ? sonatypePassword : 'PASSWORD'
+                user = findProperty('sonatypeUser')
+                password = findProperty('sonatypePassword')
             }
         }
     }
@@ -105,10 +104,10 @@ afterReleaseBuild {
 
 test {
     testLogging {
-        events "skipped", "failed", "standard_error"
-        exceptionFormat "full"
+        events 'skipped', 'failed', 'standard_error'
+        exceptionFormat 'full'
     }
-    maxHeapSize = "512m"
+    maxHeapSize = '512m'
 }
 
 dependencyUpdates.revision = 'release'

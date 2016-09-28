@@ -108,7 +108,7 @@ public class OrientServlet extends HttpServlet {
         resp.setHeader("Cache-Control", "must-revalidate,no-cache,no-store");
         resp.setContentType("text/html");
 
-        try (final PrintWriter writer = resp.getWriter()) {
+        try (PrintWriter writer = resp.getWriter()) {
             final OContextConfiguration config = OServerMain.server().getContextConfiguration();
             writer.println(MessageFormat.format(TEMPLATE,
                     OConstants.ORIENT_VERSION,

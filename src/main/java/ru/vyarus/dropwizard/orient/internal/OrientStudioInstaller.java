@@ -76,7 +76,7 @@ public class OrientStudioInstaller {
         String res = null;
         if (studioConfig != null) {
             final Properties props = new Properties();
-            try (final InputStream propsStream = getClass().getResourceAsStream(STUDIO_WEBJAR_CONFIG)) {
+            try (InputStream propsStream = getClass().getResourceAsStream(STUDIO_WEBJAR_CONFIG)) {
                 props.load(propsStream);
                 res = props.getProperty("version");
             }
