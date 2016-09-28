@@ -8,7 +8,7 @@
     "libPackage": "ru.vyarus.dropwizard.orient",
     "libVersion": "0.1.0",
     "libDesc": "Embedded OrientDB server for dropwizard",
-    "targetJava": "1.7",
+    "targetJava": "1.8",
     "libTags": "dropwizard, orientdb",
     "bintrayUser": "vyarus",
     "bintrayRepo": "xvik",
