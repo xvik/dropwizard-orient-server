@@ -1,3 +1,4 @@
+### 1.4.0 (2016-09-30)
 * Update to orient 2.2 (fix compatibility)
 * Update to dropwizard 1.0
 

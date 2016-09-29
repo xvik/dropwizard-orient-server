@@ -7,21 +7,21 @@
 
 ### About
 
-Embeds [OrientDB](http://www.orientechnologies.com/orientdb/) server into [dropwizard](http://dropwizard.io/).
+Embeds [OrientDB](http://orientdb.com/orientdb/) server into [dropwizard](http://dropwizard.io/).
  
 Simplifies development environment (no need to maintain separate server) without sacrificing functionality (embedded server is 100% the same as usual server).
 Also, simplifies production deployment and allows to slightly reduce memory consumption on server due to single (shared) vm.
 To switch application to external server simply switch off embedded server in configuration. 
 
 Features:
-* For orient 2 and dropwizard 0.8
-* [Embedded orient server](http://www.orientechnologies.com/docs/last/orientdb.wiki/Embedded-Server.html), 
-managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.html#managed-objects))
+* For orient 2.2 and dropwizard 1.0
+* [Embedded orient server](http://orientdb.com/docs/last/Embedded-Server.html), 
+managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration) file
-* [Console command](http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html) 
+[orient xml configuration](http://orientdb.com/docs/last/DB-Server.html) file
+* [Console command](http://orientdb.com/docs/last/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Optional embedded [orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
+* Optional embedded [orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
 * Full support of [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins) (and [enterprise edition](https://github.com/xvik/dropwizard-orient-server/wiki/Enterprise-edition))
 
 ### Setup
@@ -29,7 +29,7 @@ managed by dropwizard (using [Managed object](http://dropwizard.io/manual/core.h
 Releases are published to [bintray jcenter](https://bintray.com/bintray/jcenter) (package appear immediately after release) 
 and then to maven central (require few days after release to be published). 
 
-[![Download](https://api.bintray.com/packages/vyarus/xvik/dropwizard-orient-server/images/download.svg) ](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
+[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/dropwizard-orient-server.svg?label=jcenter)](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/dropwizard-orient-server.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
 
 Maven:
@@ -38,19 +38,19 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.3.0'
+compile 'ru.vyarus:dropwizard-orient-server:1.4.0'
 ```
 
-For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
-
-For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
+* For orient 2.0, 2.1 and dropwizard 0.8-1.0 use version 1.3.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/1.3.0))
+* For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
+* For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
 
 ##### Snapshots
 
@@ -136,7 +136,7 @@ this option exist to allow disabling server without removing entire config secti
 * `admin-servlet` enables or disables orient admin servlet installation (/orient). Enabled by default.
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
 Support special placeholder '$TMP', which is replaced to 'java.io.tmpdir'.
-* `config` section defines [orient server configuration](http://www.orientechnologies.com/docs/last/orientdb.wiki/DB-Server.html#configuration).
+* `config` section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
 * `config-file` used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. 
 See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
@@ -151,11 +151,11 @@ When new database created, orient will create default database users: `admin`, `
 #### Graph server
 
 By default, server supports document and object databases.
-If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.0.5`.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.2.10`.
 
 Graph related sections are commented in default [yaml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml):
 
-Enable this section if [gremlin](http://www.orientechnologies.com/docs/last/orientdb.wiki/Gremlin.html) support required
+Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) support required
 
 ```yaml
 clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
@@ -163,7 +163,7 @@ clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
         ...
 ```
 
-Enable this section if [gephi](http://www.orientechnologies.com/docs/last/orientdb.wiki/Gephi.html) support required (requires OGraphServerHandler if gremlin queries used)
+Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires OGraphServerHandler if gremlin queries used)
 
 ```yaml
 pattern: 'GET|gephi/*'
@@ -173,7 +173,7 @@ implementation: com.orientechnologies.orient.graph.server.command.OServerCommand
 If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
 
 ```groovy
-compile ("com.orientechnologies:orientdb-graphdb:2.0.5") {
+compile ("com.orientechnologies:orientdb-graphdb:2.2.10") {
     exclude module: 'gremlin-java'
     exclude module: 'gremlin-groovy'
 }
@@ -182,7 +182,7 @@ compile ("com.orientechnologies:orientdb-graphdb:2.0.5") {
 #### Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
-To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.0.5`.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.2.10`.
 
 And register lucene plugin in handlers section:
 
@@ -199,8 +199,8 @@ Lucene plugin includes dependency on graph, so explicit graph dependency could b
 
 #### ETL
 
-To use [ETL](http://www.orientechnologies.com/docs/2.0/orientdb-etl.wiki/Introduction.html)
-add dependency `com.orientechnologies:orientdb-etl:2.0.5`
+To use [ETL](http://orientdb.com/docs/last/ETL-Introduction.html)
+add dependency `com.orientechnologies:orientdb-etl:2.2.10`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
@@ -260,11 +260,11 @@ $ [..] console config.yaml commands.sql
 Will execute all commands in file and exit.
 Note that `set echo true` enables additional logs (may be useful for debug). Another useful flag is `set ignoreErrors true`.
 
-For complete documentation see [orient console wiki](http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html)
+For complete documentation see [orient console wiki](http://orientdb.com/docs/last/Console-Commands.html)
 
 ### Orient studio
 
-[Orient studio](http://www.orientechnologies.com/docs/last/orientdb-studio.wiki/Home-page.html)
+[Orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
@@ -274,11 +274,11 @@ Studio could be embedded using [webjar](http://search.maven.org/#search%7Cgav%7C
 Add dependency:
 
 ```groovy
-compile 'org.webjars:orientdb-studio:2.0.12'
+compile 'org.webjars:orientdb-studio:2.2.0'
 ```
 
-Studio is usually the same for minor orient versions (e.g. for 2.0 - 2.0.14).
-Use version `2.0.12` for orient 2.0.x and `2.1.0` for orient 2.1.x.
+Studio is usually the same for minor orient versions.
+Use version `2.0.12` for orient 2.0.x, `2.1.0` for orient 2.1.x and `2.2.0` for orient 2.2.x.
 If required studio version is not published yet request it by [creating new issue](https://github.com/webjars/orientdb-studio/issues).
 
 After jetty server start (usual dropwizard startup):
