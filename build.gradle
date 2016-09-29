@@ -18,18 +18,20 @@ wrapper {
 }
 
 ext {
-    orient = '2.1.23'
+    orient = '2.2.10'
     dropwizard = '1.0.2'
 }
 
 repositories { jcenter(); mavenCentral(); mavenLocal() }
 dependencies {
-    provided 'org.webjars:orientdb-studio:2.1.0'
+
+    provided 'org.webjars:orientdb-studio:2.2.0'
 
     compile "io.dropwizard:dropwizard-core:$dropwizard"
     compile "com.orientechnologies:orientdb-server:$orient"
     compile "com.orientechnologies:orientdb-tools:$orient"
 
+    testCompile "com.orientechnologies:orientdb-object:$orient"
     testCompile "io.dropwizard:dropwizard-testing:$dropwizard"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     // used to catch System.exit statements

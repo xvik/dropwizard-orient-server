@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
+import com.orientechnologies.orient.server.config.OServerUserConfiguration;
 import com.orientechnologies.orient.server.network.OServerNetworkListener;
 import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
@@ -78,9 +79,23 @@ public class EmbeddedOrientServer implements Managed {
     private void validateConfiguration(final OrientServerConfiguration conf) {
         Preconditions.checkNotNull(conf, "Configuration object required");
         Preconditions.checkNotNull(conf.getConfig(), "Orient server configuration required");
-        Preconditions.checkState(conf.getConfig().getUser(OServerConfiguration.SRV_ROOT_ADMIN) != null,
+        Preconditions.checkState(hasRootUser(conf.getConfig()),
                 "User '%s' must be defined in configuration because otherwise orient will ask "
-                        + "for user password on each application start.", OServerConfiguration.SRV_ROOT_ADMIN);
+                        + "for user password on each application start.", OServerConfiguration.DEFAULT_ROOT_USER);
+    }
+
+    private boolean hasRootUser(final OServerConfiguration conf) {
+        if (conf.users == null) {
+            return false;
+        }
+        boolean res = false;
+        for (OServerUserConfiguration user : conf.users) {
+            if (user.name.equals(OServerConfiguration.DEFAULT_ROOT_USER)) {
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 
     private void fillServerInfo(final OServer server, final String studioVersion) {
