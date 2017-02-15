@@ -4,6 +4,7 @@ import com.orientechnologies.orient.client.remote.OServerAdmin
 import com.orientechnologies.orient.core.Orient
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import ru.vyarus.dropwizard.orient.support.TestApplication
+import spock.lang.Shared
 import spock.lang.Specification
 
 /**
@@ -14,6 +15,7 @@ import spock.lang.Specification
  */
 abstract class AbstractTest extends Specification {
 
+    @Shared
     String dbFolderPath = System.getProperty("java.io.tmpdir") + '/db/';
 
     void setup() {
@@ -22,7 +24,7 @@ abstract class AbstractTest extends Specification {
         Orient.instance().startup()
     }
 
-    void cleanup() {
+    void cleanupSpec() {
         new File(dbFolderPath).deleteDir()
     }
 

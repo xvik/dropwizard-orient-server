@@ -1,3 +1,8 @@
+* Update orient 2.2.10 -> 2.2.16
+* Update dropwizard 1.0.2 -> 1.0.6
+
+NOTE: lucene is not orient plugin anymore and so does not require extra configuration 
+
 ### 1.4.0 (2016-09-30)
 * Update to orient 2.2 (fix compatibility)
 * Update to dropwizard 1.0

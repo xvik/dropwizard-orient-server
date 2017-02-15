@@ -18,8 +18,8 @@ wrapper {
 }
 
 ext {
-    orient = '2.2.10'
-    dropwizard = '1.0.2'
+    orient = '2.2.16'
+    dropwizard = '1.0.6'
 }
 
 repositories { jcenter(); mavenCentral(); mavenLocal() }

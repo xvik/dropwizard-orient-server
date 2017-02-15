@@ -1,7 +1,8 @@
 package ru.vyarus.dropwizard.orient
 
+import com.orientechnologies.orient.core.metadata.schema.OClass
+import com.orientechnologies.orient.core.metadata.schema.OType
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
-import com.orientechnologies.orient.server.OServerMain
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
 import ru.vyarus.dropwizard.orient.support.TestApplication
@@ -26,7 +27,15 @@ class StartServerWithLuceneTest extends AbstractTest {
         db.close()
         then: "all good"
         true
-        OServerMain.server().getPlugin("lucene-index") != null
+
+        when: "check lucene index creation"
+        db.open('admin', 'admin');
+        OClass cls = db.getMetadata().getSchema().createClass("test")
+        cls.createProperty("text", OType.STRING)
+        cls.createIndex("Test.text", "FULLTEXT", null, null, "LUCENE", ["text"] as String[])
+        db.close()
+        then: "index created"
+        true
 
         when: "accessing orient studio"
         def data = new URL("http://localhost:2480/studio/").getText()

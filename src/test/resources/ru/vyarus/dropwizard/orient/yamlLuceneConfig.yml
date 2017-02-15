@@ -12,7 +12,6 @@ orient-server:
         resources: 'connect,server.listDatabases,server.dblist'
 
     handlers:
-      - clazz: com.orientechnologies.lucene.OLuceneIndexPlugin
     # enable below lines if graph version used and gremlin support required
 #      - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
 #        parameters:
