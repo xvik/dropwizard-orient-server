@@ -3,7 +3,7 @@ package ru.vyarus.dropwizard.orient
 import com.orientechnologies.orient.client.remote.OServerAdmin
 import com.orientechnologies.orient.core.Orient
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
-import ru.vyarus.dropwizard.orient.support.TestApplication;
+import ru.vyarus.dropwizard.orient.support.TestApplication
 import spock.lang.Specification
 
 /**
@@ -30,8 +30,8 @@ abstract class AbstractTest extends Specification {
         new TestApplication().run(attrs.split(' '))
     }
 
-    def createRemoteDb(String name){
-        OServerAdmin admin = new OServerAdmin('remote:localhost/'+name).connect('root', 'root')
+    def createRemoteDb(String name) {
+        OServerAdmin admin = new OServerAdmin('remote:localhost/' + name).connect('root', 'root')
         admin.createDatabase('document', 'plocal')
     }
 
