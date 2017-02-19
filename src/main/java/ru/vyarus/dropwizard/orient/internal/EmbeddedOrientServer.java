@@ -46,17 +46,17 @@ public class EmbeddedOrientServer implements Managed {
         System.setProperty("orientdb.www.path", "");
         final OServer server = OServerMain.create();
         server.startup(conf.getConfig()).activate();
-        String studioVersion = null;
+        boolean studioInstalled = false;
 
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
         if (httpListener != null) {
             final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
                     .getCommand(OServerCommandGetStaticContent.class);
             if (command != null) {
-                studioVersion = new OrientStudioInstaller(command).install();
+                studioInstalled = new OrientStudioInstaller(command).install();
             }
         }
-        fillServerInfo(server, studioVersion);
+        fillServerInfo(server, studioInstalled);
         logger.info("Orient server started");
     }
 
@@ -98,8 +98,8 @@ public class EmbeddedOrientServer implements Managed {
         return res;
     }
 
-    private void fillServerInfo(final OServer server, final String studioVersion) {
-        serverInfo.studioVersion = studioVersion;
+    private void fillServerInfo(final OServer server, final boolean studioInstalled) {
+        serverInfo.studioInstalled = studioInstalled;
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
         if (httpListener != null) {
             serverInfo.httpPort = String.valueOf(httpListener.getInboundAddr().getPort());
@@ -115,7 +115,7 @@ public class EmbeddedOrientServer implements Managed {
      */
     @SuppressWarnings("checkstyle:VisibilityModifier")
     public static class Info {
-        public String studioVersion;
+        public boolean studioInstalled;
         public String httpPort;
         public String binaryPort;
     }

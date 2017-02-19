@@ -51,12 +51,12 @@ public class OrientServlet extends HttpServlet {
                     + "    <li>Version: {0}</li>%n"
                     + "    <li>Binary port: {1}</li>%n"
                     + "    <li>Http port: {2}</li>%n"
-                    + "    <li><a href=\"{3}\" target=\"_blank\">Studio webjar</a>: {4}</li>%n"
-                    + "    <li>Plugins: {5}</li>%n"
-                    + "    <li>Dynamic plugins: {6} (hot reload: {7})</li>%n"
-                    + "    <li>Profiler: {8}</li>%n"
+                    + "    <li>Studio installed: {3}</li>%n"
+                    + "    <li>Plugins: {4}</li>%n"
+                    + "    <li>Dynamic plugins: {5} (hot reload: {6})</li>%n"
+                    + "    <li>Profiler: {7}</li>%n"
                     + "  </ul>%n"
-                    + "  {9}%n"
+                    + "  {8}%n"
                     + "</body>%n"
                     + "</html>"
     );
@@ -93,7 +93,7 @@ public class OrientServlet extends HttpServlet {
         final String uri = req.getPathInfo();
         // if webjar is not used, studio could still be installed as dynamic plugin (in db files folder)
         if (STUDIO_URI.equals(uri)) {
-            resp.sendRedirect(String.format("http://%s:%s/studio/index.htm", req.getServerName(), info.httpPort));
+            resp.sendRedirect(String.format("http://%s:%s/studio/", req.getServerName(), info.httpPort));
         } else {
             super.service(req, resp);
         }
@@ -114,9 +114,7 @@ public class OrientServlet extends HttpServlet {
                     OConstants.ORIENT_VERSION,
                     MoreObjects.firstNonNull(info.binaryPort, DISABLED),
                     MoreObjects.firstNonNull(info.httpPort, DISABLED),
-                    "http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.webjars"
-                            + "%22%20AND%20a%3A%22orientdb-studio%22",
-                    info.studioVersion,
+                    info.studioInstalled,
                     renderPlugins(config),
                     config.getValueAsString(CONF_DYNAMIC_PLUGIN, null),
                     config.getValueAsString(CONF_PLUGIN_RELOAD, null),

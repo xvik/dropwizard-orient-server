@@ -9,22 +9,19 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.util.Properties;
 
 /**
- * Installs studio if <a href="https://github.com/webjars/orientdb-studio">studio webjar</a> is available on classpath.
+ * Installs studio if studio jar is available on classpath (searches for 'www/index.html' in classpath,
+ * assuming it's a studio).
  * Studio is available on url http://localhost:2480/studio/.
  *
  * @author Vyacheslav Rusakov
  * @since 21.08.2015
  */
 public class OrientStudioInstaller {
-    public static final String STUDIO_WEBJAR_CONFIG =
-            "/META-INF/maven/org.webjars/orientdb-studio/pom.properties";
-    public static final String STUDIO_WEBJAR_PATH_BASE =
-            "/META-INF/resources/webjars/orientdb-studio/";
+    public static final String STUDIO_PATH = "/www/";
+    public static final String STUDIO_INDEX = "index.html";
 
     private final Logger logger = LoggerFactory.getLogger(OrientStudioInstaller.class);
 
@@ -37,26 +34,25 @@ public class OrientStudioInstaller {
     /**
      * Searches for studio webjar and if found installs studio.
      *
-     * @return installed webjar version or null if not installed
-     * @throws Exception if studio webjar check fails
+     * @return true if studio installed, false otherwise
+     * @throws Exception if installation fails
      */
-    public String install() throws Exception {
-        final String studioVersion = getStudioVersion();
-        if (studioVersion != null) {
-            registerStudio(studioVersion);
+    public boolean install() throws Exception {
+        final boolean detected = detect();
+        if (detected) {
+            registerStudio();
         }
-        return studioVersion;
+        return detected;
     }
 
-    private void registerStudio(final String studioVersion) throws Exception {
+    private void registerStudio() throws Exception {
         logger.debug("Registering studio application");
-        final String studioPath = STUDIO_WEBJAR_PATH_BASE + studioVersion + "/";
 
         command.registerVirtualFolder("studio", new OCallable<Object, String>() {
             @Override
             public Object call(final String iArgument) {
-                final String fileName = studioPath
-                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), "index.htm");
+                final String fileName = STUDIO_PATH
+                        + MoreObjects.firstNonNull(Strings.emptyToNull(iArgument), STUDIO_INDEX);
                 final URL url = getClass().getResource(fileName);
                 if (url != null) {
                     final OServerCommandGetStaticContent.OStaticContent content =
@@ -71,16 +67,8 @@ public class OrientStudioInstaller {
         });
     }
 
-    private String getStudioVersion() throws IOException {
-        final URL studioConfig = getClass().getResource(STUDIO_WEBJAR_CONFIG);
-        String res = null;
-        if (studioConfig != null) {
-            final Properties props = new Properties();
-            try (InputStream propsStream = getClass().getResourceAsStream(STUDIO_WEBJAR_CONFIG)) {
-                props.load(propsStream);
-                res = props.getProperty("version");
-            }
-        }
-        return res;
+    private boolean detect() throws IOException {
+        final URL studioIndex = getClass().getResource(STUDIO_PATH + STUDIO_INDEX);
+        return studioIndex != null;
     }
 }

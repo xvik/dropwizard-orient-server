@@ -1,5 +1,6 @@
-* Update orient 2.2.10 -> 2.2.16
+* Update orient 2.2.10 -> 2.2.17
 * Update dropwizard 1.0.2 -> 1.0.6
+* (breaking) Support official studio jar instead of webjar (not supported anymore!). Studio version not shown anymore in orient servlet. (#4)
 
 NOTE: lucene is not orient plugin anymore and so does not require extra configuration 
 
