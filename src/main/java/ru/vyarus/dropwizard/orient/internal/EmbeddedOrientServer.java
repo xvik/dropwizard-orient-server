@@ -13,6 +13,7 @@ import io.dropwizard.lifecycle.Managed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
+import ru.vyarus.dropwizard.orient.internal.cmd.ApiRedirectCommand;
 
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
@@ -54,6 +55,7 @@ public class EmbeddedOrientServer implements Managed {
                     .getCommand(OServerCommandGetStaticContent.class);
             if (command != null) {
                 studioInstalled = new OrientStudioInstaller(command).install();
+                httpListener.registerStatelessCommand(new ApiRedirectCommand());
             }
         }
         fillServerInfo(server, studioInstalled);
