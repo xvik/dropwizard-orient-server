@@ -1,6 +1,8 @@
 * Update orient 2.2.10 -> 2.2.17
 * Update dropwizard 1.0.2 -> 1.0.6
 * (breaking) Support official studio jar instead of webjar (not supported anymore!). Studio version not shown anymore in orient servlet. (#4)
+* Simplify configuration: allow writing name and value properties as one (name: value). Affects properties, parameters sections for 
+commands and handlers and protocols section
 
 NOTE: lucene is not orient plugin anymore and so does not require extra configuration 
 

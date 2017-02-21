@@ -10,6 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
+import ru.vyarus.dropwizard.orient.configuration.deserializer.EntryDeserializer;
+import ru.vyarus.dropwizard.orient.configuration.deserializer.NetworkProtocolDeserializer;
+import ru.vyarus.dropwizard.orient.configuration.deserializer.ParameterDeserializer;
 import ru.vyarus.dropwizard.orient.health.OrientServerHealthCheck;
 import ru.vyarus.dropwizard.orient.internal.DummyTraversableResolver;
 import ru.vyarus.dropwizard.orient.internal.EmbeddedOrientServer;
@@ -34,6 +37,7 @@ import java.lang.reflect.Field;
  *
  * @param <T> configuration type
  */
+@SuppressWarnings("checkstyle:ClassDataAbstractionCoupling")
 public class OrientServerBundle<T extends Configuration & HasOrientServerConfiguration>
         implements ConfiguredBundle<T> {
     private final Logger logger = LoggerFactory.getLogger(OrientServerBundle.class);
@@ -53,6 +57,11 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
     @Override
     @SuppressWarnings("unchecked")
     public void initialize(final Bootstrap<?> bootstrap) {
+        // support shorter configuration
+        bootstrap.getObjectMapper().addHandler(new EntryDeserializer());
+        bootstrap.getObjectMapper().addHandler(new ParameterDeserializer());
+        bootstrap.getObjectMapper().addHandler(new NetworkProtocolDeserializer());
+
         recoverValidatorBehaviour(bootstrap);
         bootstrap.addCommand(new ConsoleCommand(configClass));
     }
