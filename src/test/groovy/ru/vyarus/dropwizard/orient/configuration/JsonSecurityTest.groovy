@@ -14,7 +14,7 @@ import ru.vyarus.dropwizard.orient.support.TestConfiguration
 class JsonSecurityTest extends AbstractTest {
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/jsonSecurity.yml');
+            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/conf/jsonSecurity.yml');
 
     def "Check server starts correctly"() {
 
