@@ -39,7 +39,8 @@ public class EmbeddedOrientServer implements Managed {
     private final Info serverInfo = new Info();
 
     /**
-     * @param conf orient server configuration object
+     * @param conf   orient server configuration object
+     * @param mapper for serializing orient security json from yaml configuration
      */
     public EmbeddedOrientServer(final OrientServerConfiguration conf, final ObjectMapper mapper) {
         this.conf = validateConfiguration(conf);
