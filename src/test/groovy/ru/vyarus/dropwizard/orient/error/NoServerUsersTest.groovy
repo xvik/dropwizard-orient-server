@@ -1,13 +1,13 @@
 package ru.vyarus.dropwizard.orient.error
 
+import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.TestApplication
-import spock.lang.Specification
 
 /**
  * @author Vyacheslav Rusakov
  * @since 25.02.2017
  */
-class NoServerUsersTest extends Specification {
+class NoServerUsersTest extends AbstractTest {
 
     def "Check no users in config"() {
 

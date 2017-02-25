@@ -1,13 +1,13 @@
 package ru.vyarus.dropwizard.orient.error
 
+import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.TestApplication
-import spock.lang.Specification
 
 /**
  * @author Vyacheslav Rusakov 
  * @since 17.03.2015
  */
-class NoRootUserTest extends Specification {
+class NoRootUserTest extends AbstractTest {
 
     def "Check config without root user"() {
 
