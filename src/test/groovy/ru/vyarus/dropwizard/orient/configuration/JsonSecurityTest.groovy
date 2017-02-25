@@ -25,10 +25,5 @@ class JsonSecurityTest extends AbstractTest {
         db.close()
         then: "all good"
         true
-
-        when: "accessing orient studio"
-        def data = new URL("http://localhost:2480/studio/").getText()
-        then: "all good"
-        data != null
     }
 }
