@@ -100,12 +100,12 @@ Example application could be found [in tests](https://github.com/xvik/dropwizard
 
 ##### Client initialization
 
-Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command) or with environment command.
+Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command).
 Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access
 it from these methods.
 
 It's better to do your orient client initialization inside your own `Managed` object, to make sure this logic run after server start.
-(for example, when you use remote connection, the only whey to properly check database existence on startup would be using Managed object)
+(for example, when you use remote connection, the only way to properly check database existence on startup would be using `Managed` object)
 
 You can use `plocal` connection together with embedded server: plocal doesn't requires started server and it's faster than remote connection,
 but with embedded server you would be able to use studio together with your application (win-win).
@@ -134,12 +134,13 @@ orient-server:
     ...
 ```
 
-You can start with this [configuration file](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml). 
+You can start with [example configuration file](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml). 
 
 * `start` enables or disables orient server start (the same effect will be if orient configuration section will not exist, 
 this option exist to allow disabling server without removing entire config section)
-* `admin-servlet` enables or disables orient admin servlet installation (/orient). Enabled by default.
-* `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
+* `admin-servlet` enables or disables orient admin servlet installation (`/orient`). Enabled by default.
+* `files-path` defines folder, where orient will store database files. May be not existing directory - orient will create it when necessary.
+Will be set as value for `ORIENTDB_HOME` environment variable.
 * `config` section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
 Special shortcuts supported for properties and parameters sections (see [example configuration](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml)).
@@ -177,7 +178,7 @@ Configuration folder (config/) in orient distribution reference:
 | hazelcast.xml and default-distributed-db-config.json | Distributed configuration | Requires additional dependency (`orientdb-distributed`). Links to files set in `OHazelcastPlugin` handler properties. |
 | orientdb-client-log.properties and orientdb-server-log.properties | Logging configuration | Not needed.
 
-If you want to replicate orientdb server layout (merge it with your app folder), you can do it like this:
+EXAMPLE: If you want to replicate orientdb server layout (merge it with your app folder), you can do it like this:
 
 ```
 APP HOME/
@@ -204,19 +205,19 @@ It's just an example to better understand configuration.
 #### Graph server
 
 By default, server supports document and object databases.
-If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.2.10`.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.2.17`.
 
 Graph related sections are commented in default [yaml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml):
 
 Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) support required
 
 ```yaml
-clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
-        parameters:
-        ...
+- clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
+  parameters:
+    - enabled: true
 ```
 
-Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires OGraphServerHandler if gremlin queries used)
+Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
 ```yaml
 pattern: 'GET|gephi/*'
@@ -237,7 +238,8 @@ compile ("com.orientechnologies:orientdb-graphdb:2.2.17") {
 Orient 2 distribution includes lucene plugin out of the box.
 To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.2.17`.
 
-Plugin will be automatically registered. Note: it's actually not an "orient plugin" anymore and so not shown in registered orient plugins.
+Plugin will be automatically registered. 
+Note: it's actually not an "orient plugin" anymore and so not shown in registered orient plugins (in orient servlet).
 
 Lucene plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
