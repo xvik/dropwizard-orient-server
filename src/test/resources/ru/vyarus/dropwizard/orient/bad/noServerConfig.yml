@@ -1,2 +1,2 @@
 orient-server:
-  files-path: /tmp/db/
+  files-path: $TMP/db/

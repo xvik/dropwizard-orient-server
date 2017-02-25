@@ -25,7 +25,7 @@ class ConfigurationTest extends AbstractTest {
         conf != null
         conf.config != null
         conf.config.handlers != null
-        conf.filesPath == System.getProperty("java.io.tmpdir")+'/db/'
+        conf.filesPath == System.getProperty("java.io.tmpdir") + '/db/'
         conf.start
     }
 
@@ -39,7 +39,7 @@ class ConfigurationTest extends AbstractTest {
         conf != null
         conf.config != null
         conf.config.handlers != null
-        conf.filesPath == '/tmp/db/'
+        conf.filesPath == System.getProperty('java.io.tmpdir') + '/db/'
         conf.start
     }
 
@@ -53,7 +53,7 @@ class ConfigurationTest extends AbstractTest {
         conf != null
         conf.config != null
         conf.config.handlers != null
-        conf.filesPath == '/tmp/db/'
+        conf.filesPath == System.getProperty('java.io.tmpdir') + '/db/'
         !conf.start
     }
 

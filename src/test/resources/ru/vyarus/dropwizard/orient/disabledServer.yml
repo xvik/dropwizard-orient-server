@@ -1,4 +1,4 @@
 orient-server:
-  files-path: /tmp/db/
+  files-path: $TMP/db/
   config-file: 'src/test/resources/ru/vyarus/dropwizard/orient/sample.xml'
   start: false

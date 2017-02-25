@@ -1,6 +1,10 @@
 package ru.vyarus.dropwizard.orient.internal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
 import com.google.common.base.Preconditions;
+import com.google.common.io.Files;
+import com.orientechnologies.orient.core.config.OGlobalConfiguration;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
@@ -15,6 +19,9 @@ import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.internal.cmd.ApiRedirectCommand;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
  * Server will be activated only when 'server' command used (jetty manage lifecycle of Managed objects).
@@ -28,14 +35,15 @@ public class EmbeddedOrientServer implements Managed {
     private final Logger logger = LoggerFactory.getLogger(EmbeddedOrientServer.class);
 
     private final OrientServerConfiguration conf;
+    private final ObjectMapper mapper;
     private final Info serverInfo = new Info();
 
     /**
      * @param conf orient server configuration object
      */
-    public EmbeddedOrientServer(final OrientServerConfiguration conf) {
-        validateConfiguration(conf);
-        this.conf = conf;
+    public EmbeddedOrientServer(final OrientServerConfiguration conf, final ObjectMapper mapper) {
+        this.conf = validateConfiguration(conf);
+        this.mapper = mapper;
     }
 
     /**
@@ -45,11 +53,13 @@ public class EmbeddedOrientServer implements Managed {
     public void start() throws Exception {
         System.setProperty("ORIENTDB_HOME", conf.getFilesPath());
         System.setProperty("orientdb.www.path", "");
+        prepareSecurityConfig();
+
         final OServer server = OServerMain.create();
         server.startup(conf.getConfig()).activate();
-        boolean studioInstalled = false;
 
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
+        boolean studioInstalled = false;
         if (httpListener != null) {
             final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
                     .getCommand(OServerCommandGetStaticContent.class);
@@ -78,12 +88,36 @@ public class EmbeddedOrientServer implements Managed {
         return serverInfo;
     }
 
-    private void validateConfiguration(final OrientServerConfiguration conf) {
+    private OrientServerConfiguration validateConfiguration(final OrientServerConfiguration conf) {
         Preconditions.checkNotNull(conf, "Configuration object required");
         Preconditions.checkNotNull(conf.getConfig(), "Orient server configuration required");
         Preconditions.checkState(hasRootUser(conf.getConfig()),
                 "User '%s' must be defined in configuration because otherwise orient will ask "
                         + "for user password on each application start.", OServerConfiguration.DEFAULT_ROOT_USER);
+        return conf;
+    }
+
+    private void prepareSecurityConfig() {
+        // note: in both cases configured file could be overridden with system property. hope nobody will define it
+        if (conf.getSecurity() != null) {
+            // use the same path as default
+            final String file = conf.getFilesPath() + "/config/security.json";
+            try {
+                final String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(conf.getSecurity());
+                final File security = new File(file);
+                Files.createParentDirs(security);
+                Files.write(json, security, Charsets.UTF_8);
+            } catch (IOException e) {
+                throw new IllegalStateException("Failed to write orient security file: " + file, e);
+            }
+            // register path just in case default will change
+            OGlobalConfiguration.SERVER_SECURITY_FILE.setValue(file);
+            conf.getSecurity().textValue();
+            logger.debug("Orient security configured with file: {}", file);
+        } else if (conf.getSecurityFile() != null) {
+            OGlobalConfiguration.SERVER_SECURITY_FILE.setValue(conf.getSecurityFile());
+            logger.debug("Orient security file: {}", conf.getSecurityFile());
+        }
     }
 
     private boolean hasRootUser(final OServerConfiguration conf) {

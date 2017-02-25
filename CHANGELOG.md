@@ -3,6 +3,10 @@
 * (breaking) Support official studio jar instead of webjar (not supported anymore!). Studio version not shown anymore in orient servlet. (#4)
 * Simplify configuration: allow writing name and value properties as one (name: value). Affects properties, parameters sections for 
 commands and handlers and protocols section
+* Add orient specify configuration (security.json) support in yaml (security property) or as path to file (security-file property).
+* Path configuration properties "files-path", "config-file" and "security-file" may use system (or environment)
+properties with ${prop} syntax. Also special properties $TMP (java.io.tmpdir alias), $FILES_HOME (files-path property value) 
+and $APP_HOME (application start directory) are allowed.
 
 NOTE: lucene is not orient plugin anymore and so does not require extra configuration 
 
