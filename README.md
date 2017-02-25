@@ -14,7 +14,7 @@ Also, simplifies production deployment and allows to slightly reduce memory cons
 To switch application to external server simply switch off embedded server in configuration. 
 
 Features:
-* For orient 2.2 and dropwizard 1.0
+* For orient 2.2.17 and dropwizard 1.0.6
 * [Embedded orient server](http://orientdb.com/docs/last/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
@@ -38,16 +38,17 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>1.4.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:1.4.0'
+compile 'ru.vyarus:dropwizard-orient-server:2.0.0'
 ```
 
+* For orient < 2.2.17 (studio webjar, lucene as plugin) see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)
 * For orient 2.0, 2.1 and dropwizard 0.8-1.0 use version 1.3.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/1.3.0))
 * For orient 1.x and dropwizard 0.8 use version 1.1.1 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x))
 * For orient 1.x and dropwizard 0.7 use version 1.1.0 (see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7))
@@ -127,6 +128,10 @@ orient-server:
   
   config:
     ...
+  
+  # optional orient security configuration  
+  security:
+    ...
 ```
 
 You can start with this [configuration file](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml). 
@@ -135,18 +140,66 @@ You can start with this [configuration file](https://github.com/xvik/dropwizard-
 this option exist to allow disabling server without removing entire config section)
 * `admin-servlet` enables or disables orient admin servlet installation (/orient). Enabled by default.
 * `files-path` defines folder, where orient will store database files. May be not existent directory - orient will create it when necessary.
-Support special placeholder '$TMP', which is replaced to 'java.io.tmpdir'.
 * `config` section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html).
 Orient use xml format for configuration files and this section is simply yaml representation of xml config.
+Special shortcuts supported for properties and parameters sections (see [example configuration](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml)).
 * `config-file` used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. 
-See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/sample.xml)
+See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/sample.xml)
 (taken from orient distribution)
+* `security` section defines [orient security configuration](http://orientdb.com/docs/2.2/Security-Config.html). In orient distribution security configured with security.json file. 
+This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.
+* `security-file` used to specify path to security.json file instead of direct yaml configuration in 'security' section.
+See [example json config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/security.json)
+
+Path properties `files-path`, `config-file` and `security-file` may use special symbols:
+
+* $TMP - system temp directory (java.io.tmpdir)
+* $APP_HOME - application starting directory ('.')
+* $FILES_HOME - directory configured by `files-path` property
+* ${prop} - where prop is any system property or environment variable
 
 **IMPORTANT**: user `root` must be defined in configuration, because orient 2 asks for root user password on start, and in embedded mode it can't save it (so will ask on each start).
 To avoid this case, error is thrown if no 'root' user defined.
 
 Also, note that server users and database users are different! In default configuration `root` and `guest` users defined for server.
-When new database created, orient will create default database users: `admin`, `reader`, `writer`.
+When new database created, orient will create default database users: `admin`, `reader`, `writer`. 
+Security section configures database security (not server).
+
+#### Distribution configuration reference
+
+Configuration folder (config/) in orient distribution reference:
+
+| file name                     | description           | configured as                          |
+|----------|-------------|----------------|
+| orientdb-server-config.xml    | Main configuration    | `config` (yaml) or `config-file` (xml) |
+| security.json                 | Database security configuration | `security` (yaml) or `security-file` (json) |
+| automatic-backup.json         | Backup configuration | Reference to file may be set `OAutomaticBackup` handler property. May be configured directly with handler properties (old way). | 
+| hazelcast.xml and default-distributed-db-config.json | Distributed configuration | Requires additional dependency (`orientdb-distributed`). Links to files set in `OHazelcastPlugin` handler properties. |
+| orientdb-client-log.properties and orientdb-server-log.properties | Logging configuration | Not needed.
+
+If you want to replicate orientdb server layout (merge it with your app folder), you can do it like this:
+
+```
+APP HOME/
+    config/
+        config.xml
+        security.json
+        backup.json
+```
+
+```yaml
+orient-server:
+    files-path: $APP_HOME
+    config-file: $APP_HOME/config/config.xml
+    security-file: $APP_HOME/config/security.json
+```
+
+Correct reference to backup.json set in config.xml (OAutomaticBackup handler configuration).
+
+Orient will create databases in: `$APP_HOME/databases/name`.
+
+Of course, config.xml, security.json and backup.json may be configured in yaml. 
+It's just an example to better understand configuration.
 
 #### Graph server
 
@@ -173,7 +226,7 @@ implementation: com.orientechnologies.orient.graph.server.command.OServerCommand
 If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
 
 ```groovy
-compile ("com.orientechnologies:orientdb-graphdb:2.2.10") {
+compile ("com.orientechnologies:orientdb-graphdb:2.2.17") {
     exclude module: 'gremlin-java'
     exclude module: 'gremlin-groovy'
 }
@@ -182,25 +235,16 @@ compile ("com.orientechnologies:orientdb-graphdb:2.2.10") {
 #### Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
-To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.2.10`.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.2.17`.
 
-And register lucene plugin in handlers section:
-
-```yaml
-handlers:
-    - clazz: com.orientechnologies.lucene.OLuceneIndexPlugin
-```
-
-[Example](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlLuceneConfig.yml)
-
-This registration is completely equivalent to default lucene plugin registration in orient distribution.
+Plugin will be automatically registered. Note: it's actually not an "orient plugin" anymore and so not shown in registered orient plugins.
 
 Lucene plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
 #### ETL
 
 To use [ETL](http://orientdb.com/docs/last/ETL-Introduction.html)
-add dependency `com.orientechnologies:orientdb-etl:2.2.10`
+add dependency `com.orientechnologies:orientdb-etl:2.2.17`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
@@ -268,18 +312,13 @@ For complete documentation see [orient console wiki](http://orientdb.com/docs/la
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
-Studio could be embedded using [webjar](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.webjars%22%20AND%20a%3A%22orientdb-studio%22)
-(by default, it is not included).
+Studio could be embedded using official orient jar (by default, it is not included).
 
 Add dependency:
 
 ```groovy
-compile 'org.webjars:orientdb-studio:2.2.0'
+compile 'com.orientechnologies:orientdb-studio:2.2.17'
 ```
-
-Studio is usually the same for minor orient versions.
-Use version `2.0.12` for orient 2.0.x, `2.1.0` for orient 2.1.x and `2.2.0` for orient 2.2.x.
-If required studio version is not published yet request it by [creating new issue](https://github.com/webjars/orientdb-studio/issues).
 
 After jetty server start (usual dropwizard startup):
 
@@ -298,10 +337,8 @@ commands:
   - pattern: 'GET|www GET|studio/ GET| GET|*.htm GET|*.html GET|*.xml GET|*.jpeg GET|*.jpg GET|*.png GET|*.gif GET|*.js GET|*.css GET|*.swf GET|*.ico GET|*.txt GET|*.otf GET|*.pjs GET|*.svg'
     implementation: 'com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent'
     parameters:
-        - name: 'http.cache:*.htm *.html'
-          value: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
-        - name: 'http.cache:default'
-          value: 'Cache-Control: max-age=120'
+        - http.cache:*.htm *.html: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
+        - http.cache:default: 'Cache-Control: max-age=120'
 ```
 
 [Studio github repository](https://github.com/orientechnologies/orientdb-studio).

@@ -1,14 +1,18 @@
+### 2.0.0 (2017-02-25)
 * Update orient 2.2.10 -> 2.2.17
 * Update dropwizard 1.0.2 -> 1.0.6
 * (breaking) Support official studio jar instead of webjar (not supported anymore!). Studio version not shown anymore in orient servlet. (#4)
-* Simplify configuration: allow writing name and value properties as one (name: value). Affects properties, parameters sections for 
+* Simplify configuration: allow writing name and value properties as one (name: value). Affects properties and parameters sections for 
 commands and handlers and protocols section
 * Add orient specify configuration (security.json) support in yaml (security property) or as path to file (security-file property).
 * Path configuration properties "files-path", "config-file" and "security-file" may use system (or environment)
 properties with ${prop} syntax. Also special properties $TMP (java.io.tmpdir alias), $FILES_HOME (files-path property value) 
 and $APP_HOME (application start directory) are allowed.
 
-NOTE: lucene is not orient plugin anymore and so does not require extra configuration 
+NOTE: 
+
+* lucene is not orient plugin anymore and so does not require extra configuration
+* configuration samples were updated according to the latest orient configs and using new simplified properties format 
 
 ### 1.4.0 (2016-09-30)
 * Update to orient 2.2 (fix compatibility)
