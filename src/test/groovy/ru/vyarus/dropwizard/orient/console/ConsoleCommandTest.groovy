@@ -1,10 +1,11 @@
-package ru.vyarus.dropwizard.orient
+package ru.vyarus.dropwizard.orient.console
 
 import com.orientechnologies.orient.core.Orient
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream
 import org.junit.contrib.java.lang.system.internal.CheckExitCalled
+import ru.vyarus.dropwizard.orient.AbstractTest
 
 /**
  * @author Vyacheslav Rusakov 
@@ -36,7 +37,7 @@ class ConsoleCommandTest extends AbstractTest {
         exit.expectSystemExitWithStatus(0)
         systemInMock.provideText('exit\n')
         when: "run interactive console wit config without defined users"
-        command 'console src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
+        command 'console src/test/resources/ru/vyarus/dropwizard/orient/conf/xmlConfig.yml'
         then: "all good"
         thrown(CheckExitCalled)
     }
@@ -46,7 +47,7 @@ class ConsoleCommandTest extends AbstractTest {
         exit.expectSystemExitWithStatus(0)
         when: "run console with commands file"
         command ('console src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml '
-        +'src/test/resources/ru/vyarus/dropwizard/orient/commandsFile.sql')
+        +'src/test/resources/ru/vyarus/dropwizard/orient/console/commandsFile.sql')
         then: "all good"
         thrown(CheckExitCalled)
     }
@@ -64,7 +65,7 @@ class ConsoleCommandTest extends AbstractTest {
         setup:
         exit.expectSystemExitWithStatus(0)
         when: "run console with command"
-        command 'console src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml help'
+        command 'console src/test/resources/ru/vyarus/dropwizard/orient/conf/xmlConfig.yml help'
         then: "all good"
         thrown(CheckExitCalled)
     }

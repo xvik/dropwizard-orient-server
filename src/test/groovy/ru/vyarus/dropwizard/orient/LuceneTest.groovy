@@ -12,11 +12,11 @@ import ru.vyarus.dropwizard.orient.support.TestConfiguration
  * @author Vyacheslav Rusakov 
  * @since 19.03.2015
  */
-class StartServerWithLuceneTest extends AbstractTest {
+class LuceneTest extends AbstractTest {
 
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/yamlLuceneConfig.yml');
+            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml');
 
     def "Check graph server starts correctly"() {
 

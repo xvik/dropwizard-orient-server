@@ -4,7 +4,7 @@ orient-server:
 
   config:
     users:
-        # user root/root shoudl be defined, without it error must be thrown
+        # user root/root should be defined, without it error must be thrown
       - name: admin
         password: admin
         resources: '*'

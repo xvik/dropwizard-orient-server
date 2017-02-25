@@ -13,7 +13,7 @@ class DisabledOrientServletTest extends AbstractTest {
 
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/noOrientServlet.yml');
+            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/conf/noOrientServlet.yml');
 
     def "Check servlet is not deployed"() {
 

@@ -1,4 +1,4 @@
-package ru.vyarus.dropwizard.orient
+package ru.vyarus.dropwizard.orient.error
 
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import spock.lang.Specification

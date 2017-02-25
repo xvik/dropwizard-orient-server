@@ -15,7 +15,7 @@ class StartDisabledServerTest extends AbstractTest {
 
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/disabledServer.yml');
+            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/conf/disabledServer.yml');
 
     def "Check orient server not started"() {
 

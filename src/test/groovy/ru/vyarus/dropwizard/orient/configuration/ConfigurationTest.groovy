@@ -1,8 +1,9 @@
-package ru.vyarus.dropwizard.orient
+package ru.vyarus.dropwizard.orient.configuration
 
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.internal.CheckExitCalled
+import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.DummyCommand
 
 /**
@@ -32,7 +33,7 @@ class ConfigurationTest extends AbstractTest {
     def "Check external config"() {
 
         when: "external configuration"
-        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/xmlConfig.yml'
+        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/conf/xmlConfig.yml'
         def conf = DummyCommand.config.orientServerConfiguration
 
         then: "configuration parsed"
@@ -46,7 +47,7 @@ class ConfigurationTest extends AbstractTest {
     def "Check server disabling in config"() {
 
         when: "start disabled"
-        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/disabledServer.yml'
+        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/conf/disabledServer.yml'
         def conf = DummyCommand.config.orientServerConfiguration
 
         then: "configuration parsed"

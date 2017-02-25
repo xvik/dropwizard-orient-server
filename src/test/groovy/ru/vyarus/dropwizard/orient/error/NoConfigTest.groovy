@@ -1,10 +1,11 @@
-package ru.vyarus.dropwizard.orient
+package ru.vyarus.dropwizard.orient.error
 
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
 import org.junit.contrib.java.lang.system.ExpectedSystemExit
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream
 import org.junit.contrib.java.lang.system.internal.CheckExitCalled
+import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import ru.vyarus.dropwizard.orient.support.TestConfiguration
 
@@ -16,7 +17,7 @@ class NoConfigTest extends AbstractTest {
 
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/noConfig.yml');
+            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/conf/noConfig.yml');
     // Console is using system exit, so have to use additional rule to catch this
 
     @Rule
@@ -38,7 +39,7 @@ class NoConfigTest extends AbstractTest {
         exit.expectSystemExitWithStatus(0)
         systemInMock.provideText('exit\n')
         when: "run interactive console and type exit command"
-        command 'console src/test/resources/ru/vyarus/dropwizard/orient/noConfig.yml'
+        command 'console src/test/resources/ru/vyarus/dropwizard/orient/conf/noConfig.yml'
         then: "all good"
         thrown(CheckExitCalled)
     }

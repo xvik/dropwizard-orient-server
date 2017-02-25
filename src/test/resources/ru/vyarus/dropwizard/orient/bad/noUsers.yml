@@ -1,0 +1,6 @@
+
+orient-server:
+  files-path: $TMP/db/
+
+  config:
+    users:
