@@ -73,7 +73,7 @@ public class MyConfiguration extends Configuration implements HasOrientServerCon
     private OrientServerConfiguration orientServerConfiguration;
 
     @Override
-    public OrientConfiguration getOrientServerConfiguration() {
+    public OrientServerConfiguration getOrientServerConfiguration() {
         return orientServerConfiguration;
     }
 
