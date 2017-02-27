@@ -225,18 +225,11 @@ Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) sup
 
 Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
+Note that Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/2.2.17). You will have to add an additional explicit dependency to enable Gremlin.
+
 ```yaml
 pattern: 'GET|gephi/*'
 implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
-```
-
-If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
-
-```groovy
-compile ("com.orientechnologies:orientdb-graphdb:2.2.17") {
-    exclude module: 'gremlin-java'
-    exclude module: 'gremlin-groovy'
-}
 ```
 
 #### Lucene plugin
