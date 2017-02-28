@@ -73,7 +73,7 @@ public class MyConfiguration extends Configuration implements HasOrientServerCon
     private OrientServerConfiguration orientServerConfiguration;
 
     @Override
-    public OrientConfiguration getOrientServerConfiguration() {
+    public OrientServerConfiguration getOrientServerConfiguration() {
         return orientServerConfiguration;
     }
 
@@ -84,7 +84,7 @@ public class MyConfiguration extends Configuration implements HasOrientServerCon
 }
 ```
 
-NOTE: It's not required to have not null orient configuration. If `OrientServerConfiguration` is null server will simply not start.
+__NOTE__: It's not required to have not null orient configuration. If `OrientServerConfiguration` is null server will simply not start.
 
 Register orient bundle in application class:
 
@@ -100,22 +100,28 @@ Example application could be found [in tests](https://github.com/xvik/dropwizard
 
 ##### Client initialization
 
-Server lifecycle is managed using `Managed` object, so embedded server will start only together with jetty (`server` command).
+Server lifecycle is managed using a `Managed` object, so the embedded server will start only together with jetty (`server` command).
 Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access
 it from these methods.
 
-It's better to do your orient client initialization inside your own `Managed` object, to make sure this logic run after server start.
-(for example, when you use remote connection, the only way to properly check database existence on startup would be using `Managed` object)
+###### Connecting using plocal
 
-You can use `plocal` connection together with embedded server: plocal doesn't requires started server and it's faster than remote connection,
-but with embedded server you would be able to use studio together with your application (win-win).
+The most efficient way to connect to the embedded server is using [`plocal`](This engine writes to the file system to store data. There is a LOG of changes to restore the storage in case of a crash.	). 
 
-Server stores database files in '${files-path}/databases' folder, so plocal connection for server managed database would be:
+`plocal` doesn't require a started server and it's faster than remote connection. With an embedded server you would be able to use studio (remote connection) together with your application using `plocal` (win-win).
+
+Server stores database files in '\${files-path}/databases' folder, so plocal connection for server managed database would be:
 
 ```
 plocal:${files-path}/databases/dbname
 ```
 where `${files-path}` should be replaced with path from server configuration and `dbname` is database name.
+
+###### Connecting using sockets
+
+If you want to connect to your embedded instance over sockets, it's best to have your orient client initialization inside your own `Managed` object. This is the best way to make sure the connection logic is run after server start.
+
+(for example, when you use remote (socket) connection, the only way to properly check database existence on startup, would be using a `Managed` object)
 
 ### Configuration
 
@@ -219,18 +225,11 @@ Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) sup
 
 Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
+Note that Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/2.2.17). You will have to add an additional explicit dependency to enable Gremlin.
+
 ```yaml
 pattern: 'GET|gephi/*'
 implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
-```
-
-If gremlin not used, it's better to remove gremlin dependencies (mainly because of groovy size)
-
-```groovy
-compile ("com.orientechnologies:orientdb-graphdb:2.2.17") {
-    exclude module: 'gremlin-java'
-    exclude module: 'gremlin-groovy'
-}
 ```
 
 #### Lucene plugin
