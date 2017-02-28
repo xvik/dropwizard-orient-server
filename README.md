@@ -101,12 +101,11 @@ Example application could be found [in tests](https://github.com/xvik/dropwizard
 ##### Client initialization
 
 Server lifecycle is managed using a `Managed` object, so the embedded server will start only together with jetty (`server` command).
-Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access
-it from these methods.
+Managed instances are started after all bundles run methods and even after application run method, so server will be unreachable if you try to access it from these methods.
 
 ###### Connecting using plocal
 
-The most efficient way to connect to the embedded server is using [`plocal`](This engine writes to the file system to store data. There is a LOG of changes to restore the storage in case of a crash.	). 
+The most efficient way to connect to the embedded database is using `plocal`. This engine writes to the file system to store data. There is a LOG of changes to restore the storage in case of a crash. 
 
 `plocal` doesn't require a started server and it's faster than remote connection. With an embedded server you would be able to use studio (remote connection) together with your application using `plocal` (win-win).
 
@@ -120,8 +119,6 @@ where `${files-path}` should be replaced with path from server configuration and
 ###### Connecting using sockets
 
 If you want to connect to your embedded instance over sockets, it's best to have your orient client initialization inside your own `Managed` object. This is the best way to make sure the connection logic is run after server start.
-
-(for example, when you use remote (socket) connection, the only way to properly check database existence on startup, would be using a `Managed` object)
 
 ### Configuration
 
