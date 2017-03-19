@@ -1,4 +1,4 @@
-#Embedded OrientDB server for dropwizard
+# Embedded OrientDB server for dropwizard
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xvik/dropwizard-orient-server)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
