@@ -18,8 +18,8 @@ wrapper {
 }
 
 ext {
-    orient = '2.2.17'
-    dropwizard = '1.0.6'
+    orient = '2.2.18'
+    dropwizard = '1.1.0'
 }
 
 repositories { jcenter(); mavenCentral(); mavenLocal() }
@@ -35,19 +35,13 @@ dependencies {
     testCompile "io.dropwizard:dropwizard-testing:$dropwizard"
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
     // used to catch System.exit statements
-    testCompile 'com.github.stefanbirkner:system-rules:1.9.0'
+    testCompile 'com.github.stefanbirkner:system-rules:1.16.0'
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
 
     // check everything works together
     // lucene includes graph dependency
-    testCompile ("com.orientechnologies:orientdb-lucene:$orient") {
-        exclude module: 'gremlin-java'
-        exclude module: 'gremlin-groovy'
-    }
-    testCompile ("com.orientechnologies:orientdb-etl:$orient") {
-        exclude module: 'gremlin-java'
-        exclude module: 'gremlin-groovy'
-    }
+    testCompile ("com.orientechnologies:orientdb-lucene:$orient")
+    testCompile ("com.orientechnologies:orientdb-etl:$orient")
 }
 
 group = 'ru.vyarus'
