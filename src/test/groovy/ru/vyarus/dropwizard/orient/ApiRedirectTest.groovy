@@ -20,7 +20,7 @@ class ApiRedirectTest extends AbstractTest {
         when: "access rest api"
         def data = new URL("http://localhost:2480/listDatabases").getText()
         then: "all good"
-        data == "{\"@type\":\"d\",\"@version\":0,\"databases\":[],\"@fieldTypes\":\"databases=e\"}"
+        data == "{\"@type\":\"d\",\"@version\":0,\"databases\":[]}"
 
         when: "access rest api through prefix"
         def apiData = new URL("http://localhost:2480/api/listDatabases").getText()
