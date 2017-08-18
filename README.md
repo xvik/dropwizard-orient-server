@@ -1,8 +1,8 @@
 # Embedded OrientDB server for dropwizard
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xvik/dropwizard-orient-server)
-[![License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
-[![Build Status](http://img.shields.io/travis/xvik/dropwizard-orient-server.svg?style=flat&branch=master)](https://travis-ci.org/xvik/dropwizard-orient-server)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/travis/xvik/dropwizard-orient-server.svg?style=flat&branch=master)](https://travis-ci.org/xvik/dropwizard-orient-server)
 [![Coverage Status](https://img.shields.io/coveralls/xvik/dropwizard-orient-server.svg?style=flat)](https://coveralls.io/r/xvik/dropwizard-orient-server?branch=master)
 
 ### About
@@ -346,5 +346,5 @@ commands:
 * [dropwizard-guicey](https://github.com/xvik/dropwizard-guicey) - dropwizard guice integration
 * [guice-persist-orient](https://github.com/xvik/guice-persist-orient) - guice integration for orient
 
--
+---
 [![java lib generator](http://img.shields.io/badge/Powered%20by-%20Java%20lib%20generator-green.svg?style=flat-square)](https://github.com/xvik/generator-lib-java)
