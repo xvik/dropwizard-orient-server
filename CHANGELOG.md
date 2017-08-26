@@ -1,5 +1,10 @@
 * Update orient 2.2.17 -> 2.2.26
 * Update dropwizard 1.0.6 -> 1.1.3
+* /orient servlet indicates enabled https and (or) ssl (for binary)
+* Rewrite relative keystore paths in orient sockets config (OServerTLSSocketFactory) to absolute paths relative to application startup dir (if file exists). 
+  By default orient resolve keystore locations from ORIENTDB_HOME, but most likely, orient and dropwizard will be both 
+  configured to use ssl and it may be handy to refer to the same keystore relatively.
+* /orient/studio redirect to https when orient is configured with https for http listener (#7)   
 
 ### 2.0.0 (2017-02-25)
 * Update orient 2.2.10 -> 2.2.17

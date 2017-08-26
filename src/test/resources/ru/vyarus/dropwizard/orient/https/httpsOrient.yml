@@ -1,0 +1,119 @@
+orient-server:
+  files-path: $TMP/db/
+
+  config:
+    users:
+      - name: root
+        password: root
+        resources: '*'
+      - name: guest
+        password: guest
+        resources: 'connect,server.listDatabases,server.dblist'
+
+    handlers:
+    # enable below lines if graph version used and gremlin support required
+#      - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
+#        parameters:
+#            - enabled: true
+#            - graph.pool.max: 50
+    # enable for distributed mode support (requires extra orientdb-distributed dependency)
+#      - clazz: com.orientechnologies.orient.server.hazelcast.OHazelcastPlugin
+#        parameters:
+#            - enabled: true
+#            - configuration.db.default: '${ORIENTDB_HOME}/config/default-distributed-db-config.json'
+#            - configuration.hazelcast: '${ORIENTDB_HOME}/config/hazelcast.xml'
+      - clazz: com.orientechnologies.orient.server.handler.OJMXPlugin
+        parameters:
+            - enabled: true
+            - profilerManaged: true
+      - clazz: com.orientechnologies.orient.server.handler.OAutomaticBackup
+        parameters:
+        # may be configured with separate json file (see distribution)
+#            - config: '${ORIENTDB_HOME}/config/automatic-backup.json'
+            - enabled: false
+            - mode: FULL_BACKUP
+            - exportOptions:
+            - firstTime: 23:00:00
+            - delay: 4h
+            - target.directory: backup
+            - target.fileName: '${DBNAME}-${DATE:yyyyMMddHHmmss}.zip'
+            - compressionLevel: 9
+            - bufferSize: 1048576
+            - db.include:
+            - db.exclude:
+      - clazz: com.orientechnologies.orient.server.handler.OServerSideScriptInterpreter
+        parameters:
+            - enabled: true
+            - allowedLanguages: SQL
+
+    network:
+      sockets:
+        - name: https
+          implementation: com.orientechnologies.orient.server.network.OServerTLSSocketFactory
+          parameters:
+            - network.ssl.clientAuth: false
+            - network.ssl.keyStore: 'src/test/resources/ru/vyarus/dropwizard/orient/https/example.keystore'
+            - network.ssl.keyStorePassword: example
+            - network.ssl.trustStore: 'src/test/resources/ru/vyarus/dropwizard/orient/https/example.keystore'
+            - network.ssl.trustStorePassword: example
+      protocols:
+        - binary: com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary
+        # use different protocol name to check correct socket detection
+        - https: com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb
+      listeners:
+        - protocol: binary
+          ipAddress: 0.0.0.0
+          portRange: 2424-2430
+          socket: default
+        - protocol: https
+          ipAddress: 0.0.0.0
+          portRange: 2480-2490
+          socket: https
+          parameters:
+              - network.http.charset: utf-8
+              - network.http.jsonResponseError: true
+          commands:
+              - pattern: 'GET|www GET|studio/ GET| GET|*.htm GET|*.html GET|*.xml GET|*.jpeg GET|*.jpg GET|*.png GET|*.gif GET|*.js GET|*.css GET|*.swf GET|*.ico GET|*.txt GET|*.otf GET|*.pjs GET|*.svg GET|*.json GET|*.woff GET|*.woff2 GET|*.ttf GET|*.svgz'
+                implementation: com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent
+                stateful: false
+                parameters:
+                    - http.cache:*.htm *.html: 'Cache-Control: no-cache, no-store, max-age=0, must-revalidate\r\nPragma: no-cache'
+                    - http.cache:default: 'Cache-Control: max-age=120'
+              # enable below lines if graph version used and gephi support required
+#              - pattern: 'GET|gephi/*'
+#                stateful: false
+#                implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
+
+    properties:
+       - plugin.dynamic: true
+       - plugin.hotReload: false
+       - db.pool.min: 1
+       - db.pool.max: 50
+       - profiler.enabled: true
+         #configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size>
+       - profiler.config: '30,10,10'
+
+  security:
+    enabled: true
+    debug: false
+    server:
+      createDefaultUsers: true
+    authentication:
+      enabled: true
+      allowDefault: true
+      authenticators:
+         - name: Password
+           class: com.orientechnologies.orient.server.security.authenticator.ODefaultPasswordAuthenticator
+           enabled: true
+           users:
+             - username: "guest"
+               resources: "server.listDatabases,server.dblist"
+         - name: ServerConfig
+           class: com.orientechnologies.orient.server.security.authenticator.OServerConfigAuthenticator
+           enabled: true
+         - name: SystemAuthenticator
+           class: com.orientechnologies.orient.server.security.authenticator.OSystemUserAuthenticator
+           enabled: true
+    auditing:
+      class: com.orientechnologies.security.auditing.ODefaultAuditing
+      enabled: false

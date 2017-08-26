@@ -8,7 +8,6 @@ import com.orientechnologies.orient.core.config.OGlobalConfiguration;
 import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
-import com.orientechnologies.orient.server.config.OServerUserConfiguration;
 import com.orientechnologies.orient.server.network.OServerNetworkListener;
 import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
@@ -18,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.internal.cmd.ApiRedirectCommand;
+import ru.vyarus.dropwizard.orient.internal.util.OrientConfigUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,11 +25,18 @@ import java.io.IOException;
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
  * Server will be activated only when 'server' command used (jetty manage lifecycle of Managed objects).
- * <p>User 'root' must be defined in configuration, otherwise orient will always ask for root user password on start
+ * <p>
+ * User 'root' must be defined in configuration, otherwise orient will always ask for root user password on start
  * (it would not be able to store password somewhere). As a side effect default guest user would not be created
- * (but you can define it in config).</p>
- * <p>If static handler registered, registers orient studio.
- * Studio available on url: http://localhost:2480/studio/</p>
+ * (but you can define it in config).
+ * <p>
+ * If static handler registered, registers orient studio.
+ * Studio available on url: http://localhost:2480/studio/
+ * <p>
+ * If orient config contains ssl socket configuration: check if configured keystore paths are relative and,
+ * if keystore file exists relatively to application start dir, replace config with absolute file path.
+ * By default orient will look relatively to orient home. But most likely, the same keystore would be configured for
+ * both orient and dropwizard and it may be declared relatively.
  */
 public class EmbeddedOrientServer implements Managed {
     private final Logger logger = LoggerFactory.getLogger(EmbeddedOrientServer.class);
@@ -92,9 +99,10 @@ public class EmbeddedOrientServer implements Managed {
     private OrientServerConfiguration validateConfiguration(final OrientServerConfiguration conf) {
         Preconditions.checkNotNull(conf, "Configuration object required");
         Preconditions.checkNotNull(conf.getConfig(), "Orient server configuration required");
-        Preconditions.checkState(hasRootUser(conf.getConfig()),
+        Preconditions.checkState(OrientConfigUtils.hasRootUser(conf.getConfig()),
                 "User '%s' must be defined in configuration because otherwise orient will ask "
                         + "for user password on each application start.", OServerConfiguration.DEFAULT_ROOT_USER);
+        OrientConfigUtils.checkLocalFilesInSslSockets(conf.getConfig());
         return conf;
     }
 
@@ -121,29 +129,19 @@ public class EmbeddedOrientServer implements Managed {
         }
     }
 
-    private boolean hasRootUser(final OServerConfiguration conf) {
-        if (conf.users == null) {
-            return false;
-        }
-        boolean res = false;
-        for (OServerUserConfiguration user : conf.users) {
-            if (user.name.equals(OServerConfiguration.DEFAULT_ROOT_USER)) {
-                res = true;
-                break;
-            }
-        }
-        return res;
-    }
-
     private void fillServerInfo(final OServer server, final boolean studioInstalled) {
         serverInfo.studioInstalled = studioInstalled;
         final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
         if (httpListener != null) {
-            serverInfo.httpPort = String.valueOf(httpListener.getInboundAddr().getPort());
+            final int port = httpListener.getInboundAddr().getPort();
+            serverInfo.httpPort = String.valueOf(port);
+            serverInfo.https = OrientConfigUtils.isSslEnabledOnPort(conf.getConfig(), port);
         }
         final OServerNetworkListener binaryListener = server.getListenerByProtocol(ONetworkProtocolBinary.class);
         if (binaryListener != null) {
-            serverInfo.binaryPort = String.valueOf(binaryListener.getInboundAddr().getPort());
+            final int port = binaryListener.getInboundAddr().getPort();
+            serverInfo.binaryPort = String.valueOf(port);
+            serverInfo.binarySsl = OrientConfigUtils.isSslEnabledOnPort(conf.getConfig(), port);
         }
     }
 
@@ -153,7 +151,15 @@ public class EmbeddedOrientServer implements Managed {
     @SuppressWarnings("checkstyle:VisibilityModifier")
     public static class Info {
         public boolean studioInstalled;
+        /**
+         * Https configured for rest and studio (http listener).
+         */
+        public boolean https;
         public String httpPort;
+        /**
+         * Ssl configured for binary protocol (binary listener).
+         */
+        public boolean binarySsl;
         public String binaryPort;
     }
 }

@@ -19,10 +19,12 @@ import java.util.Collection;
 /**
  * Embedded orient server info servlet. Deployed on '/orient' path in admin context
  * (by default 'http://localhost:8081/orient').
- * <p>Special url '/orient/studio' leads to embedded studio (no matter what port was configured
- * it will redirect properly).</p>
- * <p>Servlet is installed only when embedded server is started. Servlet deployment could be disabled
- * in configuration ('admin-servlet' option).</p>
+ * <p>
+ * Special url '/orient/studio' leads to embedded studio (no matter what port was configured
+ * it will redirect properly).
+ * <p>
+ * Servlet is installed only when embedded server is started. Servlet deployment could be disabled
+ * in configuration ('admin-servlet' option).
  *
  * @author Vyacheslav Rusakov
  * @since 25.08.2015
@@ -49,14 +51,14 @@ public class OrientServlet extends HttpServlet {
                     + "  <h1>Embedded OrientDB server</h1>%n"
                     + "  <ul>%n"
                     + "    <li>Version: {0}</li>%n"
-                    + "    <li>Binary port: {1}</li>%n"
-                    + "    <li>Http port: {2}</li>%n"
-                    + "    <li>Studio installed: {3}</li>%n"
-                    + "    <li>Plugins: {4}</li>%n"
-                    + "    <li>Dynamic plugins: {5} (hot reload: {6})</li>%n"
-                    + "    <li>Profiler: {7}</li>%n"
+                    + "    <li>Binary port: {1}{2}</li>%n"
+                    + "    <li>Http port: {3}{4}</li>%n"
+                    + "    <li>Studio installed: {5}</li>%n"
+                    + "    <li>Plugins: {6}</li>%n"
+                    + "    <li>Dynamic plugins: {7} (hot reload: {8})</li>%n"
+                    + "    <li>Profiler: {9}</li>%n"
                     + "  </ul>%n"
-                    + "  {8}%n"
+                    + "  {10}%n"
                     + "</body>%n"
                     + "</html>"
     );
@@ -93,7 +95,8 @@ public class OrientServlet extends HttpServlet {
         final String uri = req.getPathInfo();
         // if webjar is not used, studio could still be installed as dynamic plugin (in db files folder)
         if (STUDIO_URI.equals(uri)) {
-            resp.sendRedirect(String.format("http://%s:%s/studio/", req.getServerName(), info.httpPort));
+            resp.sendRedirect(String.format("%s://%s:%s/studio/", info.https ? "https" : "http",
+                    req.getServerName(), info.httpPort));
         } else {
             super.service(req, resp);
         }
@@ -113,7 +116,9 @@ public class OrientServlet extends HttpServlet {
             writer.println(MessageFormat.format(TEMPLATE,
                     OConstants.ORIENT_VERSION,
                     MoreObjects.firstNonNull(info.binaryPort, DISABLED),
+                    info.binarySsl ? " (ssl enabled)" : "",
                     MoreObjects.firstNonNull(info.httpPort, DISABLED),
+                    info.https ? " (https enabled)" : "",
                     info.studioInstalled,
                     renderPlugins(config),
                     config.getValueAsString(CONF_DYNAMIC_PLUGIN, null),
