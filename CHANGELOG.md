@@ -5,6 +5,7 @@
   By default orient resolve keystore locations from ORIENTDB_HOME, but most likely, orient and dropwizard will be both 
   configured to use ssl and it may be handy to refer to the same keystore relatively.
 * /orient/studio redirect to https when orient is configured with https for http listener (#7)   
+* Add auto-ssl option to enable automatic orient ssl configuration when dropwizard main context has https configuration (experimental, not for production)
 
 ### 2.0.0 (2017-02-25)
 * Update orient 2.2.10 -> 2.2.17

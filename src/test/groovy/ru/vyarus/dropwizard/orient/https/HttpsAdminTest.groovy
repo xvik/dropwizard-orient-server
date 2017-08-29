@@ -25,9 +25,9 @@ class HttpsAdminTest extends AbstractHttpsTest {
         data.contains('<li>Http port: 2480</li>')
 
         when: "accessing studio through orient servlet"
-        data = new URL("https://localhost:8444/orient/studio").getText()
+        data = getGzip("https://localhost:8444/orient/studio")
         then: "all good"
-        data != null
+        data.contains('OrientDB LTD')
 
         then: "redirect to http studio url"
         checkRedirect('https://localhost:8444/orient/studio', 'http://')

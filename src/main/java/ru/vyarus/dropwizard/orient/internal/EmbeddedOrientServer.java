@@ -13,10 +13,12 @@ import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProto
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
 import com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent;
 import io.dropwizard.lifecycle.Managed;
+import io.dropwizard.server.ServerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.internal.cmd.ApiRedirectCommand;
+import ru.vyarus.dropwizard.orient.internal.util.AutoSslConfigurator;
 import ru.vyarus.dropwizard.orient.internal.util.OrientConfigUtils;
 
 import java.io.File;
@@ -43,15 +45,19 @@ public class EmbeddedOrientServer implements Managed {
 
     private final OrientServerConfiguration conf;
     private final ObjectMapper mapper;
+    private final ServerFactory dwServer;
     private final Info serverInfo = new Info();
 
     /**
-     * @param conf   orient server configuration object
-     * @param mapper for serializing orient security json from yaml configuration
+     * @param conf          orient server configuration object
+     * @param mapper        for serializing orient security json from yaml configuration
+     * @param serverFactory dropwizard connectors configuration
      */
-    public EmbeddedOrientServer(final OrientServerConfiguration conf, final ObjectMapper mapper) {
+    public EmbeddedOrientServer(final OrientServerConfiguration conf, final ObjectMapper mapper,
+                                final ServerFactory serverFactory) {
         this.conf = validateConfiguration(conf);
         this.mapper = mapper;
+        this.dwServer = serverFactory;
     }
 
     /**
@@ -62,6 +68,10 @@ public class EmbeddedOrientServer implements Managed {
         System.setProperty("ORIENTDB_HOME", conf.getFilesPath());
         System.setProperty("orientdb.www.path", "");
         prepareSecurityConfig();
+        if (conf.isAutoSsl()) {
+            new AutoSslConfigurator(dwServer, conf.getConfig()).configure();
+        }
+        OrientConfigUtils.checkLocalFilesInSslSockets(conf.getConfig());
 
         final OServer server = OServerMain.create();
         server.startup(conf.getConfig()).activate();
@@ -102,7 +112,6 @@ public class EmbeddedOrientServer implements Managed {
         Preconditions.checkState(OrientConfigUtils.hasRootUser(conf.getConfig()),
                 "User '%s' must be defined in configuration because otherwise orient will ask "
                         + "for user password on each application start.", OServerConfiguration.DEFAULT_ROOT_USER);
-        OrientConfigUtils.checkLocalFilesInSslSockets(conf.getConfig());
         return conf;
     }
 

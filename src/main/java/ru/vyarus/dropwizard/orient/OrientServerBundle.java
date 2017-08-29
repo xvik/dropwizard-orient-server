@@ -78,7 +78,8 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
             return;
         }
 
-        final EmbeddedOrientServer orientServer = new EmbeddedOrientServer(conf, environment.getObjectMapper());
+        final EmbeddedOrientServer orientServer = new EmbeddedOrientServer(conf, environment.getObjectMapper(),
+                configuration.getServerFactory());
         environment.lifecycle().manage(orientServer);
         environment.healthChecks().register("orient-server", new OrientServerHealthCheck());
         if (conf.isAdminServlet()) {

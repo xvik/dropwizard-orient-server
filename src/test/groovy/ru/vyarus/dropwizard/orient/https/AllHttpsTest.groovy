@@ -25,9 +25,9 @@ class AllHttpsTest extends AbstractHttpsTest {
         data.contains('<li>Http port: 2480 (https enabled)</li>')
 
         when: "accessing studio through orient servlet"
-        data = new URL("https://localhost:8444/orient/studio").getText()
+        data = getGzip("https://localhost:8444/orient/studio")
         then: "all good"
-        data != null
+        data.contains('OrientDB LTD')
 
         then: "redirect to https studio url"
         checkRedirect('https://localhost:8444/orient/studio', 'https://')

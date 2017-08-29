@@ -41,6 +41,7 @@ public class OrientServerConfiguration {
     private boolean start = true;
     private String configFile;
     private boolean adminServlet = true;
+    private boolean autoSsl;
     @NotNull
     private OServerConfiguration config;
 
@@ -110,6 +111,36 @@ public class OrientServerConfiguration {
     @JsonProperty("admin-servlet")
     public void setAdminServlet(final boolean adminServlet) {
         this.adminServlet = adminServlet;
+    }
+
+    /**
+     * @return true to configure ssl for orient automatically, if it configured for dropwizard
+     */
+    public boolean isAutoSsl() {
+        return autoSsl;
+    }
+
+    /**
+     * NOTE: this is not intended for production use (due to limitations)! Only to simplify first steps and experiments.
+     * <p>
+     * When enabled, and main dropwizard context is configured to use https (only or one of connectors) then
+     * orient server will be configured to use https (ssl for binary and https for http). Note, not secured
+     * connection will be impossible. It also changes default binary port range (2424-) will be changed to default
+     * ssl port range (2434-). Also, orient client ssl will be enabled. This is important to let you use
+     * connection like "remote:localhost/db" as before, but make it work with ssl (when client ssl option enabled
+     * orient will use 2434 as default port, so changing ports used to mimic defaults).
+     * <p>
+     * Please pay attention, that when auto-ssl will be switched off, orient client ssl must be configured manually!
+     * <p>
+     * By default, auto ssl is, of course disabled. Auto ssl configuration will not be applied if at least one listener
+     * is already configured to use ssl (custom ssl socket) to avoid
+     *
+     * @param autoSsl true to enable automatic ssl configuration, false to leave disabled
+     * @see ru.vyarus.dropwizard.orient.internal.util.AutoSslConfigurator
+     */
+    @JsonProperty("auto-ssl")
+    public void setAutoSsl(final boolean autoSsl) {
+        this.autoSsl = autoSsl;
     }
 
     /**

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
 
 import static com.google.common.collect.MoreCollectors.onlyElement;
 
@@ -19,10 +20,13 @@ import static com.google.common.collect.MoreCollectors.onlyElement;
  */
 public final class OrientConfigUtils {
 
-    private static final String PARAM_SSL_KEY_STORE = "network.ssl.keyStore";
-    private static final String PARAM_SSL_TRUST_STORE = "network.ssl.trustStore";
-
     private static final Logger LOGGER = LoggerFactory.getLogger(OrientConfigUtils.class);
+
+    private static final List<String> KEYSTORE_KEYS = Arrays.asList(
+            OServerSSLSocketFactory.PARAM_NETWORK_SSL_KEYSTORE,
+            OServerSSLSocketFactory.PARAM_NETWORK_SSL_TRUSTSTORE);
+
+    private static final String SOCKET_DEFAULT = "default";
 
     private OrientConfigUtils() {
     }
@@ -65,8 +69,7 @@ public final class OrientConfigUtils {
         network.sockets.forEach(s -> {
             if (s.parameters != null) {
                 Arrays.stream(s.parameters).forEach(p -> {
-                    if (PARAM_SSL_KEY_STORE.equals(p.name)
-                            || PARAM_SSL_TRUST_STORE.equals(p.name)) {
+                    if (KEYSTORE_KEYS.contains(p.name) && p.value != null) {
                         final File ks = new File(p.value);
                         if (ks.exists()) {
                             // replace with absolute path to avoid lookup in orient home
@@ -91,10 +94,8 @@ public final class OrientConfigUtils {
         // no custom sockets - only default could be used
         if (network.sockets != null && !network.sockets.isEmpty()) {
             try {
-                final Class impl = getSocketImplementationForPort(network, port);
-                if (impl != null) {
-                    return OServerSSLSocketFactory.class.isAssignableFrom(impl);
-                }
+                final OServerNetworkListenerConfiguration listener = findListenerByPort(network, port);
+                return isSslEnabledForListener(network, listener);
             } catch (Exception ex) {
                 LOGGER.warn("Failed to check ssl on port " + port, ex);
             }
@@ -102,9 +103,14 @@ public final class OrientConfigUtils {
         return false;
     }
 
-    private static Class getSocketImplementationForPort(final OServerNetworkConfiguration network, final int port)
-            throws ClassNotFoundException {
-        final OServerNetworkListenerConfiguration listener = network.listeners.stream()
+    /**
+     * @param network network configuration object
+     * @param port    port to search by
+     * @return listener handling provided port, otherwise exception is thrown
+     */
+    public static OServerNetworkListenerConfiguration findListenerByPort(
+            final OServerNetworkConfiguration network, final int port) {
+        return network.listeners.stream()
                 .filter(l -> {
                     for (int rPort : OServerNetworkListener.getPorts(l.portRange)) {
                         if (rPort == port) {
@@ -113,17 +119,32 @@ public final class OrientConfigUtils {
                     }
                     return false;
                 }).collect(onlyElement());
+    }
 
-        if ("default".equals(listener.socket)) {
-            return null;
+    /**
+     * Checks socket implementation class to be derivative from {@link OServerSSLSocketFactory}.
+     * But it will not be able to detect completely new implementation (which is very unlikely).
+     *
+     * @param network  network configuration object
+     * @param listener listener configuration object
+     * @return true if ssl is enabled, false otherwise (but may throw an exception in case of bad configuration)
+     */
+    public static boolean isSslEnabledForListener(final OServerNetworkConfiguration network,
+                                                  final OServerNetworkListenerConfiguration listener) {
+
+        if (!SOCKET_DEFAULT.equals(listener.socket)) {
+            try {
+                // find one or throw exception otherwise
+                final OServerSocketFactoryConfiguration socket = network.sockets.stream()
+                        .filter(s -> s.name.equals(listener.socket)).collect(onlyElement());
+
+                final Class impl = Class.forName(socket.implementation, false,
+                        OServerSSLSocketFactory.class.getClassLoader());
+                return OServerSSLSocketFactory.class.isAssignableFrom(impl);
+            } catch (Exception ex) {
+                LOGGER.warn("Failed to check ssl for listener " + listener.protocol, ex);
+            }
         }
-        // find one or throw exception otherwise
-        final OServerSocketFactoryConfiguration socket = network.sockets.stream()
-                .filter(s -> s.name.equals(listener.socket)).collect(onlyElement());
-
-        // such check would not detect completely new ssl socket implementation,
-        // but such case is very unlikely to happen
-        return Class.forName(socket.implementation, false,
-                OServerSSLSocketFactory.class.getClassLoader());
+        return false;
     }
 }

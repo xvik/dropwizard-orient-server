@@ -1,5 +1,7 @@
 package ru.vyarus.dropwizard.orient.https
 
+import com.orientechnologies.orient.core.config.OGlobalConfiguration
+import groovyx.net.http.ContentEncoding
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import groovyx.net.http.Method
@@ -20,6 +22,18 @@ abstract class AbstractHttpsTest extends AbstractTest {
         System.setProperty("javax.net.ssl.trustStorePassword ", "example");
     }
 
+    void cleanup() {
+        // must be switched off or simple binary connections would be impossible
+        OGlobalConfiguration.CLIENT_USE_SSL.setValue(false);
+    }
+
+    String getGzip(String url) {
+        def builder = new HTTPBuilder(url)
+        builder.contentEncoding = ContentEncoding.Type.GZIP
+        builder.ignoreSSLIssues()
+        builder.get(contentType : ContentType.TEXT).text
+    }
+
     void checkRedirect(String url, String redirectStartsWith) {
         def httpBuilder = new HTTPBuilder(url)
         // Make sure that HttpClient doesn't perform a redirect
@@ -27,6 +41,8 @@ abstract class AbstractHttpsTest extends AbstractTest {
                 getRedirect : { request, response, context -> null},
                 isRedirected : { request, response, context -> false}
         ] as RedirectStrategy)
+
+        httpBuilder.ignoreSSLIssues()
 
         // Execute a GET request and expect a redirect
         httpBuilder.request(Method.GET, ContentType.HTML) {
