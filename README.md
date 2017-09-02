@@ -14,7 +14,7 @@ Also, simplifies production deployment and allows to slightly reduce memory cons
 To switch application to external server simply switch off embedded server in configuration. 
 
 Features:
-* For orient 2.2.17 and dropwizard 1.0.6
+* For orient 2.2.26 and dropwizard 1.1.4
 * [Embedded orient server](http://orientdb.com/docs/last/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
@@ -23,6 +23,7 @@ managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/doc
 (interactive mode, command execution, commands file execution)
 * Optional embedded [orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
 * Full support of [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins) (and [enterprise edition](https://github.com/xvik/dropwizard-orient-server/wiki/Enterprise-edition))
+* [SSL configuration helpers](https://github.com/xvik/dropwizard-orient-server/wiki/SSL)
 
 ### Setup
 
@@ -38,14 +39,14 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>2.0.0</version>
+  <version>2.1.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:2.0.0'
+compile 'ru.vyarus:dropwizard-orient-server:2.1.0'
 ```
 
 * For orient < 2.2.17 (studio webjar, lucene as plugin) see [old docs](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)
@@ -154,6 +155,8 @@ See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/m
 This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.
 * `security-file` used to specify path to security.json file instead of direct yaml configuration in 'security' section.
 See [example json config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/security.json)
+* `auto-ssl` used to [enable automatic ssl configuration for orient listeners](https://github.com/xvik/dropwizard-orient-server/wiki/SSL#auto-ssl-configuration), 
+when dropwizard main context is configured to use https. This is experimental feature.
 
 Path properties `files-path`, `config-file` and `security-file` may use special symbols:
 

@@ -1,3 +1,4 @@
+### 2.1.0 (2017-09-03)
 * Update orient 2.2.17 -> 2.2.26
 * Update dropwizard 1.0.6 -> 1.1.4
 * Support multiple listeners of one protocol (e.g. binary and binary ssl):
