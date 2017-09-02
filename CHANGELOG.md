@@ -1,11 +1,14 @@
 * Update orient 2.2.17 -> 2.2.26
 * Update dropwizard 1.0.6 -> 1.1.4
-* /orient servlet indicates enabled https and (or) ssl (for binary)
+* Support multiple listeners of one protocol (e.g. binary and binary ssl):
+    - Studio installed only in one listener: https or first http listener (if no https)
+    - /orient servlet show all listener ports and indicates ssl configured on port
+* /orient/studio redirect to https when https listener configured (#7)
 * Rewrite relative keystore paths in orient sockets config (OServerTLSSocketFactory) to absolute paths relative to application startup dir (if file exists). 
   By default orient resolve keystore locations from ORIENTDB_HOME, but most likely, orient and dropwizard will be both 
-  configured to use ssl and it may be handy to refer to the same keystore relatively.
-* /orient/studio redirect to https when orient is configured with https for http listener (#7)   
-* Add auto-ssl option to enable automatic orient ssl configuration when dropwizard main context has https configuration (experimental, not for production)
+  configured to use ssl and it may be handy to refer to the same keystore relatively.  
+* Add auto-ssl option to enable automatic orient ssl configuration when dropwizard main context has https configuration 
+  (experimental, not intended for production)
 
 ### 2.0.0 (2017-02-25)
 * Update orient 2.2.10 -> 2.2.17

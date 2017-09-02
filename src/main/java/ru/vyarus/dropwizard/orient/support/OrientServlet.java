@@ -1,6 +1,5 @@
 package ru.vyarus.dropwizard.orient.support;
 
-import com.google.common.base.MoreObjects;
 import com.orientechnologies.orient.core.OConstants;
 import com.orientechnologies.orient.core.config.OContextConfiguration;
 import com.orientechnologies.orient.server.OServerMain;
@@ -15,6 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Embedded orient server info servlet. Deployed on '/orient' path in admin context
@@ -34,7 +35,6 @@ public class OrientServlet extends HttpServlet {
     public static final String STUDIO_URI = "/studio";
 
     private static final long serialVersionUID = -2850794040708785320L;
-    private static final String DISABLED = "disabled";
     private static final String CONF_DYNAMIC_PLUGIN = "plugin.dynamic";
     private static final String CONF_PLUGIN_RELOAD = "plugin.hotReload";
     private static final String CONF_PROFILER = "profiler.enabled";
@@ -51,14 +51,14 @@ public class OrientServlet extends HttpServlet {
                     + "  <h1>Embedded OrientDB server</h1>%n"
                     + "  <ul>%n"
                     + "    <li>Version: {0}</li>%n"
-                    + "    <li>Binary port: {1}{2}</li>%n"
-                    + "    <li>Http port: {3}{4}</li>%n"
-                    + "    <li>Studio installed: {5}</li>%n"
-                    + "    <li>Plugins: {6}</li>%n"
-                    + "    <li>Dynamic plugins: {7} (hot reload: {8})</li>%n"
-                    + "    <li>Profiler: {9}</li>%n"
+                    + "    <li>Binary ports: {1}</li>%n"
+                    + "    <li>Http ports: {2}</li>%n"
+                    + "    <li>Studio installed: {3}</li>%n"
+                    + "    <li>Plugins: {4}</li>%n"
+                    + "    <li>Dynamic plugins: {5} (hot reload: {6})</li>%n"
+                    + "    <li>Profiler: {7}</li>%n"
                     + "  </ul>%n"
-                    + "  {10}%n"
+                    + "  {8}%n"
                     + "</body>%n"
                     + "</html>"
     );
@@ -95,7 +95,7 @@ public class OrientServlet extends HttpServlet {
         final String uri = req.getPathInfo();
         // if webjar is not used, studio could still be installed as dynamic plugin (in db files folder)
         if (STUDIO_URI.equals(uri)) {
-            resp.sendRedirect(String.format("%s://%s:%s/studio/", info.https ? "https" : "http",
+            resp.sendRedirect(String.format("%s://%s:%s/studio/", info.httpSecured ? "https" : "http",
                     req.getServerName(), info.httpPort));
         } else {
             super.service(req, resp);
@@ -115,10 +115,8 @@ public class OrientServlet extends HttpServlet {
             final OContextConfiguration config = OServerMain.server().getContextConfiguration();
             writer.println(MessageFormat.format(TEMPLATE,
                     OConstants.ORIENT_VERSION,
-                    MoreObjects.firstNonNull(info.binaryPort, DISABLED),
-                    info.binarySsl ? " (ssl enabled)" : "",
-                    MoreObjects.firstNonNull(info.httpPort, DISABLED),
-                    info.https ? " (https enabled)" : "",
+                    renderPorts(info.binaryPorts),
+                    renderPorts(info.httpPorts),
                     info.studioInstalled,
                     renderPlugins(config),
                     config.getValueAsString(CONF_DYNAMIC_PLUGIN, null),
@@ -152,5 +150,12 @@ public class OrientServlet extends HttpServlet {
             }
         }
         return installedPlugins.toString();
+    }
+
+    private String renderPorts(final Map<String, Boolean> ports) {
+        return ports.isEmpty() ? "disabled" : ports.entrySet()
+                .stream()
+                .map(entry -> entry.getKey() + (entry.getValue() ? " (ssl)" : ""))
+                .collect(Collectors.joining(", "));
     }
 }

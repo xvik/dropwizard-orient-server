@@ -22,7 +22,7 @@ class OrientBinarySslTest extends AbstractHttpsTest {
         def data = new URL("http://localhost:8081/orient/").getText()
         then: "all good"
         data != null
-        data.contains('<li>Binary port: 2424 (ssl enabled)</li>')
-        data.contains('<li>Http port: 2480</li>')
+        data.contains('<li>Binary ports: 2424 (ssl)</li>')
+        data.contains('<li>Http ports: 2480</li>')
     }
 }

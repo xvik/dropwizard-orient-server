@@ -21,8 +21,8 @@ class AllHttpsTest extends AbstractHttpsTest {
         def data = new URL("https://localhost:8444/orient/").getText()
         then: "all good"
         data != null
-        data.contains('<li>Binary port: 2424 (ssl enabled)</li>')
-        data.contains('<li>Http port: 2480 (https enabled)</li>')
+        data.contains('<li>Binary ports: 2424 (ssl)</li>')
+        data.contains('<li>Http ports: 2480 (ssl)</li>')
 
         when: "accessing studio through orient servlet"
         data = getGzip("https://localhost:8444/orient/studio")

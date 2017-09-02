@@ -9,7 +9,6 @@ import com.orientechnologies.orient.server.OServer;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
 import com.orientechnologies.orient.server.network.OServerNetworkListener;
-import com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
 import com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent;
 import io.dropwizard.lifecycle.Managed;
@@ -23,6 +22,8 @@ import ru.vyarus.dropwizard.orient.internal.util.OrientConfigUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Orient server managed object. Lifecycle must be managed by dropwizard.
@@ -76,17 +77,7 @@ public class EmbeddedOrientServer implements Managed {
         final OServer server = OServerMain.create();
         server.startup(conf.getConfig()).activate();
 
-        final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
-        boolean studioInstalled = false;
-        if (httpListener != null) {
-            final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) httpListener
-                    .getCommand(OServerCommandGetStaticContent.class);
-            if (command != null) {
-                studioInstalled = new OrientStudioInstaller(command).install();
-                httpListener.registerStatelessCommand(new ApiRedirectCommand());
-            }
-        }
-        fillServerInfo(server, studioInstalled);
+        installStudio(analyzeServerConfig(server));
         logger.info("Orient server started");
     }
 
@@ -138,19 +129,46 @@ public class EmbeddedOrientServer implements Managed {
         }
     }
 
-    private void fillServerInfo(final OServer server, final boolean studioInstalled) {
-        serverInfo.studioInstalled = studioInstalled;
-        final OServerNetworkListener httpListener = server.getListenerByProtocol(ONetworkProtocolHttpAbstract.class);
-        if (httpListener != null) {
-            final int port = httpListener.getInboundAddr().getPort();
-            serverInfo.httpPort = String.valueOf(port);
-            serverInfo.https = OrientConfigUtils.isSslEnabledOnPort(conf.getConfig(), port);
+    /**
+     * Analyze started server ports.
+     *
+     * @param server started orient server
+     * @return selected main http listener or null if nothing configured
+     */
+    private OServerNetworkListener analyzeServerConfig(final OServer server) {
+        OServerNetworkListener httpListener = null;
+        for (OServerNetworkListener listener : server.getNetworkListeners()) {
+            final int port = listener.getInboundAddr().getPort();
+            final boolean secured = OrientConfigUtils.isSslEnabledOnPort(conf.getConfig(), port);
+            if (ONetworkProtocolHttpAbstract.class.isAssignableFrom(listener.getProtocolType())) {
+                serverInfo.httpPorts.put(String.valueOf(port), secured);
+                if (serverInfo.httpPort == null || secured) {
+                    serverInfo.httpPort = String.valueOf(port);
+                    serverInfo.httpSecured = secured;
+                    httpListener = listener;
+                }
+            } else {
+                serverInfo.binaryPorts.put(String.valueOf(port), secured);
+            }
         }
-        final OServerNetworkListener binaryListener = server.getListenerByProtocol(ONetworkProtocolBinary.class);
-        if (binaryListener != null) {
-            final int port = binaryListener.getInboundAddr().getPort();
-            serverInfo.binaryPort = String.valueOf(port);
-            serverInfo.binarySsl = OrientConfigUtils.isSslEnabledOnPort(conf.getConfig(), port);
+        return httpListener;
+    }
+
+    /**
+     * 2 http ports could be registered. One listener will be selected as main to redirect studio.
+     * This will be either https or the first http listener.
+     *
+     * @param listener http listener to install studio on
+     * @throws Exception on installation errors
+     */
+    private void installStudio(final OServerNetworkListener listener) throws Exception {
+        if (listener != null) {
+            final OServerCommandGetStaticContent command = (OServerCommandGetStaticContent) listener
+                    .getCommand(OServerCommandGetStaticContent.class);
+            if (command != null) {
+                serverInfo.studioInstalled = new OrientStudioInstaller(command).install();
+                listener.registerStatelessCommand(new ApiRedirectCommand());
+            }
         }
     }
 
@@ -160,15 +178,14 @@ public class EmbeddedOrientServer implements Managed {
     @SuppressWarnings("checkstyle:VisibilityModifier")
     public static class Info {
         public boolean studioInstalled;
-        /**
-         * Https configured for rest and studio (http listener).
-         */
-        public boolean https;
+
+        // selected studio port
         public String httpPort;
-        /**
-         * Ssl configured for binary protocol (binary listener).
-         */
-        public boolean binarySsl;
-        public String binaryPort;
+        public boolean httpSecured;
+
+        // all configured ports
+        public Map<String, Boolean> httpPorts = new HashMap<>();
+        public Map<String, Boolean> binaryPorts = new HashMap<>();
+
     }
 }

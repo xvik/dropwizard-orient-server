@@ -1,8 +1,5 @@
 package ru.vyarus.dropwizard.orient.https.auto
 
-import com.orientechnologies.orient.client.remote.OServerAdmin
-import com.orientechnologies.orient.core.Orient
-import com.orientechnologies.orient.core.config.OGlobalConfiguration
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
 import ru.vyarus.dropwizard.orient.https.AbstractHttpsTest
@@ -24,8 +21,8 @@ class AutoHttpsTest extends AbstractHttpsTest {
         def data = new URL("http://localhost:8081/orient/").getText()
         then: "all good"
         data != null
-        data.contains('<li>Binary port: 2434 (ssl enabled)</li>')
-        data.contains('<li>Http port: 2480 (https enabled)</li>')
+        data.contains('<li>Binary ports: 2434 (ssl)</li>')
+        data.contains('<li>Http ports: 2480 (ssl)</li>')
 
         when: "accessing studio through orient servlet"
         data = getGzip('http://localhost:8081/orient/studio')
