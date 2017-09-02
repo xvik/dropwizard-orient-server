@@ -80,8 +80,8 @@ public class AutoSslConfigurator {
             // no defined sockets already mean no ssl configured, otherwise look listeners
             // (sockets may be defined but not actually used)
             if (sockets != null && !sockets.isEmpty() && isSslAlreadyDefined()) {
-                logger.warn("Orient auto ssl configuration not performed because ssl socket already "
-                        + "defined in the orient configuration (see network.sockets section)");
+                logger.warn("Orient auto ssl configuration not performed because ssl socket is defined "
+                        + "manually and used in one of the listeners (see network.listeners section)");
             } else {
                 applySsl((HttpsConnectorFactory) connector);
             }
@@ -91,7 +91,7 @@ public class AutoSslConfigurator {
     private boolean isSslAlreadyDefined() {
         // looking for listeners configured with ssl socket
         return conf.network.listeners.stream()
-                .filter(l -> OrientConfigUtils.isSslEnabledForListener(conf.network, l)).count() == 0;
+                .filter(l -> OrientConfigUtils.isSslEnabledForListener(conf.network, l)).count() > 0;
     }
 
     private void applySsl(final HttpsConnectorFactory con) {
