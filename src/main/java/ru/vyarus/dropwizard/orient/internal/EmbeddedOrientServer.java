@@ -115,7 +115,7 @@ public class EmbeddedOrientServer implements Managed {
                 final String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(conf.getSecurity());
                 final File security = new File(file);
                 Files.createParentDirs(security);
-                Files.write(json, security, Charsets.UTF_8);
+                Files.asCharSink(security, Charsets.UTF_8).write(json);
             } catch (IOException e) {
                 throw new IllegalStateException("Failed to write orient security file: " + file, e);
             }

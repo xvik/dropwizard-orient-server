@@ -1,3 +1,6 @@
+* Update orient 2.2.26 -> 2.2.29
+* Update dropwizard 1.1.4 -> 1.2.0 
+
 ### 2.1.0 (2017-09-03)
 * Update orient 2.2.17 -> 2.2.26
 * Update dropwizard 1.0.6 -> 1.1.4
