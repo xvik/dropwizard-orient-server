@@ -127,7 +127,7 @@ public class AutoSslConfigurator {
         addIfSet(res, PARAM_NETWORK_SSL_TRUSTSTORE, con.getTrustStorePath());
         addIfSet(res, PARAM_NETWORK_SSL_TRUSTSTORE_TYPE, con.getTrustStoreType());
         addIfSet(res, PARAM_NETWORK_SSL_TRUSTSTORE_PASSWORD, con.getTrustStorePassword());
-        return res.toArray(new OServerParameterConfiguration[res.size()]);
+        return res.toArray(new OServerParameterConfiguration[0]);
     }
 
     private void addIfSet(final List<OServerParameterConfiguration> res, final String key, final String val) {

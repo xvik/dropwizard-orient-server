@@ -1,9 +1,11 @@
 # Embedded OrientDB server for dropwizard
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/xvik/dropwizard-orient-server)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/travis/xvik/dropwizard-orient-server.svg?style=flat&branch=master)](https://travis-ci.org/xvik/dropwizard-orient-server)
-[![Coverage Status](https://img.shields.io/coveralls/xvik/dropwizard-orient-server.svg?style=flat)](https://coveralls.io/r/xvik/dropwizard-orient-server?branch=master)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/dropwizard-orient-server?svg=true)](https://ci.appveyor.com/project/xvik/dropwizard-orient-server)
+[![codecov](https://codecov.io/gh/xvik/dropwizard-orient-server/branch/master/graph/badge.svg)](https://codecov.io/gh/xvik/dropwizard-orient-server)
+
+Support: [Gitter chat](https://gitter.im/xvik/dropwizard-orient-server)
 
 ### About
 
@@ -30,7 +32,7 @@ managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/doc
 Releases are published to [bintray jcenter](https://bintray.com/bintray/jcenter) (package appear immediately after release) 
 and then to maven central (require few days after release to be published). 
 
-[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/dropwizard-orient-server.svg?label=jcenter)](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
+[![JCenter](https://api.bintray.com/packages/vyarus/xvik/dropwizard-orient-server/images/download.svg)](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/dropwizard-orient-server.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
 
 Maven:

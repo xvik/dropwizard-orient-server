@@ -2,19 +2,18 @@ plugins {
     id 'groovy'
     id 'jacoco'
     id 'project-report'
-    id 'ru.vyarus.java-lib' version '1.0.5'
+    id 'ru.vyarus.java-lib' version '1.1.2'
     id 'ru.vyarus.github-info' version '1.1.0'
-    id 'ru.vyarus.quality' version '2.4.0'
-    id 'com.github.kt3k.coveralls' version '2.8.1'
-    id 'com.jfrog.bintray' version '1.7.3'
-    id 'net.researchgate.release' version '2.6.0'
-    id 'com.github.ben-manes.versions' version '0.15.0'
+    id 'ru.vyarus.quality' version '3.1.1'
+    id 'com.jfrog.bintray' version '1.8.4'
+    id 'net.researchgate.release' version '2.7.0'
+    id 'com.github.ben-manes.versions' version '0.20.0'
 }
 
 sourceCompatibility = 1.8
 
 wrapper {
-    gradleVersion = '4.1'
+    gradleVersion = '4.8.1'
 }
 
 ext {
@@ -33,7 +32,7 @@ dependencies {
 
     testCompile "com.orientechnologies:orientdb-object:$orient"
     testCompile "io.dropwizard:dropwizard-testing:$dropwizard"
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile 'org.spockframework:spock-core:1.2-groovy-2.5'
     // used to catch System.exit statements
     testCompile 'com.github.stefanbirkner:system-rules:1.16.1'
     testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
@@ -100,7 +99,7 @@ test {
         events 'skipped', 'failed', 'standard_error'
         exceptionFormat 'full'
     }
-    // maxHeapSize = '512m'
+    maxHeapSize = '512m'
 }
 
 dependencyUpdates.revision = 'release'

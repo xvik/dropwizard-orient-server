@@ -79,7 +79,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
         final List<String> commands = namespace.get(COMMANDS_ARG);
         printHelp(conf, commands);
 
-        OConsoleDatabaseApp.main(commands.toArray(new String[commands.size()]));
+        OConsoleDatabaseApp.main(commands.toArray(new String[0]));
     }
 
     @SuppressWarnings("PMD.UselessParentheses")
