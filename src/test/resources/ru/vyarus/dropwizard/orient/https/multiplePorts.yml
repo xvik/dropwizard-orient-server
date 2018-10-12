@@ -99,10 +99,6 @@ orient-server:
                     - http.cache:default: 'Cache-Control: max-age=120'
 
     properties:
-       - plugin.dynamic: true
-       - plugin.hotReload: false
-       - db.pool.min: 1
-       - db.pool.max: 50
        - profiler.enabled: true
          #configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size>
        - profiler.config: '30,10,10'

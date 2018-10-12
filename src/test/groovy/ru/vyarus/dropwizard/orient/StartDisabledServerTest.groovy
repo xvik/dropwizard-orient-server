@@ -1,6 +1,6 @@
 package ru.vyarus.dropwizard.orient
 
-import com.orientechnologies.orient.core.exception.OStorageException
+import com.orientechnologies.orient.core.exception.ODatabaseException
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
@@ -23,7 +23,8 @@ class StartDisabledServerTest extends AbstractTest {
         OObjectDatabaseTx db = new OObjectDatabaseTx('remote:localhost/test');
         db.open('admin', 'admin');
         then: "remote connection failed"
-        thrown(OStorageException)
+        def ex = thrown(ODatabaseException)
+        ex.message.startsWith("Cannot open database 'test'")
 
         when: "accessing orient studio"
         new URL("http://localhost:2480/studio/").getText()

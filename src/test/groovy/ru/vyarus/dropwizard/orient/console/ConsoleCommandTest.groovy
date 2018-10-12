@@ -20,11 +20,16 @@ class ConsoleCommandTest extends AbstractTest {
     @Rule
     TextFromStandardInputStream systemInMock = TextFromStandardInputStream.emptyStandardInputStream();
 
+    void setup() {
+        Orient.instance().startup()
+    }
+    
+
     def "Check interactive console"() {
         setup: "create db to check help message"
         createLocalDb('test')
         exit.expectSystemExitWithStatus(0)
-        systemInMock.provideText('exit\n')
+        systemInMock.provideLines('exit')
         when: "run interactive console and type exit command"
         command 'console src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml'
         then: "all good"
@@ -35,7 +40,7 @@ class ConsoleCommandTest extends AbstractTest {
         setup: "create db to check help message"
         createLocalDb('test')
         exit.expectSystemExitWithStatus(0)
-        systemInMock.provideText('exit\n')
+        systemInMock.provideLines('exit')
         when: "run interactive console wit config without defined users"
         command 'console src/test/resources/ru/vyarus/dropwizard/orient/conf/xmlConfig.yml'
         then: "all good"

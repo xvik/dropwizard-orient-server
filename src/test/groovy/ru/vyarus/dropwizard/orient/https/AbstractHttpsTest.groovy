@@ -15,7 +15,6 @@ import ru.vyarus.dropwizard.orient.AbstractTest
  */
 abstract class AbstractHttpsTest extends AbstractTest {
 
-    @Override
     void setup() {
         // override trusted certs
         System.setProperty("javax.net.ssl.trustStore", "src/test/resources/ru/vyarus/dropwizard/orient/https/example.keystore");

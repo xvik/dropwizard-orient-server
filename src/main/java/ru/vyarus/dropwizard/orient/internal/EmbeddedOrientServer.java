@@ -68,6 +68,8 @@ public class EmbeddedOrientServer implements Managed {
     public void start() throws Exception {
         System.setProperty("ORIENTDB_HOME", conf.getFilesPath());
         System.setProperty("orientdb.www.path", "");
+        // enable new embedding mode
+        OGlobalConfiguration.SERVER_BACKWARD_COMPATIBILITY.setValue(false);
         prepareSecurityConfig();
         if (conf.isAutoSsl()) {
             new AutoSslConfigurator(dwServer, conf.getConfig()).configure();

@@ -37,7 +37,7 @@ class NoConfigTest extends AbstractTest {
 
         setup: "create db to check help message"
         exit.expectSystemExitWithStatus(0)
-        systemInMock.provideText('exit\n')
+        systemInMock.provideLines('exit')
         when: "run interactive console and type exit command"
         command 'console src/test/resources/ru/vyarus/dropwizard/orient/conf/noConfig.yml'
         then: "all good"

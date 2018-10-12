@@ -61,7 +61,7 @@ orient-server:
                         value: 'Cache-Control: max-age=120'
     # enable below lines if graph version used
     #            - pattern: 'GET|gephi/*'
-    #              implementation: 'com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi'
+    #              implementation: 'com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetGephi'
 
       properties:
          - name: db.pool.min

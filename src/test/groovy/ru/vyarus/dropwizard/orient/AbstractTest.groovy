@@ -1,8 +1,9 @@
 package ru.vyarus.dropwizard.orient
 
-import com.orientechnologies.orient.client.remote.OServerAdmin
-import com.orientechnologies.orient.core.Orient
-import com.orientechnologies.orient.object.db.OObjectDatabaseTx
+import com.orientechnologies.common.log.OLogManager
+import com.orientechnologies.orient.core.db.ODatabaseType
+import com.orientechnologies.orient.core.db.OrientDB
+import com.orientechnologies.orient.core.db.OrientDBConfig
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import spock.lang.Shared
 import spock.lang.Specification
@@ -18,13 +19,13 @@ abstract class AbstractTest extends Specification {
     @Shared
     String dbFolderPath = System.getProperty("java.io.tmpdir") + '/db/';
 
-    void setup() {
+    void setupSpec() {
         new File(dbFolderPath).deleteDir()
-        // reset engines state after console exit
-        Orient.instance().startup()
     }
 
     void cleanupSpec() {
+        // no way to reset shutdown state properly
+        OLogManager.instance.shutdownFlag.set(false)
         new File(dbFolderPath).deleteDir()
     }
 
@@ -33,12 +34,16 @@ abstract class AbstractTest extends Specification {
     }
 
     def createRemoteDb(String name) {
-        OServerAdmin admin = new OServerAdmin('remote:localhost/' + name).connect('root', 'root')
-        admin.createDatabase('document', 'plocal')
+        OrientDB orientDb = new OrientDB(
+                "remote:localhost", "root", "root", OrientDBConfig.defaultConfig());
+        orientDb.createIfNotExists(name, ODatabaseType.PLOCAL)
+        orientDb.close()
     }
 
     def createLocalDb(String name) {
-        OObjectDatabaseTx db = new OObjectDatabaseTx("plocal:${dbFolderPath}databases/$name")
-        if (!db.exists()) db.create()
+        OrientDB orientDb = new OrientDB(
+                "embedded:${dbFolderPath}", OrientDBConfig.defaultConfig());
+        orientDb.createIfNotExists(name, ODatabaseType.PLOCAL)
+        orientDb.close()
     }
 }

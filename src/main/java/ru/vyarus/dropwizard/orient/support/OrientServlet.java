@@ -114,7 +114,7 @@ public class OrientServlet extends HttpServlet {
         try (PrintWriter writer = resp.getWriter()) {
             final OContextConfiguration config = OServerMain.server().getContextConfiguration();
             writer.println(MessageFormat.format(TEMPLATE,
-                    OConstants.ORIENT_VERSION,
+                    OConstants.getVersion(),
                     renderPorts(info.binaryPorts),
                     renderPorts(info.httpPorts),
                     info.studioInstalled,
