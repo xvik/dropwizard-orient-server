@@ -115,7 +115,7 @@ public class OrientServlet extends HttpServlet {
                     renderPorts(info.binaryPorts),
                     renderPorts(info.httpPorts),
                     info.studioInstalled,
-                    renderPlugins(config),
+                    renderPlugins(),
                     config.getValueAsString(CONF_PROFILER, null),
                     renderLinks(path)));
         }
@@ -127,7 +127,7 @@ public class OrientServlet extends HttpServlet {
                 "target=\"_blank\"");
     }
 
-    private String renderPlugins(final OContextConfiguration config) {
+    private String renderPlugins() {
         final StringBuilder installedPlugins = new StringBuilder();
 
         final Collection<OServerPluginInfo> plugins = OServerMain.server().getPlugins();
