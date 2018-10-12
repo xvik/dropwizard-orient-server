@@ -104,6 +104,8 @@ test {
     jacoco {
         excludes = ['com.orientechnologies.*']
     }
+    // appveyor fix
+    systemProperty 'jna.nosys', 'true'
 }
 
 dependencyUpdates.revision = 'release'
