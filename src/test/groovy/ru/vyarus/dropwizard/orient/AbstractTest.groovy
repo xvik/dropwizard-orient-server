@@ -42,7 +42,7 @@ abstract class AbstractTest extends Specification {
 
     def createLocalDb(String name) {
         OrientDB orientDb = new OrientDB(
-                "embedded:${dbFolderPath}", OrientDBConfig.defaultConfig());
+                "embedded:${dbFolderPath}/databases/", OrientDBConfig.defaultConfig());
         orientDb.createIfNotExists(name, ODatabaseType.PLOCAL)
         orientDb.close()
     }

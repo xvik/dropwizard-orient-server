@@ -23,7 +23,7 @@ import java.util.List;
  * <p>NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
  * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
  * Also, if server already started, then you can use remote connections.</p>
- * <a href="http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html">
+ * <a href="http://orientdb.com/docs/3.0.x/console/Console-Commands.html">
  * See orient console documentation</a>
  *
  * @param <T> configuration type
@@ -85,7 +85,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
     @SuppressWarnings("PMD.UselessParentheses")
     private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
-                + "http://www.orientechnologies.com/docs/last/orientdb.wiki/Console-Commands.html");
+                + "http://orientdb.com/docs/3.0.x/console/Console-Commands.html");
 
         if (conf == null) {
             return;
