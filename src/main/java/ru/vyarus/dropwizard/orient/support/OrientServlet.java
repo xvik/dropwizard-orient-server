@@ -35,8 +35,6 @@ public class OrientServlet extends HttpServlet {
     public static final String STUDIO_URI = "/studio";
 
     private static final long serialVersionUID = -2850794040708785320L;
-    private static final String CONF_DYNAMIC_PLUGIN = "plugin.dynamic";
-    private static final String CONF_PLUGIN_RELOAD = "plugin.hotReload";
     private static final String CONF_PROFILER = "profiler.enabled";
 
     //CHECKSTYLE:OFF
@@ -55,7 +53,6 @@ public class OrientServlet extends HttpServlet {
                     + "    <li>Http ports: {2}</li>%n"
                     + "    <li>Studio installed: {3}</li>%n"
                     + "    <li>Plugins: {4}</li>%n"
-                    + "    <li>Dynamic plugins: {5} (hot reload: {6})</li>%n"
                     + "    <li>Profiler: {7}</li>%n"
                     + "  </ul>%n"
                     + "  {8}%n"
@@ -119,8 +116,6 @@ public class OrientServlet extends HttpServlet {
                     renderPorts(info.httpPorts),
                     info.studioInstalled,
                     renderPlugins(config),
-                    config.getValueAsString(CONF_DYNAMIC_PLUGIN, null),
-                    config.getValueAsString(CONF_PLUGIN_RELOAD, null),
                     config.getValueAsString(CONF_PROFILER, null),
                     renderLinks(path)));
         }
@@ -133,21 +128,18 @@ public class OrientServlet extends HttpServlet {
     }
 
     private String renderPlugins(final OContextConfiguration config) {
-        final String pluginsEnabled = config.getValueAsString(CONF_DYNAMIC_PLUGIN, null);
         final StringBuilder installedPlugins = new StringBuilder();
-        if (pluginsEnabled != null) {
 
-            final Collection<OServerPluginInfo> plugins = OServerMain.server().getPlugins();
-            if (!plugins.isEmpty()) {
-                installedPlugins.append("<ul>");
-                for (OServerPluginInfo plugin : plugins) {
-                    installedPlugins.append(String.format("<li>%s</li>",
-                            plugin.getName()));
-                }
-                installedPlugins.append("</ul>");
-            } else {
-                installedPlugins.append("none");
+        final Collection<OServerPluginInfo> plugins = OServerMain.server().getPlugins();
+        if (!plugins.isEmpty()) {
+            installedPlugins.append("<ul>");
+            for (OServerPluginInfo plugin : plugins) {
+                installedPlugins.append(String.format("<li>%s</li>",
+                        plugin.getName()));
             }
+            installedPlugins.append("</ul>");
+        } else {
+            installedPlugins.append("none");
         }
         return installedPlugins.toString();
     }

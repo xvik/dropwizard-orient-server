@@ -77,9 +77,6 @@ orient-server:
            # no restriction for cache size
          - name: cache.level2.size
            value: -1
-           #important for embedded mode, because in other case "no ORIENT_HOME" warnings will be in logs
-         - name: plugin.dynamic
-           value: false
          - name: profiler.enabled
            value: true
            #configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size>
