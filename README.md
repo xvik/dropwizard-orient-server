@@ -13,7 +13,9 @@ Embeds [OrientDB](http://orientdb.com/orientdb/) server into [dropwizard](http:/
  
 Simplifies development environment (no need to maintain separate server) without sacrificing functionality (embedded server is 100% the same as usual server).
 Also, simplifies production deployment and allows to slightly reduce memory consumption on server due to single (shared) vm.
-To switch application to external server simply switch off embedded server in configuration. 
+To switch application to external server simply switch off embedded server in configuration.
+
+Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedded/)  
 
 Features:
 * For orient 2.2.26 and dropwizard 1.1.4

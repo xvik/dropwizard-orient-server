@@ -8,6 +8,7 @@ plugins {
     id 'com.jfrog.bintray' version '1.8.4'
     id 'net.researchgate.release' version '2.7.0'
     id 'com.github.ben-manes.versions' version '0.20.0'
+    id 'ru.vyarus.mkdocs' version '1.0.1'
 }
 
 sourceCompatibility = 1.8
@@ -49,6 +50,11 @@ description = 'Embedded OrientDB server for dropwizard'
 github {
     user = 'xvik'
     license = 'MIT'
+}
+
+mkdocs.publish {
+    docPath = '2.1.0'
+    rootRedirect = true
 }
 
 pom {
