@@ -24,10 +24,10 @@ orient-server:
 | `start`  | enables or disables orient server start (the same effect will be if orient configuration section will not exist, this option exist to allow disabling server without removing entire config section) | 
 | `admin-servlet` | enables or disables orient admin servlet installation (`/orient`). Enabled by default|
 | `files-path` | defines folder, where orient will store database files. May be not existing directory - orient will create it when necessary. Will be set as value for `ORIENTDB_HOME` environment variable |
-| `config` |section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml)).|
-| `config-file` | used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See [example xml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/sample.xml) (taken from orient distribution)|
+| `config` |section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](default-configs.md#yaml-config)).|
+| `config-file` | used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See [example xml config](default-configs.md#xml-config) (taken from orient distribution)|
 | `security`| section defines [orient security configuration](http://orientdb.com/docs/2.2/Security-Config.html). In orient distribution security configured with security.json file. This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.|
-| `security-file` | used to specify path to security.json file instead of direct yaml configuration in 'security' section. See [example json config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/security.json)|
+| `security-file` | used to specify path to security.json file instead of direct yaml configuration in 'security' section. See [example json config](default-configs.md#json-security-config)|
 | `auto-ssl` | used to [enable automatic ssl configuration for orient listeners](https://github.com/xvik/dropwizard-orient-server/wiki/SSL#auto-ssl-configuration), when dropwizard main context is configured to use https. This is experimental feature. |
 
 Path properties `files-path`, `config-file` and `security-file` may use special symbols:
@@ -89,7 +89,7 @@ Configuration folder (config/) in orient distribution reference:
 By default, server supports document and object databases.
 If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.2.17`.
 
-Graph related sections are commented in default [yaml config](https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml):
+Graph related sections are commented in default [yaml config](default-configs.md#yaml-config):
 
 Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) support required
 
