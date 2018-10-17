@@ -416,6 +416,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../default-configs/" title="Default configs" class="md-nav__link">
+      Default configs
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -608,11 +620,11 @@ as external xml file (like in orient distribution).</p>
 </tr>
 <tr>
 <td><code>config</code></td>
-<td>section defines <a href="http://orientdb.com/docs/last/DB-Server.html">orient server configuration</a>. Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see <a href="https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml">example configuration</a>).</td>
+<td>section defines <a href="http://orientdb.com/docs/last/DB-Server.html">orient server configuration</a>. Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see <a href="../default-configs/#yaml-config">example configuration</a>).</td>
 </tr>
 <tr>
 <td><code>config-file</code></td>
-<td>used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See <a href="https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/sample.xml">example xml config</a> (taken from orient distribution)</td>
+<td>used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See <a href="../default-configs/#xml-config">example xml config</a> (taken from orient distribution)</td>
 </tr>
 <tr>
 <td><code>security</code></td>
@@ -620,7 +632,7 @@ as external xml file (like in orient distribution).</p>
 </tr>
 <tr>
 <td><code>security-file</code></td>
-<td>used to specify path to security.json file instead of direct yaml configuration in 'security' section. See <a href="https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/conf/security.json">example json config</a></td>
+<td>used to specify path to security.json file instead of direct yaml configuration in 'security' section. See <a href="../default-configs/#json-security-config">example json config</a></td>
 </tr>
 <tr>
 <td><code>auto-ssl</code></td>
@@ -725,7 +737,7 @@ It's just an example to better understand configuration.</p>
 <h2 id="graph-server">Graph server<a class="headerlink" href="#graph-server" title="Permanent link">&para;</a></h2>
 <p>By default, server supports document and object databases.
 If graph db required you'll need to add graph dependency: <code>com.orientechnologies:orientdb-graphdb:2.2.17</code>.</p>
-<p>Graph related sections are commented in default <a href="https://github.com/xvik/dropwizard-orient-server/blob/master/src/test/resources/ru/vyarus/dropwizard/orient/yamlConfig.yml">yaml config</a>:</p>
+<p>Graph related sections are commented in default <a href="../default-configs/#yaml-config">yaml config</a>:</p>
 <p>Enable this section if <a href="http://orientdb.com/docs/last/Gremlin.html">gremlin</a> support required</p>
 <div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">clazz</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.graph.handler.OGraphServerHandler</span>
   <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>

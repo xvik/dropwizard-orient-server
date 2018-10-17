@@ -460,6 +460,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../guide/default-configs/" title="Default configs" class="md-nav__link">
+      Default configs
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -709,136 +721,7 @@ For other versions see <a href="../about/compatibility/">compatibility matrix</a
 </pre></div>
 
 <h3 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h3>
-<p>You can start with this configuration :</p>
-<div class="codehilite"><pre><span></span><span class="l l-Scalar l-Scalar-Plain">orient-server</span><span class="p p-Indicator">:</span>
-  <span class="l l-Scalar l-Scalar-Plain">files-path</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">$TMP/db/</span>
-
-  <span class="l l-Scalar l-Scalar-Plain">config</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">users</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">root</span>
-        <span class="l l-Scalar l-Scalar-Plain">password</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">root</span>
-        <span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">guest</span>
-        <span class="l l-Scalar l-Scalar-Plain">password</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">guest</span>
-        <span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span> <span class="s">&#39;connect,server.listDatabases,server.dblist&#39;</span>
-
-    <span class="l l-Scalar l-Scalar-Plain">handlers</span><span class="p p-Indicator">:</span>
-    <span class="c1"># enable below lines if graph version used and gremlin support required</span>
-<span class="c1">#      - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler</span>
-<span class="c1">#        parameters:</span>
-<span class="c1">#            - enabled: true</span>
-<span class="c1">#            - graph.pool.max: 50</span>
-    <span class="c1"># enable for distributed mode support (requires extra orientdb-distributed dependency)</span>
-<span class="c1">#      - clazz: com.orientechnologies.orient.server.hazelcast.OHazelcastPlugin</span>
-<span class="c1">#        parameters:</span>
-<span class="c1">#            - enabled: true</span>
-<span class="c1">#            - configuration.db.default: &#39;${ORIENTDB_HOME}/config/default-distributed-db-config.json&#39;</span>
-<span class="c1">#            - configuration.hazelcast: &#39;${ORIENTDB_HOME}/config/hazelcast.xml&#39;</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">clazz</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.handler.OJMXPlugin</span>
-        <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">profilerManaged</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">clazz</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.handler.OAutomaticBackup</span>
-        <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-        <span class="c1"># may be configured with separate json file (see distribution)</span>
-<span class="c1">#            - config: &#39;${ORIENTDB_HOME}/config/automatic-backup.json&#39;</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mode</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">FULL_BACKUP</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">exportOptions</span><span class="p p-Indicator">:</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">firstTime</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">23:00:00</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">delay</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">4h</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">target.directory</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">backup</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">target.fileName</span><span class="p p-Indicator">:</span> <span class="s">&#39;${DBNAME}-${DATE:yyyyMMddHHmmss}.zip&#39;</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">compressionLevel</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">9</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">bufferSize</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1048576</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db.include</span><span class="p p-Indicator">:</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db.exclude</span><span class="p p-Indicator">:</span>
-      <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">clazz</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.handler.OServerSideScriptInterpreter</span>
-        <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-            <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">allowedLanguages</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">SQL</span>
-
-    <span class="l l-Scalar l-Scalar-Plain">network</span><span class="p p-Indicator">:</span>
-    <span class="c1"># example of custom sockets configuration</span>
-<span class="c1">#      sockets:</span>
-<span class="c1">#        - name: ssl</span>
-<span class="c1">#          implementation: com.orientechnologies.orient.server.network.OServerTLSSocketFactory</span>
-<span class="c1">#          parameters:</span>
-<span class="c1">#            - network.ssl.clientAuth: false</span>
-<span class="c1">#            - network.ssl.keyStore: &#39;config/cert/orientdb.ks&#39;</span>
-<span class="c1">#            - network.ssl.keyStorePassword: password</span>
-<span class="c1">#            - network.ssl.trustStore: &#39;config/cert/orientdb.ks&#39;</span>
-<span class="c1">#            - network.ssl.trustStorePassword: password</span>
-<span class="c1">#        - name: https</span>
-<span class="c1">#          implementation: com.orientechnologies.orient.server.network.OServerTLSSocketFactory</span>
-<span class="c1">#          parameters:</span>
-<span class="c1">#            - network.ssl.clientAuth: false</span>
-<span class="c1">#            - network.ssl.keyStore: &#39;config/cert/orientdb.ks&#39;</span>
-<span class="c1">#            - network.ssl.keyStorePassword: password</span>
-<span class="c1">#            - network.ssl.trustStore: &#39;config/cert/orientdb.ks&#39;</span>
-<span class="c1">#            - network.ssl.trustStorePassword: password</span>
-      <span class="l l-Scalar l-Scalar-Plain">protocols</span><span class="p p-Indicator">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">binary</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">http</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb</span>
-      <span class="l l-Scalar l-Scalar-Plain">listeners</span><span class="p p-Indicator">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">protocol</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">binary</span>
-          <span class="l l-Scalar l-Scalar-Plain">ipAddress</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
-          <span class="l l-Scalar l-Scalar-Plain">portRange</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2424-2430</span>
-          <span class="l l-Scalar l-Scalar-Plain">socket</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">protocol</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">http</span>
-          <span class="l l-Scalar l-Scalar-Plain">ipAddress</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">0.0.0.0</span>
-          <span class="l l-Scalar l-Scalar-Plain">portRange</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">2480-2490</span>
-          <span class="l l-Scalar l-Scalar-Plain">socket</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">default</span>
-          <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">network.http.charset</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">utf-8</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">network.http.jsonResponseError</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-          <span class="l l-Scalar l-Scalar-Plain">commands</span><span class="p p-Indicator">:</span>
-              <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">pattern</span><span class="p p-Indicator">:</span> <span class="s">&#39;GET|www</span><span class="nv"> </span><span class="s">GET|studio/</span><span class="nv"> </span><span class="s">GET|</span><span class="nv"> </span><span class="s">GET|*.htm</span><span class="nv"> </span><span class="s">GET|*.html</span><span class="nv"> </span><span class="s">GET|*.xml</span><span class="nv"> </span><span class="s">GET|*.jpeg</span><span class="nv"> </span><span class="s">GET|*.jpg</span><span class="nv"> </span><span class="s">GET|*.png</span><span class="nv"> </span><span class="s">GET|*.gif</span><span class="nv"> </span><span class="s">GET|*.js</span><span class="nv"> </span><span class="s">GET|*.css</span><span class="nv"> </span><span class="s">GET|*.swf</span><span class="nv"> </span><span class="s">GET|*.ico</span><span class="nv"> </span><span class="s">GET|*.txt</span><span class="nv"> </span><span class="s">GET|*.otf</span><span class="nv"> </span><span class="s">GET|*.pjs</span><span class="nv"> </span><span class="s">GET|*.svg</span><span class="nv"> </span><span class="s">GET|*.json</span><span class="nv"> </span><span class="s">GET|*.woff</span><span class="nv"> </span><span class="s">GET|*.woff2</span><span class="nv"> </span><span class="s">GET|*.ttf</span><span class="nv"> </span><span class="s">GET|*.svgz&#39;</span>
-                <span class="l l-Scalar l-Scalar-Plain">implementation</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent</span>
-                <span class="l l-Scalar l-Scalar-Plain">stateful</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-                <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-                    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">http.cache:*.htm *.html</span><span class="p p-Indicator">:</span> <span class="s">&#39;Cache-Control:</span><span class="nv"> </span><span class="s">no-cache,</span><span class="nv"> </span><span class="s">no-store,</span><span class="nv"> </span><span class="s">max-age=0,</span><span class="nv"> </span><span class="s">must-revalidate\r\nPragma:</span><span class="nv"> </span><span class="s">no-cache&#39;</span>
-                    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">http.cache:default</span><span class="p p-Indicator">:</span> <span class="s">&#39;Cache-Control:</span><span class="nv"> </span><span class="s">max-age=120&#39;</span>
-              <span class="c1"># enable below lines if graph version used and gephi support required</span>
-<span class="c1">#              - pattern: &#39;GET|gephi/*&#39;</span>
-<span class="c1">#                stateful: false</span>
-<span class="c1">#                implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi</span>
-
-    <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">plugin.dynamic</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">plugin.hotReload</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db.pool.min</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">db.pool.max</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">profiler.enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-         <span class="c1">#configures the profiler as &lt;seconds-for-snapshot&gt;,&lt;archive-snapshot-size&gt;,&lt;summary-size&gt;</span>
-       <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">profiler.config</span><span class="p p-Indicator">:</span> <span class="s">&#39;30,10,10&#39;</span>
-
-  <span class="l l-Scalar l-Scalar-Plain">security</span><span class="p p-Indicator">:</span>
-    <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="l l-Scalar l-Scalar-Plain">debug</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-    <span class="l l-Scalar l-Scalar-Plain">server</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">createDefaultUsers</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="l l-Scalar l-Scalar-Plain">authentication</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="l l-Scalar l-Scalar-Plain">allowDefault</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-      <span class="l l-Scalar l-Scalar-Plain">authenticators</span><span class="p p-Indicator">:</span>
-         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Password</span>
-           <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.security.authenticator.ODefaultPasswordAuthenticator</span>
-           <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-           <span class="l l-Scalar l-Scalar-Plain">users</span><span class="p p-Indicator">:</span>
-             <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">username</span><span class="p p-Indicator">:</span> <span class="s">&quot;guest&quot;</span>
-               <span class="l l-Scalar l-Scalar-Plain">resources</span><span class="p p-Indicator">:</span> <span class="s">&quot;server.listDatabases,server.dblist&quot;</span>
-         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ServerConfig</span>
-           <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.security.authenticator.OServerConfigAuthenticator</span>
-           <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-         <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">SystemAuthenticator</span>
-           <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.orient.server.security.authenticator.OSystemUserAuthenticator</span>
-           <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="l l-Scalar l-Scalar-Plain">auditing</span><span class="p p-Indicator">:</span>
-      <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">com.orientechnologies.security.auditing.ODefaultAuditing</span>
-      <span class="l l-Scalar l-Scalar-Plain">enabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-</pre></div>
-
+<p>You can start with the <a href="../guide/default-configs/#yaml-config">default configuration</a>.</p>
 <p>Read more about <a href="../guide/configuration/">configuration</a>. </p>
 <h4 id="plugins">Plugins<a class="headerlink" href="#plugins" title="Permanent link">&para;</a></h4>
 <p>You can also enable <a href="https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins">orient plugins</a>:</p>
