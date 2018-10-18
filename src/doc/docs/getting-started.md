@@ -70,7 +70,7 @@ Read more about [configuration](guide/configuration.md).
 
 #### Plugins
 
-You can also enable [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins):
+You can also enable [orient plugins](guide/plugins.md):
     
 - [studio](guide/studio.md)
 - [lucene](guide/configuration.md#lucene-plugin)
