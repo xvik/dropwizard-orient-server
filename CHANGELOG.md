@@ -1,4 +1,4 @@
-* Orient 3 (3.0.8) compatibility
+* Orient 3 (3.0.9) compatibility
     - OGlobalConfiguration.SERVER_BACKWARD_COMPATIBILITY set to false
 * Update dropwizard 1.1.4 -> 1.3.7 
 
