@@ -5,6 +5,7 @@
 Dropwizard configuration with both orient and security configs declared as yaml: 
 
 ```yaml
+
 orient-server:
   files-path: $TMP/db/
 
@@ -29,6 +30,10 @@ orient-server:
 #            - enabled: true
 #            - configuration.db.default: '${ORIENTDB_HOME}/config/default-distributed-db-config.json'
 #            - configuration.hazelcast: '${ORIENTDB_HOME}/config/hazelcast.xml'
+      # enable for defining sql functions in json file
+#      - clazz: com.orientechnologies.orient.server.handler.OCustomSQLFunctionPlugin
+#        parameters:
+#            - config: ${ORIENTDB_HOME}/config/custom-sql-functions.json
       - clazz: com.orientechnologies.orient.server.handler.OJMXPlugin
         parameters:
             - enabled: true
@@ -97,13 +102,10 @@ orient-server:
               # enable below lines if graph version used and gephi support required
 #              - pattern: 'GET|gephi/*'
 #                stateful: false
-#                implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
+#                implementation: com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetGephi
 
     properties:
-       - plugin.dynamic: true
-       - plugin.hotReload: false
-       - db.pool.min: 1
-       - db.pool.max: 50
+      # see com.orientechnologies.orient.core.config.OGlobalConfiguration for all supported properties
        - profiler.enabled: true
          #configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size>
        - profiler.config: '30,10,10'
@@ -238,7 +240,7 @@ orient-server:
                             <entry value="Cache-Control: max-age=120" name="http.cache:default"/>
                         </parameters>
                     </command>
-                    <command implementation="com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi" pattern="GET|gephi/*" stateful="false"/>
+                    <command implementation="com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetGephi" pattern="GET|gephi/*" stateful="false"/>
                 </commands>
                 <parameters>
                     <parameter value="utf-8" name="network.http.charset"/>

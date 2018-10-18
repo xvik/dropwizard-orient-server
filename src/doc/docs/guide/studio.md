@@ -1,6 +1,6 @@
 # Orient studio
 
-[Orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
+[Orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 
@@ -9,7 +9,7 @@ Studio could be embedded using official orient jar (by default, it is not includ
 Add dependency:
 
 ```groovy
-compile 'com.orientechnologies:orientdb-studio:2.2.17'
+compile 'com.orientechnologies:orientdb-studio:3.0.9'
 ```
 
 After jetty server start (usual dropwizard startup):

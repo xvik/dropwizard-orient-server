@@ -40,4 +40,4 @@ handlers:
     - clazz: com.orientechnologies.lucene.OLuceneIndexPlugin
 ```
 
-Read more about plugins in [orient docs](http://orientdb.com/docs/last/Extend-Server.html)
+Read more about plugins in [orient docs](http://orientdb.com/docs/3.0.x/plugins/Extend-Server.html)

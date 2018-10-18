@@ -1,3 +1,16 @@
+### [2.2.0](https://xvik.github.io/dropwizard-orient-server/2.2.0) (2018-10-??)
+* Orient 3 (3.0.9) compatibility
+    - OGlobalConfiguration.SERVER_BACKWARD_COMPATIBILITY set to false
+* Update dropwizard 1.1.4 -> 1.3.7 
+
+Orient 3 configuration changes:
+    - Some properties removed (like plugin.dynamic or plugin.hotReload). See 
+        com.orientechnologies.orient.core.config.OGlobalConfiguration for the list of available properties 
+    - Gephi command changed from com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
+        to com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetGephi
+    - New handler available (could be added into config): com.orientechnologies.orient.server.handler.OCustomSQLFunctionPlugin
+
+
 ### [2.1.0](https://xvik.github.io/dropwizard-orient-server/2.1.0) (2017-09-03)
 * Update orient 2.2.17 -> 2.2.26
 * Update dropwizard 1.0.6 -> 1.1.4

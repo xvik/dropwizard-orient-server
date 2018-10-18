@@ -24,11 +24,11 @@ orient-server:
 | `start`  | enables or disables orient server start (the same effect will be if orient configuration section will not exist, this option exist to allow disabling server without removing entire config section) | 
 | `admin-servlet` | enables or disables orient admin servlet installation (`/orient`). Enabled by default|
 | `files-path` | defines folder, where orient will store database files. May be not existing directory - orient will create it when necessary. Will be set as value for `ORIENTDB_HOME` environment variable |
-| `config` |section defines [orient server configuration](http://orientdb.com/docs/last/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](default-configs.md#yaml-config)).|
+| `config` |section defines [orient server configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](default-configs.md#yaml-config)).|
 | `config-file` | used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See [example xml config](default-configs.md#xml-config) (taken from orient distribution)|
-| `security`| section defines [orient security configuration](http://orientdb.com/docs/2.2/Security-Config.html). In orient distribution security configured with security.json file. This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.|
+| `security`| section defines [orient security configuration](http://orientdb.com/docs/3.0.x/security/Security-Config.html). In orient distribution security configured with security.json file. This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.|
 | `security-file` | used to specify path to security.json file instead of direct yaml configuration in 'security' section. See [example json config](default-configs.md#json-security-config)|
-| `auto-ssl` | used to [enable automatic ssl configuration for orient listeners](https://github.com/xvik/dropwizard-orient-server/wiki/SSL#auto-ssl-configuration), when dropwizard main context is configured to use https. This is experimental feature. |
+| `auto-ssl` | used to [enable automatic ssl configuration for orient listeners](ssl.md#auto-ssl-configuration), when dropwizard main context is configured to use https. This is experimental feature. |
 
 Path properties `files-path`, `config-file` and `security-file` may use special symbols:
 
@@ -87,11 +87,11 @@ Configuration folder (config/) in orient distribution reference:
 ## Graph server
 
 By default, server supports document and object databases.
-If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:2.2.17`.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:3.0.9`.
 
 Graph related sections are commented in default [yaml config](default-configs.md#yaml-config):
 
-Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) support required
+Enable this section if [gremlin](http://orientdb.com/docs/3.0.x/gremlin/Gremlin.html) support required
 
 ```yaml
 - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
@@ -99,19 +99,20 @@ Enable this section if [gremlin](http://orientdb.com/docs/last/Gremlin.html) sup
     - enabled: true
 ```
 
-Enable this section if [gephi](http://orientdb.com/docs/last/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
+Enable this section if [gephi](http://orientdb.com/docs/3.0.x/plugins/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
-Note that Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/2.2.17). You will have to add an additional explicit dependency to enable Gremlin.
+!!! note 
+    Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/3.0.9). You will have to add an additional explicit dependency to enable Gremlin.
 
 ```yaml
 pattern: 'GET|gephi/*'
-implementation: com.orientechnologies.orient.graph.server.command.OServerCommandGetGephi
+implementation: com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetGephi
 ```
 
 ## Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
-To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:2.2.17`.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:3.0.9`.
 
 Plugin will be automatically registered. 
 
@@ -122,8 +123,8 @@ Lucene plugin includes dependency on graph, so explicit graph dependency could b
 
 ## ETL
 
-To use [ETL](http://orientdb.com/docs/last/ETL-Introduction.html)
-add dependency `com.orientechnologies:orientdb-etl:2.2.17`
+To use [ETL](http://orientdb.com/docs/3.0.x/etl/ETL-Introduction.html)
+add dependency `com.orientechnologies:orientdb-etl:3.0.9`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 

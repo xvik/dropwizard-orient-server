@@ -14,17 +14,17 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:2.1.0'
+compile 'ru.vyarus:dropwizard-orient-server:2.2.0'
 ```
 
-Version works with orient 2.2.26 (and above) and dropwizard 1.1.4 (and above).
+Version works with orient 3.0 (and above) and dropwizard 1.3.5 (and above).
 For other versions see [compatibility matrix](about/compatibility.md). 
 
 ## Usage
@@ -102,9 +102,23 @@ plocal:${files-path}/databases/dbname
 
 where `${files-path}` should be replaced with path from server configuration and `dbname` is database name.
 
+Using [new (3.0) api](http://orientdb.com/docs/3.0.x/java/Java-MultiModel-API.html):
+
+```java
+OrientDB orientDB = new OrientDB("embedded:${files-path}/databases",OrientDBConfig.defaultConfig());
+ODatabaseDocument db = orientDB.open("dbname","admin","admin");
+...
+```
+
 #### Connecting using sockets
 
 If you want to connect to your embedded instance over sockets, it's best to have your orient client initialization inside your own `Managed` object. This is the best way to make sure the connection logic is run after server start.
+
+```java
+OrientDB orientDb = new OrientDB(
+                "remote:localhost", "root", "root", OrientDBConfig.defaultConfig());
+ODatabaseDocument db = orientDB.open("dbname","admin","admin");
+```
 
 ### Console
 

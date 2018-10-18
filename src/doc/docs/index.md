@@ -11,15 +11,25 @@ To switch application to external server simply switch off embedded server in co
 
 Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedded/)
 
+!!! note
+    Orient 3.0 docs show the following code snippet which could be confusing:
+    ```java
+    OrientDB orientDB = new OrientDB("embedded:/tmp/",OrientDBConfig.defaultConfig());
+    ```
+    This is not the same as starting [embedded server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html)!
+    The code above only allows using orient databases within application, but not running studio,
+    starting rest api, enabling plugins etc.    
+    
+
 ## Main features
 
-* For orient 2.2.26 and dropwizard 1.1.4
-* [Embedded orient server](http://orientdb.com/docs/last/Embedded-Server.html), 
-managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/docs/manual/core.html#managed-objects))
+* For orient 3.0 and dropwizard 1.3.5
+* [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
+managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.3.5/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://orientdb.com/docs/last/DB-Server.html) file
-* [Console command](http://orientdb.com/docs/last/Console-Commands.html) 
+[orient xml configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html) file
+* [Console command](http://orientdb.com/docs/3.0.x/console/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Optional embedded [orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
-* Full support of [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins) (and [enterprise edition](https://github.com/xvik/dropwizard-orient-server/wiki/Enterprise-edition))
-* [SSL configuration helpers](https://github.com/xvik/dropwizard-orient-server/wiki/SSL)
+* Optional embedded [orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
+* Full support of [orient plugins](guide/plugins.md) (and [enterprise edition](guide/enterprise.md))
+* [SSL configuration helpers](guide/ssl.md)

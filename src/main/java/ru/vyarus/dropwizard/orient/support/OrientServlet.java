@@ -68,13 +68,13 @@ public class OrientServlet extends HttpServlet {
                     + "  <ul>%n"
                     + "    <li><a href=\"{1}\" {2}>Documentation</a>%n"
                     + "    <ul>%n"
-                    + "        <li><a href=\"{1}DB-Server.html#configuration\" {2}>Server</a></li>%n"
-                    + "        <li><a href=\"{1}Commands.html\" {2}>Sql commands</a></li>%n"
-                    + "        <li><a href=\"{1}SQL-Functions.html#bundled-functions\" {2}>Sql functions</a></li>%n"
-                    + "        <li><a href=\"{1}SQL-Methods.html\" {2}>Sql methods</a></li>%n"
-                    + "        <li><a href=\"{1}Query-Examples.html\" {2}>Query examples</a></li>%n"
-                    + "        <li><a href=\"{1}Console-Commands.html#console-commands\" {2}>Console commands</a></li>%n"
-                    + "        <li><a href=\"{1}OrientDB-REST.html\" {2}>Rest api</a></li>%n"
+                    + "        <li><a href=\"{1}internals/DB-Server.html#configuration\" {2}>Server</a></li>%n"
+                    + "        <li><a href=\"{1}sql/SQL-Commands.html\" {2}>Sql commands</a></li>%n"
+                    + "        <li><a href=\"{1}sql/SQL-Functions.html#bundled-functions\" {2}>Sql functions</a></li>%n"
+                    + "        <li><a href=\"{1}sql/SQL-Methods.html\" {2}>Sql methods</a></li>%n"
+                    + "        <li><a href=\"{1}gettingstarted/demodb/queries/\" {2}>Query examples</a></li>%n"
+                    + "        <li><a href=\"{1}console/Console-Commands.html\" {2}>Console commands</a></li>%n"
+                    + "        <li><a href=\"{1}misc/OrientDB-REST.html\" {2}>Rest api</a></li>%n"
                     + "    </ul></li>%n"
                     + "  </ul>"
     );
@@ -123,7 +123,7 @@ public class OrientServlet extends HttpServlet {
 
     private String renderLinks(final String path) {
         return MessageFormat.format(LINKS_TEMPLATE, path,
-                "http://orientdb.com/docs/last/",
+                "http://orientdb.com/docs/3.0.x/",
                 "target=\"_blank\"");
     }
 
