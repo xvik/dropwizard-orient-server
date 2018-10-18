@@ -5,9 +5,6 @@ Orient [Enterprise edition](http://orientdb.com/orientdb-enterprise/) is actuall
 
 This enterprise agent activates some hidden abilities like sql profiler.
 
-!!! note
-    Enterprise edition is free for development, so you will need it for **sql profiler** during development.
-
 ### Dynamic agent installation
 
 Copy agent jar into [plugins directory](plugins.md).
