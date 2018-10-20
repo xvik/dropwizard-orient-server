@@ -18,16 +18,16 @@ To switch application to external server simply switch off embedded server in co
 Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedded/)  
 
 Features:
-* For orient 2.2.26 and dropwizard 1.1.4
-* [Embedded orient server](http://orientdb.com/docs/last/Embedded-Server.html), 
-managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.0.2/docs/manual/core.html#managed-objects))
+* For orient 3.0 and dropwizard 1.3.5
+* [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
+managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.3.5/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://orientdb.com/docs/last/DB-Server.html) file
-* [Console command](http://orientdb.com/docs/last/Console-Commands.html) 
+[orient xml configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html) file
+* [Console command](http://orientdb.com/docs/3.0.x/console/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Optional embedded [orient studio](http://orientdb.com/docs/last/Studio-Home-page.html)
-* Full support of [orient plugins](https://github.com/xvik/dropwizard-orient-server/wiki/Orient-plugins) (and [enterprise edition](https://github.com/xvik/dropwizard-orient-server/wiki/Enterprise-edition))
-* [SSL configuration helpers](https://github.com/xvik/dropwizard-orient-server/wiki/SSL)
+* Optional embedded [orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
+* Full support of [orient plugins](http://xvik.github.io/dropwizard-orient-server/2.2.0/plugins/) (and [enterprise edition](http://xvik.github.io/dropwizard-orient-server/2.2.0/enterprise/))
+* [SSL configuration helpers](http://xvik.github.io/dropwizard-orient-server/2.2.0/ssl/)
 
 ### Setup
 
@@ -43,20 +43,21 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:2.1.0'
+compile 'ru.vyarus:dropwizard-orient-server:2.2.0'
 ```
 
 OrientDB | Dropwizard | dropwizard-orient-server
 ----------|---|------
-&gt;= 2.2.17 | &gt;= 1.1.4 | [2.1.0](http://xvik.github.io/dropwizard-orient-server/2.1.0)
-&lt; 2.2.17 (studio webjar, lucene as plugin) | 1.0 | [1.4.0](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)
+3.0 | 1.3.5 | [2.2.0](http://xvik.github.io/dropwizard-orient-server/2.2.0) | 
+ 2.2.17 |  1.1.4 | [2.1.0](http://xvik.github.io/dropwizard-orient-server/2.1.0)
+2.2.0 - 2.2.17 (studio webjar, lucene as plugin) | 1.0 | [1.4.0](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)
 2.0 - 2.1 | 0.8 - 1.0 | [1.3.0](https://github.com/xvik/dropwizard-orient-server/tree/1.3.0)
 1.0 | 0.8 | [1.1.1](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x)
 1.0 | 0.7 | [1.1.0](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7)
