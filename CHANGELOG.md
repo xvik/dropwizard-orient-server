@@ -1,3 +1,6 @@
+* Disable hibernate validator JPA support only if orient object support used
+    (only in this case misactivation happen).
+
 ### 2.2.0 (2018-10-20)
 * Orient 3 (3.0.9) compatibility
     - OGlobalConfiguration.SERVER_BACKWARD_COMPATIBILITY set to false

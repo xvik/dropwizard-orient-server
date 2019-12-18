@@ -102,9 +102,9 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
      * Note that it can't cause side effects because hibernate is actually not used.
      */
     private void recoverValidatorBehaviour(final Bootstrap<?> bootstrap) {
-        logger.debug("Removing default TraversableResolver jpa support to fix hibernate validator");
         final TraversableResolver resolver = bootstrap.getValidatorFactory().getTraversableResolver();
-        if (resolver instanceof DefaultTraversableResolver) {
+        if (isObjectOrientUsed() && resolver instanceof DefaultTraversableResolver) {
+            logger.debug("Removing default TraversableResolver jpa support to fix hibernate validator");
             // only default DefaultTraversableResolver implicitly enables JPA factory
             try {
                 final Field field = resolver.getClass().getDeclaredField("jpaTraversableResolver");
@@ -115,6 +115,23 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
             } catch (Exception e) {
                 throw new IllegalStateException("Failed disable JPA support for traversable resolver", e);
             }
+        }
+    }
+
+    /**
+     * Hibernate validation hack is requried only if object support is available on classpath.
+     * Without it, real jpa may be used together with graph api.
+     *
+     * @return true if object api detected, false otherwise
+     */
+    private boolean isObjectOrientUsed() {
+        // check whether we have Persistence on the classpath
+        try {
+            Class.forName("com.orientechnologies.orient.object.db.OObjectDatabaseTx",
+                    false, this.getClass().getClassLoader());
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 }
