@@ -1,7 +1,7 @@
 package ru.vyarus.dropwizard.orient.jpa
 
-
-import org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver
+import org.hibernate.validator.internal.engine.resolver.JPATraversableResolver
+import org.hibernate.validator.internal.engine.resolver.TraversableResolvers
 import ru.vyarus.dropwizard.orient.AbstractTest
 
 /**
@@ -12,9 +12,9 @@ class JpaSupportMisactivationTest extends AbstractTest {
 
     def "Check jpa resover enabled by default"() {
 
-        when: "default resolver includes implicit jpa detection"
-        def res = new DefaultTraversableResolver()
-        then: "jpa resolver instantiated internally and will be used for checks"
-        res.jpaTraversableResolver != null
+        when: "get default resolver"
+        def res = TraversableResolvers.getDefault()
+        then: "by default jpa resolver activated due to classpath"
+        res instanceof JPATraversableResolver
     }
 }

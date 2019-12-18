@@ -1,3 +1,5 @@
+* Dropwizard 2.0.0 compatibility fix
+* Update to orient 3.0.25
 * Disable hibernate validator JPA support only if orient object support used
     (only in this case misactivation happen).
 

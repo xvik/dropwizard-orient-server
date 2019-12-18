@@ -1,9 +1,8 @@
 package ru.vyarus.dropwizard.orient.jpa
 
-
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.hibernate.validator.internal.engine.ValidatorImpl
-import org.hibernate.validator.internal.engine.resolver.DefaultTraversableResolver
+import org.hibernate.validator.internal.engine.resolver.JPATraversableResolver
 import org.junit.Rule
 import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.TestApplication
@@ -13,7 +12,7 @@ import ru.vyarus.dropwizard.orient.support.TestConfiguration
  * @author Vyacheslav Rusakov
  * @since 18.12.2019
  */
-class JpaSupportFixTest extends AbstractTest {
+class OrientObjectSupportFixTest extends AbstractTest {
 
     @Rule
     DropwizardAppRule<TestConfiguration> RULE =
@@ -21,8 +20,7 @@ class JpaSupportFixTest extends AbstractTest {
 
     def "Check jpa support fixed"() {
 
-        expect: "traversable resolver substituted"
-        ((RULE.getEnvironment().getValidator() as ValidatorImpl).traversableResolver as DefaultTraversableResolver)
-                .jpaTraversableResolver == null
+        expect: "jpa resolver substituted"
+        !(((RULE.getEnvironment().getValidator() as ValidatorImpl).traversableResolver) instanceof JPATraversableResolver)
     }
 }
