@@ -30,7 +30,7 @@ class NoConfigTest extends AbstractTest {
         when: "accessing orient studio"
         new URL("http://localhost:2480/studio/").getText()
         then: "studio not available"
-        thrown(ConnectException)
+        thrown(IOException)
     }
 
     def "Check command works without config"() {
