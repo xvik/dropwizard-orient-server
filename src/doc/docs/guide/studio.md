@@ -9,7 +9,7 @@ Studio could be embedded using official orient jar (by default, it is not includ
 Add dependency:
 
 ```groovy
-compile 'com.orientechnologies:orientdb-studio:3.0.25'
+compile 'com.orientechnologies:orientdb-studio:3.0.26'
 ```
 
 After jetty server start (usual dropwizard startup):
