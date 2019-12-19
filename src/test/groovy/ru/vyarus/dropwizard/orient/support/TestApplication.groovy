@@ -4,6 +4,9 @@ import io.dropwizard.Application
 import io.dropwizard.setup.Bootstrap
 import io.dropwizard.setup.Environment
 import ru.vyarus.dropwizard.orient.OrientServerBundle
+import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration
+
+import java.util.function.Function
 
 /**
  * @author Vyacheslav Rusakov 
@@ -17,7 +20,10 @@ class TestApplication extends Application<TestConfiguration> {
 
     @Override
     void initialize(Bootstrap<TestConfiguration> bootstrap) {
-        bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()))
+        bootstrap.addBundle(
+                new OrientServerBundle<TestConfiguration>({
+                    it.getOrientServerConfiguration()
+                } as Function<TestConfiguration, OrientServerConfiguration>))
         bootstrap.addCommand(new DummyCommand())
     }
 

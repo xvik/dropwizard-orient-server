@@ -7,22 +7,27 @@ import io.dropwizard.cli.ConfiguredCommand;
 import io.dropwizard.setup.Bootstrap;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
-import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Command is launched in interactive mode if started without parameters: console config.yml.
- * <p>Also can be used to launch commands directly or external commands file. This time process will
- * exit right after commands execution.</p>
- * <p>To execute sql file: console config.yml commands.sql</p>
- * <p>To execute commands: console config.yml command1;command2</p>
- * <p>NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
+ * <p>
+ * Also can be used to launch sql commands directly or external scripts file. This time, process will
+ * exit right after commands execution.
+ * <p>
+ * To execute sql file: {@code console config.yml commands.sql}
+ * <p>
+ * To execute commands: {@code console config.yml command1;command2}*
+ * <p>
+ * NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
  * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
- * Also, if server already started, then you can use remote connections.</p>
+ * Also, if server already started, then you can use remote connections.
+ * <p>
  * <a href="http://orientdb.com/docs/3.0.x/console/Console-Commands.html">
  * See orient console documentation</a>
  *
@@ -30,25 +35,17 @@ import java.util.List;
  * @see com.orientechnologies.orient.console.OConsoleDatabaseApp
  */
 @SuppressWarnings("PMD.SystemPrintln")
-public class ConsoleCommand<T extends Configuration & HasOrientServerConfiguration> extends ConfiguredCommand<T> {
+public class ConsoleCommand<T extends Configuration> extends ConfiguredCommand<T> {
 
     public static final String COMMANDS_ARG = "commands";
-    private Class<T> configClass;
+    private final Class<T> configClass;
+    private final Function<T, OrientServerConfiguration> configurationProvider;
 
-    /**
-     * @param configClass configuration class
-     */
-    public ConsoleCommand(final Class<T> configClass) {
-        this(configClass, "console");
-    }
-
-    /**
-     * @param configClass configuration class
-     * @param commandName command name to override default 'console' name
-     */
-    public ConsoleCommand(final Class<T> configClass, final String commandName) {
-        super(commandName, "Run orient db console");
+    public ConsoleCommand(final Class<T> configClass,
+                          final Function<T, OrientServerConfiguration> configurationProvider) {
+        super("console", "Run orient db console");
         this.configClass = configClass;
+        this.configurationProvider = configurationProvider;
     }
 
     /**
@@ -56,7 +53,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
      */
     @Override
     protected Class<T> getConfigurationClass() {
-        // configuration class is required, because real application configuration class is unreachable
+        // configuration class is required to properly map configuration
         return configClass;
     }
 
@@ -75,7 +72,7 @@ public class ConsoleCommand<T extends Configuration & HasOrientServerConfigurati
     @Override
     protected void run(final Bootstrap<T> bootstrap, final Namespace namespace,
                        final T configuration) throws Exception {
-        final OrientServerConfiguration conf = configuration.getOrientServerConfiguration();
+        final OrientServerConfiguration conf = configurationProvider.apply(configuration);
         final List<String> commands = namespace.get(COMMANDS_ARG);
         printHelp(conf, commands);
 

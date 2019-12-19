@@ -9,7 +9,6 @@ import io.dropwizard.setup.Environment;
 import org.hibernate.validator.internal.engine.resolver.JPATraversableResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.deserializer.EntryDeserializer;
 import ru.vyarus.dropwizard.orient.configuration.deserializer.NetworkProtocolDeserializer;
@@ -21,17 +20,24 @@ import ru.vyarus.dropwizard.orient.support.ConsoleCommand;
 import ru.vyarus.dropwizard.orient.support.OrientServlet;
 
 import javax.validation.TraversableResolver;
+import java.util.function.Function;
 
 /**
- * Bundle starts embedded orient server. Application configuration object must implement
- * {@code HasOrientConfiguration}, which provides orient configuration object.
- * <p>In configuration (yaml) orient server configuration (orient own config) could be defined
- * as reference to xml file (orient default format) or directly in main config (by converting xml to yaml).
- * Server startup could be disabled by setting 'start: false' in config.</p>
- * <p>Additionally registers console command.</p>
- * <p>Important note: orient object database conflicts with hibernate-validator, because orient brings jpa classes,
+ * Bundle starts embedded orient server.
+ * <p>
+ * Orient server configuration is completely embedded into dropwizard yaml configuration. It is almost 1-1 mapping
+ * from orient xml structure.
+ * <p>
+ * Server startup could be disabled by setting 'start: false' in config.
+ * <p>
+ * Also, registers console command for interacting with database.
+ * <p>
+ * Important note: orient object database conflicts with hibernate-validator, because orient brings jpa api jar,
  * which activates hibernate lazy properties checks in validator. Bundle implicitly fixes this by overriding
- * TraversableResolver. It's completely safe for application if you don't use hibernate.</p>
+ * {@link javax.validation.ValidatorFactory} in bootstrap. It should not bring any side effects for most cases, but
+ * if you declare custom {@link javax.validation.ValidatorFactory} then simply declare {@link TraversableResolver}
+ * manually in it to prevent override (e.g. into {@link TraverseAllResolver}).
+ * <p>
  * NOTE: server will not start when console command called, because dropwizard will not run managed objects this time
  * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
  * Also, if server already started, then you can use remote connections.
@@ -39,17 +45,16 @@ import javax.validation.TraversableResolver;
  * @param <T> configuration type
  */
 @SuppressWarnings("checkstyle:ClassDataAbstractionCoupling")
-public class OrientServerBundle<T extends Configuration & HasOrientServerConfiguration>
-        implements ConfiguredBundle<T> {
+public class OrientServerBundle<T extends Configuration> implements ConfiguredBundle<T> {
     private final Logger logger = LoggerFactory.getLogger(OrientServerBundle.class);
 
-    private final Class<T> configClass;
+    private final Function<T, OrientServerConfiguration> configurationProvider;
 
     /**
-     * @param configClass configuration class
+     * @param configurationProvider configuration provider
      */
-    public OrientServerBundle(final Class<T> configClass) {
-        this.configClass = configClass;
+    public OrientServerBundle(final Function<T, OrientServerConfiguration> configurationProvider) {
+        this.configurationProvider = configurationProvider;
     }
 
     /**
@@ -64,7 +69,9 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
         bootstrap.getObjectMapper().addHandler(new NetworkProtocolDeserializer());
 
         recoverValidatorBehaviour(bootstrap);
-        bootstrap.addCommand(new ConsoleCommand(configClass));
+        bootstrap.addCommand(new ConsoleCommand(
+                bootstrap.getApplication().getConfigurationClass(),
+                configurationProvider));
     }
 
     /**
@@ -73,7 +80,7 @@ public class OrientServerBundle<T extends Configuration & HasOrientServerConfigu
     @Override
     public void run(final T configuration, final Environment environment) throws Exception {
 
-        final OrientServerConfiguration conf = configuration.getOrientServerConfiguration();
+        final OrientServerConfiguration conf = configurationProvider.apply(configuration);
         if (conf == null || !conf.isStart()) {
             logger.debug("Orient server start disabled. Set 'start: true' in configuration to enable.");
             return;

@@ -2,19 +2,18 @@ package ru.vyarus.dropwizard.orient.support;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
-import ru.vyarus.dropwizard.orient.configuration.HasOrientServerConfiguration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * Groovy class can't be used for configuraton anymore, because jersey 2.5 is very sensible for addition methods
+ *
  * @author Vyacheslav Rusakov
  * @since 18.08.2014
  */
-public class TestConfiguration extends Configuration implements HasOrientServerConfiguration {
-    @Override
+public class TestConfiguration extends Configuration {
+
     public OrientServerConfiguration getOrientServerConfiguration() {
         return orientServer;
     }
