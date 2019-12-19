@@ -1,4 +1,5 @@
-* Dropwizard 2.0.0 compatibility fix
+### 3.0.0 (2019-12-19)
+* Dropwizard 2.0.0 compatibility
 * Update to orient 3.0.26
 * Disable hibernate validator JPA support only if orient object support used
     (only in this case misactivation happen).

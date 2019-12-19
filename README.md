@@ -18,16 +18,16 @@ To switch application to external server simply switch off embedded server in co
 Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedded/)  
 
 Features:
-* For orient 3.0 and dropwizard 1.3.5
+* For orient 3.0 and dropwizard 2.0.0
 * [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
-managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.3.5/docs/manual/core.html#managed-objects))
+managed by dropwizard (using [Managed object](https://www.dropwizard.io/en/release-2.0.x/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
 [orient xml configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html) file
 * [Console command](http://orientdb.com/docs/3.0.x/console/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
 * Optional embedded [orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
-* Full support of [orient plugins](http://xvik.github.io/dropwizard-orient-server/2.2.0/plugins/) (and [enterprise edition](http://xvik.github.io/dropwizard-orient-server/2.2.0/enterprise/))
-* [SSL configuration helpers](http://xvik.github.io/dropwizard-orient-server/2.2.0/ssl/)
+* Full support of [orient plugins](http://xvik.github.io/dropwizard-orient-server/3.0.0/plugins/) (and [enterprise edition](http://xvik.github.io/dropwizard-orient-server/2.2.0/enterprise/))
+* [SSL configuration helpers](http://xvik.github.io/dropwizard-orient-server/3.0.0/ssl/)
 
 ### Setup
 
@@ -43,18 +43,19 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>2.2.0</version>
+  <version>3.0.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:2.2.0'
+compile 'ru.vyarus:dropwizard-orient-server:3.0.0'
 ```
 
 OrientDB | Dropwizard | dropwizard-orient-server
 ----------|---|------
+3.0 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
 3.0 | 1.3.5 | [2.2.0](http://xvik.github.io/dropwizard-orient-server/2.2.0) | 
  2.2.17 |  1.1.4 | [2.1.0](http://xvik.github.io/dropwizard-orient-server/2.1.0)
 2.2.0 - 2.2.17 (studio webjar, lucene as plugin) | 1.0 | [1.4.0](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)

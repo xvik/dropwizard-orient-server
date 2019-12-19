@@ -114,7 +114,7 @@ Dropwizard admin context ssl configuration is not counted (can't be), so alias w
 
 The special EXPERIMENTAL option provided to automate orient ssl configuration based on dropwizard main context configuration. 
 
-For example, dropwizard main connector is [configured to use https](http://www.dropwizard.io/1.1.4/docs/manual/configuration.html#https):
+For example, dropwizard main connector is [configured to use https](https://www.dropwizard.io/en/release-2.0.x/manual/core.html#ssl):
 
 ```yaml
 server:
