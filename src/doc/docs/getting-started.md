@@ -14,38 +14,38 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>2.2.0</version>
+  <version>3.0.0</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:2.2.0'
+compile 'ru.vyarus:dropwizard-orient-server:3.0.0'
 ```
 
-Version works with orient 3.0 (and above) and dropwizard 1.3.5 (and above).
+Version works with orient 3.0 and dropwizard 2.0.0.
 For other versions see [compatibility matrix](about/compatibility.md). 
 
 ## Usage
 
-Configuration class must implement `HasOrientServerConfiguration`:
+Configuration class must contain `OrientServerConfiguration`:
 
 ```java
-public class MyConfiguration extends Configuration implements HasOrientServerConfiguration {
+public class MyConfiguration extends Configuration {
 
     @NotNull
     @Valid
-    private OrientServerConfiguration orientServerConfiguration;
+    private OrientServerConfiguration orientServer;
 
     @Override
-    public OrientServerConfiguration getOrientServerConfiguration() {
-        return orientServerConfiguration;
+    public OrientServerConfiguration getOrientServer() {
+        return orientServer;
     }
 
     @JsonProperty("orient-server")
-    public void setOrientServer(OrientServerConfiguration orientServerConfiguration) {
-        this.orientServerConfiguration = orientServerConfiguration;
+    public void setOrientServer(OrientServerConfiguration orientServer) {
+        this.orientServer = orientServer;
     }
 }
 ```
@@ -58,7 +58,7 @@ Register orient bundle in application class:
 ```java
 @Override
 public void initialize(final Bootstrap<MyConfiguration> bootstrap) {
-    bootstrap.addBundle(new OrientServerBundle(getConfigurationClass()));
+    bootstrap.addBundle(new OrientServerBundle<MyConfiguration>(MyConfiguration::getOrientServer));
 }
 ```
 

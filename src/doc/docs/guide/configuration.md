@@ -87,7 +87,7 @@ Configuration folder (config/) in orient distribution reference:
 ## Graph server
 
 By default, server supports document and object databases.
-If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:3.0.9`.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:3.0.25`.
 
 Graph related sections are commented in default [yaml config](default-configs.md#yaml-config):
 
@@ -102,7 +102,7 @@ Enable this section if [gremlin](http://orientdb.com/docs/3.0.x/gremlin/Gremlin.
 Enable this section if [gephi](http://orientdb.com/docs/3.0.x/plugins/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
 !!! note 
-    Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/3.0.9). You will have to add an additional explicit dependency to enable Gremlin.
+    Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/3.0.25). You will have to add an additional explicit dependency to enable Gremlin.
 
 ```yaml
 pattern: 'GET|gephi/*'
@@ -112,7 +112,7 @@ implementation: com.orientechnologies.orient.server.network.protocol.http.comman
 ## Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
-To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:3.0.9`.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:3.0.25`.
 
 Plugin will be automatically registered. 
 
@@ -124,7 +124,7 @@ Lucene plugin includes dependency on graph, so explicit graph dependency could b
 ## ETL
 
 To use [ETL](http://orientdb.com/docs/3.0.x/etl/ETL-Introduction.html)
-add dependency `com.orientechnologies:orientdb-etl:3.0.9`
+add dependency `com.orientechnologies:orientdb-etl:3.0.25`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 

@@ -1,3 +1,11 @@
+### [3.0.0](https://xvik.github.io/dropwizard-orient-server/3.0.0) (2019-12-19)
+* Dropwizard 2.0.0 compatibility fix
+* Update to orient 3.0.25
+* Disable hibernate validator JPA support only if orient object support used
+    (only in this case misactivation happen).
+* (breaking) Removed `HasOrientServerConfiguration` interface. Instead, 
+    configuration provider must be registered: `new OrientServerBundle<MyConfig>(MyConfig::getOrientConfig)`
+
 ### [2.2.0](https://xvik.github.io/dropwizard-orient-server/2.2.0) (2018-10-20)
 * Orient 3 (3.0.9) compatibility
     - OGlobalConfiguration.SERVER_BACKWARD_COMPATIBILITY set to false

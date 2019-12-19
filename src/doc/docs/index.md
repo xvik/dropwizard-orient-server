@@ -23,7 +23,7 @@ Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedd
 
 ## Main features
 
-* For orient 3.0 and dropwizard 1.3.5
+* For orient 3.0 and dropwizard 2.0.0
 * [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](http://www.dropwizard.io/1.3.5/docs/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
