@@ -63,13 +63,16 @@ OrientDB | Dropwizard | dropwizard-orient-server
 1.0 | 0.8 | [1.1.1](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.8-orient-1.x)
 1.0 | 0.7 | [1.1.0](https://github.com/xvik/dropwizard-orient-server/tree/dw-0.7)
 
-##### Snapshots
+#### Snapshots
 
-You can use snapshot versions through [JitPack](https://jitpack.io):
+Snapshots could be used through JitPack:
 
-* Go to [JitPack project page](https://jitpack.io/#xvik/dropwizard-orient-server)
-* Select `Commits` section and click `Get it` on commit you want to use (top one - the most recent)
-* Follow displayed instruction: add repository and change dependency (NOTE: due to JitPack convention artifact group will be different)
+* Go to [JitPack project page](https://jitpack.io/#ru.vyarus/dropwizard-orient-server)
+* Select `Commits` section and click `Get it` on commit you want to use (you may need to wait while version builds if no one requested it before)
+* Follow displayed instruction: 
+    - Add jitpack repository: `maven { url 'https://jitpack.io' }`
+    - Use commit hash as version: `ru.vyarus:dropwizard-orient-server:378ece3c6e`
+
 
 ### Usage
 
