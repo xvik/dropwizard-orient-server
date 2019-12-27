@@ -58,6 +58,7 @@ nav:
       - Plugins: guide/plugins.md
       - Console: guide/console.md
       - SSL: guide/ssl.md
+      - Security: guide/security.md
       - Enterprise: guide/enterprise.md
       - Default configs: guide/default-configs.md
   - About:

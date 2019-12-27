@@ -62,6 +62,9 @@ dependencies {
     // lucene includes graph dependency
     testCompile "com.orientechnologies:orientdb-lucene:$orient"
     testCompile "com.orientechnologies:orientdb-etl:$orient"
+    // OLDAPImporter by default is released only with Enterprise Edition, but technically it’s part
+    // of the security module, that is open-source, so you can add it to your CE distribution
+    testCompile "com.orientechnologies:orientdb-security:$orient"
 }
 
 group = 'ru.vyarus'

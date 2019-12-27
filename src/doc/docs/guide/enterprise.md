@@ -3,6 +3,9 @@
 Orient [Enterprise edition](http://orientdb.com/orientdb-enterprise/) is actually community edition + agent plugin
 (if you fill in [the form](http://orientdb.com/orientdb-enterprise/) it will simply suggest you to download agent jar).
 
+!!! tip
+    Some security features [could be enabled](security.md) in community edition
+
 This enterprise agent activates some hidden abilities like sql profiler.
 
 ### Dynamic agent installation
