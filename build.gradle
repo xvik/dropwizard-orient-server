@@ -3,8 +3,8 @@ plugins {
     id 'groovy'
     id 'jacoco'
     id 'project-report'
-    id 'ru.vyarus.java-lib' version '1.1.2'
-    id 'ru.vyarus.github-info' version '1.1.0'
+    id 'ru.vyarus.java-lib' version '2.1.0'
+    id 'ru.vyarus.github-info' version '1.2.0'
     id 'ru.vyarus.quality' version '4.0.0'
     id 'com.jfrog.bintray' version '1.8.4'
     id 'net.researchgate.release' version '2.8.1'
@@ -47,24 +47,24 @@ dependencies {
     provided 'com.github.spotbugs:spotbugs-annotations:3.1.2'
     provided "com.orientechnologies:orientdb-studio:$orient"
 
-    compile 'io.dropwizard:dropwizard-core'
-    compile "com.orientechnologies:orientdb-server:$orient"
-    compile "com.orientechnologies:orientdb-tools:$orient"
+    implementation 'io.dropwizard:dropwizard-core'
+    implementation "com.orientechnologies:orientdb-server:$orient"
+    implementation "com.orientechnologies:orientdb-tools:$orient"
 
-    testCompile "com.orientechnologies:orientdb-object:$orient"
-    testCompile 'io.dropwizard:dropwizard-testing'
-    testCompile 'org.spockframework:spock-core'
+    testImplementation "com.orientechnologies:orientdb-object:$orient"
+    testImplementation 'io.dropwizard:dropwizard-testing'
+    testImplementation 'org.spockframework:spock-core'
     // used to catch System.exit statements
-    testCompile 'com.github.stefanbirkner:system-rules:1.19.0'
-    testCompile 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
+    testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
+    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
 
     // check everything works together
     // lucene includes graph dependency
-    testCompile "com.orientechnologies:orientdb-lucene:$orient"
-    testCompile "com.orientechnologies:orientdb-etl:$orient"
+    testImplementation "com.orientechnologies:orientdb-lucene:$orient"
+    testImplementation "com.orientechnologies:orientdb-etl:$orient"
     // OLDAPImporter by default is released only with Enterprise Edition, but technically it’s part
     // of the security module, that is open-source, so you can add it to your CE distribution
-    testCompile "com.orientechnologies:orientdb-security:$orient"
+    testImplementation "com.orientechnologies:orientdb-security:$orient"
 }
 
 group = 'ru.vyarus'
