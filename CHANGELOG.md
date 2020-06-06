@@ -1,3 +1,5 @@
+* Update to orient 3.1.0
+
 ### 3.0.0 (2019-12-19)
 * Dropwizard 2.0.0 compatibility
 * Update to orient 3.0.26

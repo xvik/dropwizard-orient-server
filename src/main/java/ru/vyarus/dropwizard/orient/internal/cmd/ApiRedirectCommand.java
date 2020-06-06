@@ -16,7 +16,7 @@ public class ApiRedirectCommand extends OServerCommandAbstract {
 
     @Override
     public boolean execute(final OHttpRequest iRequest, final OHttpResponse iResponse) throws Exception {
-        iRequest.url = iRequest.url.replaceAll("^/api/", "/");
+        iRequest.setUrl(iRequest.getUrl().replaceAll("^/api/", "/"));
         return true;
     }
 
