@@ -21,7 +21,7 @@ wrapper {
 
 ext {
     orient = '3.1.5'
-    dropwizard = '2.0.15'
+    dropwizard = '2.0.16'
     groovy = '2.5.13'
 }
 
