@@ -14,14 +14,14 @@ Maven:
 <dependency>
   <groupId>ru.vyarus</groupId>
   <artifactId>dropwizard-orient-server</artifactId>
-  <version>3.0.0</version>
+  <version>{{ gradle.version }}</version>
 </dependency>
 ```
 
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:3.0.0'
+compile 'ru.vyarus:dropwizard-orient-server:{{ gradle.version }}'
 ```
 
 Version works with orient 3.0 and dropwizard 2.0.0.
