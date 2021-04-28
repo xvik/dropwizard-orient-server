@@ -1,0 +1,37 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "23:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: org.codehaus.groovy:groovy
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-json
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-macro
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-nio
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-sql
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-templates
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-test
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: org.codehaus.groovy:groovy-xml
+    versions:
+    - ">= 3.a, < 4"
+  - dependency-name: ru.vyarus.mkdocs
+    versions:
+    - 2.1.0
+    - 2.1.1
