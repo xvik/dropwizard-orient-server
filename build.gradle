@@ -44,7 +44,7 @@ dependencyManagement {
     }
 }
 dependencies {
-    provided 'com.github.spotbugs:spotbugs-annotations:3.1.2'
+    provided 'com.github.spotbugs:spotbugs-annotations:4.2.3'
     provided "com.orientechnologies:orientdb-studio:$orient"
 
     implementation 'io.dropwizard:dropwizard-core'
