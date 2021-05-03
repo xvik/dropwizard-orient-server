@@ -31,10 +31,6 @@ managed by dropwizard (using [Managed object](https://www.dropwizard.io/en/relea
 
 ### Setup
 
-Releases are published to [bintray jcenter](https://bintray.com/bintray/jcenter) (package appear immediately after release) 
-and then to maven central (require few days after release to be published). 
-
-[![JCenter](https://img.shields.io/bintray/v/vyarus/xvik/dropwizard-orient-server.svg?label=jcenter)](https://bintray.com/vyarus/xvik/dropwizard-orient-server/_latestVersion)
 [![Maven Central](https://img.shields.io/maven-central/v/ru.vyarus/dropwizard-orient-server.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/ru.vyarus/dropwizard-orient-server)
 
 Maven:
@@ -50,11 +46,12 @@ Maven:
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:3.0.0'
+implementation 'ru.vyarus:dropwizard-orient-server:3.0.0'
 ```
 
 OrientDB | Dropwizard | dropwizard-orient-server
 ----------|---|------
+3.1 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
 3.0 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
 3.0 | 1.3.5 | [2.2.0](http://xvik.github.io/dropwizard-orient-server/2.2.0) | 
  2.2.17 |  1.1.4 | [2.1.0](http://xvik.github.io/dropwizard-orient-server/2.1.0)

@@ -21,7 +21,7 @@ Maven:
 Gradle:
 
 ```groovy
-compile 'ru.vyarus:dropwizard-orient-server:{{ gradle.version }}'
+implementation 'ru.vyarus:dropwizard-orient-server:{{ gradle.version }}'
 ```
 
 Version works with orient 3.0 and dropwizard 2.0.0.
