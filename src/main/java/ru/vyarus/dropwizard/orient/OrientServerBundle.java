@@ -3,9 +3,9 @@ package ru.vyarus.dropwizard.orient;
 import io.dropwizard.Configuration;
 import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.jersey.validation.Validators;
-import io.dropwizard.jetty.NonblockingServletHolder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.hibernate.validator.internal.engine.resolver.JPATraversableResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,7 +91,7 @@ public class OrientServerBundle<T extends Configuration> implements ConfiguredBu
         environment.lifecycle().manage(orientServer);
         environment.healthChecks().register("orient-server", new OrientServerHealthCheck());
         if (conf.isAdminServlet()) {
-            environment.getAdminContext().addServlet(new NonblockingServletHolder(
+            environment.getAdminContext().addServlet(new ServletHolder(
                     new OrientServlet(orientServer.getServerInfo())), "/orient/*");
         }
     }

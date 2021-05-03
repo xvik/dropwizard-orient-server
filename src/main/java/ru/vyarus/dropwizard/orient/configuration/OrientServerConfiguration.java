@@ -7,7 +7,6 @@ import com.google.common.base.Strings;
 import com.orientechnologies.common.parser.OSystemVariableResolver;
 import com.orientechnologies.orient.server.config.OServerConfiguration;
 import com.orientechnologies.orient.server.config.OServerConfigurationLoaderXml;
-import com.orientechnologies.orient.server.security.ODefaultServerSecurity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -185,7 +184,6 @@ public class OrientServerConfiguration {
      *
      * @return security configuration
      * @see <a href="http://orientdb.com/docs/3.0.x/security/Security-Config.html">orient securty config</a>
-     * @see ODefaultServerSecurity#onBeforeActivate() for details about configuration loading
      */
     public JsonNode getSecurity() {
         return security;

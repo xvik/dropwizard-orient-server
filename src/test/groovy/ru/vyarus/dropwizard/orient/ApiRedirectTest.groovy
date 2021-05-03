@@ -1,6 +1,5 @@
 package ru.vyarus.dropwizard.orient
 
-import com.orientechnologies.orient.object.db.OObjectDatabaseTx
 import io.dropwizard.testing.junit.DropwizardAppRule
 import org.junit.Rule
 import ru.vyarus.dropwizard.orient.support.TestApplication
@@ -20,7 +19,7 @@ class ApiRedirectTest extends AbstractTest {
         when: "access rest api"
         def data = new URL("http://localhost:2480/listDatabases").getText()
         then: "all good"
-        data == "{\"@type\":\"d\",\"@version\":0,\"databases\":[]}"
+        data == "{\"@type\":\"d\",\"@version\":0,\"databases\":[\"OSystem\"]}"
 
         when: "access rest api through prefix"
         def apiData = new URL("http://localhost:2480/api/listDatabases").getText()
