@@ -44,7 +44,7 @@ import static com.orientechnologies.orient.server.network.OServerSSLSocketFactor
  * versions available is not possible with auto-ssl!
  *
  * @author Vyacheslav Rusakov
- * @see <a href="https://orientdb.com/docs/2.2/Using-SSL-with-OrientDB.html">docs</a>
+ * @see <a href="https://orientdb.org/docs/2.2.x/Using-SSL-with-OrientDB.html">docs</a>
  * @since 27.08.2017
  */
 public class AutoSslConfigurator {

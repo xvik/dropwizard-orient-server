@@ -16,7 +16,7 @@ Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedd
     ```java
     OrientDB orientDB = new OrientDB("embedded:/tmp/",OrientDBConfig.defaultConfig());
     ```
-    This is not the same as starting [embedded server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html)!
+    This is not the same as starting [embedded server](https://orientdb.org/docs/3.0.x/internals/Embedded-Server.html)!
     The code above only allows using orient databases within application, but not running studio,
     starting rest api, enabling plugins etc.    
     
@@ -24,12 +24,12 @@ Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedd
 ## Main features
 
 * For orient 3.0 and dropwizard 2.0.0
-* [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
+* [Embedded orient server](https://orientdb.org/docs/3.0.x/internals/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](https://www.dropwizard.io/en/release-2.0.x/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html) file
-* [Console command](http://orientdb.com/docs/3.0.x/console/Console-Commands.html) 
+[orient xml configuration](https://orientdb.org/docs/3.0.x/internals/DB-Server.html) file
+* [Console command](https://orientdb.org/docs/3.0.x/console/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Optional embedded [orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
+* Optional embedded [orient studio](https://orientdb.org/docs/3.0.x/studio/Studio-Introduction.html)
 * Full support of [orient plugins](guide/plugins.md) (and [enterprise edition](guide/enterprise.md))
 * [SSL configuration helpers](guide/ssl.md)

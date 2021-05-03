@@ -19,13 +19,13 @@ Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedd
 
 Features:
 * For orient 3.0 and dropwizard 2.0.0
-* [Embedded orient server](http://orientdb.com/docs/3.0.x/internals/Embedded-Server.html), 
+* [Embedded orient server](https://orientdb.org/docs/3.0.x/internals/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](https://www.dropwizard.io/en/release-2.0.x/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 
-[orient xml configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html) file
-* [Console command](http://orientdb.com/docs/3.0.x/console/Console-Commands.html) 
+[orient xml configuration](https://orientdb.org/docs/3.0.x/internals/DB-Server.html) file
+* [Console command](https://orientdb.org/docs/3.0.x/console/Console-Commands.html) 
 (interactive mode, command execution, commands file execution)
-* Optional embedded [orient studio](http://orientdb.com/docs/3.0.x/studio/Studio-Introduction.html)
+* Optional embedded [orient studio](https://orientdb.org/docs/3.0.x/studio/Studio-Introduction.html)
 * Full support of [orient plugins](http://xvik.github.io/dropwizard-orient-server/3.0.0/plugins/) (and [enterprise edition](http://xvik.github.io/dropwizard-orient-server/2.2.0/enterprise/))
 * [SSL configuration helpers](http://xvik.github.io/dropwizard-orient-server/3.0.0/ssl/)
 

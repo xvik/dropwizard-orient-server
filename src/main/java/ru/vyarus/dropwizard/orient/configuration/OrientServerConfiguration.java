@@ -27,7 +27,7 @@ import java.nio.file.Paths;
  * <p>
  * Server start could be disabled with 'start' option.
  *
- * @see <a href="http://orientdb.com/docs/3.0.x/internals/DB-Server.html#configuration">configuration documentation</a>
+ * @see <a href="https://orientdb.org/docs/3.0.x/internals/DB-Server.html#configuration">configuration documentation</a>
  */
 public class OrientServerConfiguration {
     private static final String APP_HOME = Paths.get(".").toAbsolutePath().normalize().toString();
@@ -183,7 +183,7 @@ public class OrientServerConfiguration {
      * your files path (files-path property) as "${files/path}/config/security.json.
      *
      * @return security configuration
-     * @see <a href="http://orientdb.com/docs/3.0.x/security/Security-Config.html">orient securty config</a>
+     * @see <a href="https://orientdb.org/docs/3.0.x/security/Security-Config.html">orient securty config</a>
      */
     public JsonNode getSecurity() {
         return security;

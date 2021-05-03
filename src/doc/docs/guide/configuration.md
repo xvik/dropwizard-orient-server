@@ -24,7 +24,7 @@ orient-server:
 | `start`  | enables or disables orient server start (the same effect will be if orient configuration section will not exist, this option exist to allow disabling server without removing entire config section) | 
 | `admin-servlet` | enables or disables orient admin servlet installation (`/orient`). Enabled by default|
 | `files-path` | defines folder, where orient will store database files. May be not existing directory - orient will create it when necessary. Will be set as value for `ORIENTDB_HOME` environment variable |
-| `config` |section defines [orient server configuration](http://orientdb.com/docs/3.0.x/internals/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](default-configs.md#yaml-config)).|
+| `config` |section defines [orient server configuration](https://orientdb.org/docs/3.0.x/internals/DB-Server.html). Orient use xml format for configuration files and this section is simply yaml representation of xml config. Special shortcuts supported for properties and parameters sections (see [example configuration](default-configs.md#yaml-config)).|
 | `config-file` | used to specify path to xml configuration file instead of direct yaml configuration in 'config' section. See [example xml config](default-configs.md#xml-config) (taken from orient distribution)|
 | `security`| section defines [orient security configuration](security.md). In orient distribution security configured with security.json file. This section is implicitly converted to json file and configured for orient. Optional: when no server configuration defined, orient only prints error log message, but everything works.|
 | `security-file` | used to specify path to security.json file instead of direct yaml configuration in 'security' section. See [example json config](default-configs.md#json-security-config)|
@@ -91,7 +91,7 @@ If graph db required you'll need to add graph dependency: `com.orientechnologies
 
 Graph related sections are commented in default [yaml config](default-configs.md#yaml-config):
 
-Enable this section if [gremlin](http://orientdb.com/docs/3.0.x/gremlin/Gremlin.html) support required
+Enable this section if [gremlin](https://orientdb.org/docs/3.0.x/gremlin/Gremlin.html) support required
 
 ```yaml
 - clazz: com.orientechnologies.orient.graph.handler.OGraphServerHandler
@@ -99,7 +99,7 @@ Enable this section if [gremlin](http://orientdb.com/docs/3.0.x/gremlin/Gremlin.
     - enabled: true
 ```
 
-Enable this section if [gephi](http://orientdb.com/docs/3.0.x/plugins/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
+Enable this section if [gephi](https://orientdb.org/docs/3.0.x/plugins/Gephi.html) support required (requires `OGraphServerHandler` if gremlin queries used)
 
 !!! note 
     Gremlin has become optional since [2.2.0](https://mvnrepository.com/artifact/com.orientechnologies/orientdb-graphdb/3.0.26). You will have to add an additional explicit dependency to enable Gremlin.
@@ -123,7 +123,7 @@ Lucene plugin includes dependency on graph, so explicit graph dependency could b
 
 ## ETL
 
-To use [ETL](http://orientdb.com/docs/3.0.x/etl/ETL-Introduction.html)
+To use [ETL](https://orientdb.org/docs/3.0.x/etl/ETL-Introduction.html)
 add dependency `com.orientechnologies:orientdb-etl:3.0.26`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.

@@ -2,7 +2,7 @@
 
 ## Orient configuration
 
-[Orient ssl guide](https://orientdb.com/docs/2.2/Using-SSL-with-OrientDB.html) describes that: 
+[Orient ssl guide](https://orientdb.org/docs/2.2.x/Using-SSL-with-OrientDB.html) describes that: 
 
 * ssl could be configured for binary protocol and https for http.
 * ssl is configured using custom socket (may be the same for both binary and http listeners)
@@ -160,7 +160,7 @@ Then on startup new ssl socket will be added to the configuration (with the same
 !!! important 
     It changed(!) default 2424-2430 port range for binary protocol to 2434-2440 because it is orient defaults for ssl (and remote connection from client will assume 2434 port by default). BUT, if port range will be different (even if it would be different only by 1: 2424-2429) then ports will not(!) be switched.
 
-Also, auto-ssl mode automatically configures [orient client to use ssl](https://orientdb.com/docs/2.2/Using-SSL-with-OrientDB.html#client-configuration): `OGlobalConfiguration.CLIENT_USE_SSL.setValue(true);`. It is done ONLY when auto-ssl enabled because only in this case bundle could be sure that client must use secured connection (and for sure client will call embedded server).
+Also, auto-ssl mode automatically configures [orient client to use ssl](https://orientdb.org/docs/2.2.x/Using-SSL-with-OrientDB.html#client-configuration): `OGlobalConfiguration.CLIENT_USE_SSL.setValue(true);`. It is done ONLY when auto-ssl enabled because only in this case bundle could be sure that client must use secured connection (and for sure client will call embedded server).
 
 This allows you to always use remote connection in the simplest way: `remote:localhost/somedb` (because port is corrected to ssl default automatically and client ssl mode also enabled). Convinient for tests.
 

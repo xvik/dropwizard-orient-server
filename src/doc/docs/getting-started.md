@@ -102,7 +102,7 @@ plocal:${files-path}/databases/dbname
 
 where `${files-path}` should be replaced with path from server configuration and `dbname` is database name.
 
-Using [new (3.0) api](http://orientdb.com/docs/3.0.x/java/Java-MultiModel-API.html):
+Using [new (3.0) api](https://orientdb.org/docs/3.0.x/java/Java-MultiModel-API.html):
 
 ```java
 OrientDB orientDB = new OrientDB("embedded:${files-path}/databases",OrientDBConfig.defaultConfig());

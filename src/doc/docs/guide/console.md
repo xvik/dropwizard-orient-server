@@ -41,4 +41,4 @@ $ [..] console config.yaml commands.sql
 Will execute all commands in file and exit.
 Note that `set echo true` enables additional logs (may be useful for debug). Another useful flag is `set ignoreErrors true`.
 
-For complete documentation see [orient console doc](http://orientdb.com/docs/3.0.x/console/Console-Commands.html)
+For complete documentation see [orient console doc](https://orientdb.org/docs/3.0.x/console/Console-Commands.html)
