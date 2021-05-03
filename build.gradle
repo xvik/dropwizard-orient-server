@@ -25,7 +25,7 @@ ext {
     groovy = '2.5.14'
 }
 
-repositories { jcenter(); mavenCentral(); mavenLocal() }
+repositories { mavenCentral(); mavenLocal() }
 dependencyManagement {
     imports {
         mavenBom "io.dropwizard:dropwizard-bom:$dropwizard"
@@ -56,7 +56,7 @@ dependencies {
     testImplementation 'org.spockframework:spock-core'
     // used to catch System.exit statements
     testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
-    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.2'
+    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
 
     // check everything works together
     // lucene includes graph dependency
