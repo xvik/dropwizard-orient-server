@@ -9,13 +9,13 @@
 
 ### About
 
-Embeds [OrientDB](http://orientdb.com/orientdb/) server into [dropwizard](http://dropwizard.io/).
+Embeds [OrientDB](https://orientdb.org) server into [dropwizard](https://dropwizard.io/).
  
 Simplifies development environment (no need to maintain separate server) without sacrificing functionality (embedded server is 100% the same as usual server).
 Also, simplifies production deployment and allows to slightly reduce memory consumption on server due to single (shared) vm.
 To switch application to external server simply switch off embedded server in configuration.
 
-Embedding is [officially proposed](https://orientdb.com/database/orientdb-embedded/)  
+Embedding is [officially proposed](https://orientdb.org/docs/3.0.x/internals/Embedded-Server.html)  
 
 Features:
 * For orient 3.0 and dropwizard 2.0.0
