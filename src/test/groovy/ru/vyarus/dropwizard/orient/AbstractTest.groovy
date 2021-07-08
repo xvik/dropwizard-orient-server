@@ -1,6 +1,7 @@
 package ru.vyarus.dropwizard.orient
 
 import com.orientechnologies.common.log.OLogManager
+import com.orientechnologies.orient.core.config.OGlobalConfiguration
 import com.orientechnologies.orient.core.db.ODatabaseType
 import com.orientechnologies.orient.core.db.OrientDB
 import com.orientechnologies.orient.core.db.OrientDBConfig
@@ -20,6 +21,8 @@ abstract class AbstractTest extends Specification {
     String dbFolderPath = System.getProperty("java.io.tmpdir") + '/db/';
 
     void setupSpec() {
+        OGlobalConfiguration.SCRIPT_POLYGLOT_USE_GRAAL.setValue(false)
+        OGlobalConfiguration.CREATE_DEFAULT_USERS.setValue(true)
         new File(dbFolderPath).deleteDir()
     }
 
