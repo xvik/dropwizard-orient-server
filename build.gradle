@@ -19,7 +19,7 @@ wrapper {
 }
 
 ext {
-    orient = '3.2.2'
+    orient = '3.2.3'
     dropwizard = '2.0.25'
     groovy = '2.5.15'
 }
@@ -54,7 +54,10 @@ dependencies {
     // check everything works together
     // lucene includes graph dependency
     testImplementation "com.orientechnologies:orientdb-lucene:$orient"
-    testImplementation "com.orientechnologies:orientdb-etl:$orient"
+    testImplementation ("com.orientechnologies:orientdb-etl:$orient") {
+        // ships with embedded slf4j-impl conflicting with dropwizard's logback
+        exclude module: 'chromeinspector'
+    }
     // OLDAPImporter by default is released only with Enterprise Edition, but technically it’s part
     // of the security module, that is open-source, so you can add it to your CE distribution
     testImplementation "com.orientechnologies:orientdb-security:$orient"

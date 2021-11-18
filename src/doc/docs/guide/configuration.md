@@ -128,6 +128,16 @@ add dependency `com.orientechnologies:orientdb-etl:3.0.26`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
+!!! note
+    Since orient 3.2.3 etl would bring graalvm chromeinspector dependency which includes slf4j-impl
+    and would conflict with logback in dropwizard. So it must be excluded:
+
+    ```
+    implementation ("com.orientechnologies:orientdb-etl:3.2.3") {
+        exclude module: 'chromeinspector'
+    }
+    ```
+
 ## Admin servlet
 
 If embedded server is started, special orient info servlet is available in admin context: [http://localhost:8081/orient](http://localhost:8081/orient).
