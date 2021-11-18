@@ -1,7 +1,7 @@
 # Embedded OrientDB server for dropwizard
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://www.opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.com/xvik/dropwizard-orient-server.svg?branch=master)](https://travis-ci.com/xvik/dropwizard-orient-server)
+[![CI](https://github.com/xvik/dropwizard-orient-server/actions/workflows/CI.yml/badge.svg)](https://github.com/xvik/dropwizard-orient-server/actions/workflows/CI.yml)
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/github/xvik/dropwizard-orient-server?svg=true)](https://ci.appveyor.com/project/xvik/dropwizard-orient-server)
 [![codecov](https://codecov.io/gh/xvik/dropwizard-orient-server/branch/master/graph/badge.svg)](https://codecov.io/gh/xvik/dropwizard-orient-server)
 
@@ -51,8 +51,7 @@ implementation 'ru.vyarus:dropwizard-orient-server:3.0.0'
 
 OrientDB | Dropwizard | dropwizard-orient-server
 ----------|---|------
-3.1 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
-3.0 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
+3.0 - 3.2 | 2.0.0 | [3.0.0](http://xvik.github.io/dropwizard-orient-server/3.0.0) |
 3.0 | 1.3.5 | [2.2.0](http://xvik.github.io/dropwizard-orient-server/2.2.0) | 
  2.2.17 |  1.1.4 | [2.1.0](http://xvik.github.io/dropwizard-orient-server/2.1.0)
 2.2.0 - 2.2.17 (studio webjar, lucene as plugin) | 1.0 | [1.4.0](https://github.com/xvik/dropwizard-orient-server/tree/1.4.0)
