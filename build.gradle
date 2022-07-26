@@ -21,7 +21,7 @@ wrapper {
 ext {
     orient = '3.2.8'
     dropwizard = '2.1.1'
-    groovy = '2.5.17'
+    groovy = '2.5.18'
 }
 
 repositories { mavenLocal(); mavenCentral() }
