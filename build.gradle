@@ -37,7 +37,7 @@ dependencies {
 
     testImplementation "com.orientechnologies:orientdb-object:$orient"
     testImplementation 'io.dropwizard:dropwizard-testing'
-    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-4.0'
     // groovy bundled with spock (2.5.2) does not work well with java 11
     testImplementation "org.codehaus.groovy:groovy:$groovy"
     testImplementation "org.codehaus.groovy:groovy-json:$groovy"
