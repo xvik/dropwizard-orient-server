@@ -44,7 +44,7 @@ public final class OrientConfigUtils {
         }
         boolean res = false;
         for (OServerUserConfiguration user : conf.users) {
-            if (user.name.equals(OServerConfiguration.DEFAULT_ROOT_USER)) {
+            if (OServerConfiguration.DEFAULT_ROOT_USER.equals(user.name)) {
                 res = true;
                 break;
             }
