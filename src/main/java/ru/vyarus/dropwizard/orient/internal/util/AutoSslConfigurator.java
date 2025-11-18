@@ -8,9 +8,9 @@ import com.orientechnologies.orient.server.config.OServerSocketFactoryConfigurat
 import com.orientechnologies.orient.server.network.OServerTLSSocketFactory;
 import io.dropwizard.jetty.ConnectorFactory;
 import io.dropwizard.jetty.HttpsConnectorFactory;
-import io.dropwizard.server.DefaultServerFactory;
-import io.dropwizard.server.ServerFactory;
-import io.dropwizard.server.SimpleServerFactory;
+import io.dropwizard.core.server.DefaultServerFactory;
+import io.dropwizard.core.server.ServerFactory;
+import io.dropwizard.core.server.SimpleServerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

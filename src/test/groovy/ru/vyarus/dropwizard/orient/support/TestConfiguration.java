@@ -1,7 +1,7 @@
 package ru.vyarus.dropwizard.orient.support;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.Configuration;
+import io.dropwizard.core.Configuration;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
 
 import javax.validation.Valid;

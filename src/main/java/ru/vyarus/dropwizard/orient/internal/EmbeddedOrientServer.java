@@ -12,7 +12,7 @@ import com.orientechnologies.orient.server.network.OServerNetworkListener;
 import com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpAbstract;
 import com.orientechnologies.orient.server.network.protocol.http.command.get.OServerCommandGetStaticContent;
 import io.dropwizard.lifecycle.Managed;
-import io.dropwizard.server.ServerFactory;
+import io.dropwizard.core.server.ServerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;

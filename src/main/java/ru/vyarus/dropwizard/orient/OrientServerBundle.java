@@ -1,10 +1,10 @@
 package ru.vyarus.dropwizard.orient;
 
-import io.dropwizard.Configuration;
-import io.dropwizard.ConfiguredBundle;
+import io.dropwizard.core.Configuration;
+import io.dropwizard.core.ConfiguredBundle;
 import io.dropwizard.jersey.validation.Validators;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import io.dropwizard.core.setup.Bootstrap;
+import io.dropwizard.core.setup.Environment;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.hibernate.validator.internal.engine.resolver.JPATraversableResolver;
 import org.slf4j.Logger;

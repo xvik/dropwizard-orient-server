@@ -2,9 +2,9 @@ package ru.vyarus.dropwizard.orient.support;
 
 import com.google.common.collect.Lists;
 import com.orientechnologies.orient.console.OConsoleDatabaseApp;
-import io.dropwizard.Configuration;
-import io.dropwizard.cli.ConfiguredCommand;
-import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.core.Configuration;
+import io.dropwizard.core.cli.ConfiguredCommand;
+import io.dropwizard.core.setup.Bootstrap;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
