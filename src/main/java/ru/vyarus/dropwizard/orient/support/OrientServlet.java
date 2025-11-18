@@ -4,7 +4,6 @@ import com.orientechnologies.orient.core.OConstants;
 import com.orientechnologies.orient.core.config.OContextConfiguration;
 import com.orientechnologies.orient.server.OServerMain;
 import com.orientechnologies.orient.server.plugin.OServerPluginInfo;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import ru.vyarus.dropwizard.orient.internal.EmbeddedOrientServer;
 
 import javax.servlet.ServletException;
@@ -101,7 +100,6 @@ public class OrientServlet extends HttpServlet {
     }
 
     @Override
-    @SuppressFBWarnings("RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE")
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
         final String path = req.getContextPath() + req.getServletPath();

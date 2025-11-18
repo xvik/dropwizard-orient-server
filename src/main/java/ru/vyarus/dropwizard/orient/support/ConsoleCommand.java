@@ -79,7 +79,6 @@ public class ConsoleCommand<T extends Configuration> extends ConfiguredCommand<T
         OConsoleDatabaseApp.main(commands.toArray(new String[0]));
     }
 
-    @SuppressWarnings("PMD.UselessParentheses")
     private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
                 + "https://orientdb.org/docs/3.0.x/console/Console-Commands.html");
@@ -119,7 +118,6 @@ public class ConsoleCommand<T extends Configuration> extends ConfiguredCommand<T
         return availableDatabases;
     }
 
-    @SuppressWarnings("PMD.EmptyCatchBlock")
     private String cleanupDbPath(final String basedir, final String name) {
         String res = basedir + name;
         try {
