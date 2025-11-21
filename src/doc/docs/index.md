@@ -12,7 +12,7 @@ To switch application to external server simply switch off embedded server in co
 Embedding is [officially proposed](https://orientdb.dev/docs/3.2.x/internals/Embedded-Server.html)
 
 !!! note
-    Orient 3.0 docs show the following code snippet which could be confusing:
+    Orient 3.2 docs show the following code snippet which could be confusing:
     ```java
     OrientDB orientDB = new OrientDB("embedded:/tmp/",OrientDBConfig.defaultConfig());
     ```
@@ -23,7 +23,7 @@ Embedding is [officially proposed](https://orientdb.dev/docs/3.2.x/internals/Emb
 
 ## Main features
 
-* For orient 3.0 and dropwizard 2.0.0
+* For orient 3.2 and dropwizard 5
 * [Embedded orient server](https://orientdb.dev/docs/3.2.x/internals/Embedded-Server.html), 
 managed by dropwizard (using [Managed object](https://www.dropwizard.io/en/release-2.0.x/manual/core.html#managed-objects))
 * Configuration in main yaml configuration file or with external 

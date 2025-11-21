@@ -123,7 +123,7 @@ public class OrientServlet extends HttpServlet {
 
     private String renderLinks(final String path) {
         return MessageFormat.format(LINKS_TEMPLATE, path,
-                "http://orientdb.org/docs/3.0.x/",
+                "http://orientdb.dev/docs/3.2.x/",
                 "target=\"_blank\"");
     }
 

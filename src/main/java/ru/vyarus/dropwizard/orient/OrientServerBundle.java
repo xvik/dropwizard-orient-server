@@ -4,7 +4,6 @@ import io.dropwizard.core.Configuration;
 import io.dropwizard.core.ConfiguredBundle;
 import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.vyarus.dropwizard.orient.configuration.OrientServerConfiguration;
@@ -80,8 +79,7 @@ public class OrientServerBundle<T extends Configuration> implements ConfiguredBu
         environment.lifecycle().manage(orientServer);
         environment.healthChecks().register("orient-server", new OrientServerHealthCheck());
         if (conf.isAdminServlet()) {
-            environment.getAdminContext().addServlet(new ServletHolder(
-                    new OrientServlet(orientServer.getServerInfo())), "/orient/*");
+            environment.getAdminContext().addServlet(new OrientServlet(orientServer.getServerInfo()), "/orient/*");
         }
     }
 }

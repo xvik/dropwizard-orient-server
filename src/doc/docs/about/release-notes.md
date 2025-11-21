@@ -1,6 +1,12 @@
 # {{ gradle.version }} Release Notes
 
-Release brings dropwizard 4-5 compatibility (due to dropwizard package change and move to jakarta api).
+Release brings dropwizard 5 compatibility (due to dropwizard package change and move to jakarta api).
+
+!!! note
+    It was impossible to preserve dropwizard 3 or 4 because of:
+
+      - validation api usage (javax in 3.x, jakarta in 5.x)
+      - jetty api usage was required in 4.x, but base jetty package changed in dropwizard 5
 
 Java 8 support was dropped because dropwizard 4 does not support it (5 requires java 17).
 
