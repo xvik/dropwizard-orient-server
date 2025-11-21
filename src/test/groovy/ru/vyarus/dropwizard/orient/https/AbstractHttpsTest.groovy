@@ -6,11 +6,11 @@ import org.glassfish.jersey.client.filter.EncodingFeature
 import org.glassfish.jersey.message.GZipEncoder
 import ru.vyarus.dropwizard.orient.AbstractTest
 
-import javax.ws.rs.WebApplicationException
-import javax.ws.rs.client.Client
-import javax.ws.rs.client.ClientBuilder
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
+import jakarta.ws.rs.WebApplicationException
+import jakarta.ws.rs.client.Client
+import jakarta.ws.rs.client.ClientBuilder
+import jakarta.ws.rs.core.MediaType
+import jakarta.ws.rs.core.Response
 
 /**
  * @author Vyacheslav Rusakov

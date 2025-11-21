@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import ru.vyarus.dropwizard.orient.support.TestConfiguration
 
-import javax.ws.rs.core.Response
+import jakarta.ws.rs.core.Response
 
 /**
  * @author Vyacheslav Rusakov 

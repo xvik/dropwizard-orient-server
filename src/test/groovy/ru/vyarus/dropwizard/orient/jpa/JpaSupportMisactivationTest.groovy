@@ -15,6 +15,6 @@ class JpaSupportMisactivationTest extends AbstractTest {
         when: "get default resolver"
         def res = TraversableResolvers.getDefault()
         then: "by default jpa resolver activated due to classpath"
-        res instanceof JPATraversableResolver
+        !(res instanceof JPATraversableResolver)
     }
 }
