@@ -1,3 +1,8 @@
+### [4.0.0](https://xvik.github.io/dropwizard-orient-server/4.0.0) (2025-11-21)
+* Update to orient 3.2
+* (breaking) Update to dropwizard 3 (core api change, same api for dw 4 and 5)
+* (breaking) Drop java 8 support
+
 ### [3.0.0](https://xvik.github.io/dropwizard-orient-server/3.0.0) (2019-12-19)
 * Dropwizard 2.0.0 compatibility fix
 * Update to orient 3.0.26

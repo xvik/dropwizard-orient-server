@@ -1,6 +1,6 @@
 # Orient studio
 
-[Orient studio](https://orientdb.org/docs/3.0.x/studio/Studio-Introduction.html)
+[Orient studio](https://orientdb.dev/docs/3.2.x/studio/Studio-Introduction.html)
 is irreplaceable tool for both learning and development. You will need it to validate schema, do manual schema changes and migrations, 
 debug sql queries (all the things you usually do in external applications like SqlDeveloper for relational databases).
 

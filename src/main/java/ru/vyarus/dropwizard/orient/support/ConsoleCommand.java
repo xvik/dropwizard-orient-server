@@ -28,7 +28,7 @@ import java.util.function.Function;
  * (only server command triggers managed objects lifecycle). But plocal connections still could be used.
  * Also, if server already started, then you can use remote connections.
  * <p>
- * <a href="https://orientdb.org/docs/3.0.x/console/Console-Commands.html">
+ * <a href="https://orientdb.dev/docs/3.2.x/console/Console-Commands.html">
  * See orient console documentation</a>
  *
  * @param <T> configuration type
@@ -81,7 +81,7 @@ public class ConsoleCommand<T extends Configuration> extends ConfiguredCommand<T
 
     private void printHelp(final OrientServerConfiguration conf, final List<String> commands) {
         System.out.println("See details of command usage: "
-                + "https://orientdb.org/docs/3.0.x/console/Console-Commands.html");
+                + "https://orientdb.dev/docs/3.2.x/console/Console-Commands.html");
 
         if (conf == null) {
             return;

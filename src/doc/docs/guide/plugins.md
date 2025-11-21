@@ -1,6 +1,6 @@
 # Orient server plugins
 
-Orient has some [plugins](https://orientdb.org/docs/3.0.x/plugins/Extend-Server.html) by default (mail, backup, jmx etc) and few external plugins (studio, lucene, etc).
+Orient has some [plugins](https://orientdb.dev/docs/3.2.x/plugins/Extend-Server.html) by default (mail, backup, jmx etc) and few external plugins (studio, lucene, etc).
 With usual orient server, external plugins are simply put into `$DISTRIBUTION_HOME/plugins` folder. Orient monitors this folder and install plugins. If plugin contains only static files (studio) it is registered as virtual folder in server. If plugin requires integration, it is registered as handler.
 
 So basically, manual plugin registration with handlers configuration is the same as using plugins folder (except static plugins, which may be registered only from plugins folder).
@@ -47,4 +47,4 @@ handlers:
     - clazz: com.orientechnologies.lucene.OLuceneIndexPlugin
 ```
 
-Read more about plugins in [orient docs](https://orientdb.org/docs/3.0.x/plugins/Extend-Server.html)
+Read more about plugins in [orient docs](https://orientdb.dev/docs/3.2.x/plugins/Extend-Server.html)

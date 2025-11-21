@@ -69,13 +69,13 @@ github {
 
 mkdocs {
     publish {
-        docPath = '3.0.0'
+        docPath = '4.0.0'
         rootRedirect = true
         rootRedirectTo = 'latest'
         versionAliases = ['latest']
     }
     extras = [
-            'version': '3.0.0'
+            'version': '4.0.0'
     ]
 }
 
