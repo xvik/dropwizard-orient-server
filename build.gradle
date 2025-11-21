@@ -140,6 +140,8 @@ test {
     }
     // appveyor fix
     systemProperty 'jna.nosys', 'true'
+    // java > 16 does not allow SecurityManager by default (used to system.exit interception.. have to enable it)
+    systemProperty 'java.security.manager', 'allow'
 }
 
 dependencyUpdates.revision = 'release'
