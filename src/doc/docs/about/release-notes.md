@@ -8,7 +8,7 @@ Release brings dropwizard 5 compatibility (due to dropwizard package change and 
       - validation api usage (javax in 3.x, jakarta in 5.x)
       - jetty api usage was required in 4.x, but base jetty package changed in dropwizard 5
 
-Java 8 support was dropped because dropwizard 4 does not support it (5 requires java 17).
+Java 8-16 support was dropped because dropwizard 5 requires java 17.
 
 Updated to orient 3.2: note that enterprise agent become open source and so could be used directly
 (not as dependency `com.orientechnologies:agent:3.2.46` because it has embedded slf4j 1.7, which will fail
