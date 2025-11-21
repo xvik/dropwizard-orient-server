@@ -1,6 +1,6 @@
 * Update to orient 3.2
-* Update to dropwizard 3 (core api change, same api for dw 4 and 5)
-* Drop java 8 support
+* (breaking) Update to dropwizard 3 (core api change, same api for dw 4 and 5)
+* (breaking) Drop java 8 support
 
 ### 3.0.0 (2019-12-19)
 * Dropwizard 2.0.0 compatibility

@@ -1,26 +1,30 @@
 package ru.vyarus.dropwizard.orient.error
 
-import org.junit.Rule
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
-import org.junit.contrib.java.lang.system.internal.CheckExitCalled
+
+import org.junit.jupiter.api.extension.ExtendWith
 import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.TestApplication
+import uk.org.webcompere.systemstubs.jupiter.SystemStub
+import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension
+import uk.org.webcompere.systemstubs.security.SystemExit
 
 /**
  * @author Vyacheslav Rusakov
  * @since 25.02.2017
  */
+@ExtendWith(SystemStubsExtension)
 class NoServerUsersTest extends AbstractTest {
 
-    @Rule
-    ExpectedSystemExit exit = ExpectedSystemExit.none()
+    @SystemStub
+    SystemExit exit = new SystemExit()
 
     def "Check no users in config"() {
-        exit.expectSystemExitWithStatus(1)
-
         when: "config without server users"
-        TestApplication.main('server', 'src/test/resources/ru/vyarus/dropwizard/orient/bad/noUsers.yml');
+        exit.execute {
+            TestApplication.main('server', 'src/test/resources/ru/vyarus/dropwizard/orient/bad/noUsers.yml');
+        }
+
         then: "error"
-        thrown(CheckExitCalled)
+        exit.getExitCode() == 1
     }
 }

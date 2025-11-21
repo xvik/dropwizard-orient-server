@@ -1,7 +1,9 @@
 package ru.vyarus.dropwizard.orient
 
-import io.dropwizard.testing.junit.DropwizardAppRule
-import org.junit.Rule
+
+import io.dropwizard.testing.junit5.DropwizardAppExtension
+import io.dropwizard.testing.junit5.DropwizardExtensionsSupport
+import org.junit.jupiter.api.extension.ExtendWith
 import ru.vyarus.dropwizard.orient.support.TestApplication
 import ru.vyarus.dropwizard.orient.support.TestConfiguration
 
@@ -9,11 +11,12 @@ import ru.vyarus.dropwizard.orient.support.TestConfiguration
  * @author Vyacheslav Rusakov 
  * @since 29.08.2015
  */
+@ExtendWith(DropwizardExtensionsSupport)
 class DisabledOrientServletTest extends AbstractTest {
-
-    @Rule
-    DropwizardAppRule<TestConfiguration> RULE =
-            new DropwizardAppRule<TestConfiguration>(TestApplication.class, 'src/test/resources/ru/vyarus/dropwizard/orient/conf/noOrientServlet.yml');
+    private static final DropwizardAppExtension<TestConfiguration> EXT = new DropwizardAppExtension<>(
+            TestApplication.class,
+            "src/test/resources/ru/vyarus/dropwizard/orient/conf/noOrientServlet.yml"
+    )
 
     def "Check servlet is not deployed"() {
 

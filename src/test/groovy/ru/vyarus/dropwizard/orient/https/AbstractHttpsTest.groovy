@@ -1,13 +1,16 @@
 package ru.vyarus.dropwizard.orient.https
 
 import com.orientechnologies.orient.core.config.OGlobalConfiguration
-import groovyx.net.http.ContentEncoding
-import groovyx.net.http.ContentType
-import groovyx.net.http.HTTPBuilder
-import groovyx.net.http.Method
-import org.apache.http.client.RedirectStrategy
-import org.apache.http.impl.client.AbstractHttpClient
+import org.glassfish.jersey.client.ClientProperties
+import org.glassfish.jersey.client.filter.EncodingFeature
+import org.glassfish.jersey.message.GZipEncoder
 import ru.vyarus.dropwizard.orient.AbstractTest
+
+import javax.ws.rs.WebApplicationException
+import javax.ws.rs.client.Client
+import javax.ws.rs.client.ClientBuilder
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
 
 /**
  * @author Vyacheslav Rusakov
@@ -27,33 +30,40 @@ abstract class AbstractHttpsTest extends AbstractTest {
     }
 
     String getGzip(String url) {
-        def builder = new HTTPBuilder(url)
-        builder.contentEncoding = ContentEncoding.Type.GZIP
-        builder.ignoreSSLIssues()
-        builder.get(contentType : ContentType.TEXT).text
+        Client client = ClientBuilder.newBuilder()
+                .hostnameVerifier((hostname, session) -> true)
+                .property(ClientProperties.FOLLOW_REDIRECTS, true)
+                .build()
+
+        Response res = client.target(url)
+                .register(new EncodingFeature(GZipEncoder))
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .acceptEncoding("gzip")
+                .get()
+
+        if (res.status == 302) {
+            // automatic redirect does not work for unknown reason
+            return client.target(res.getHeaderString("Location"))
+                    .register(new EncodingFeature(GZipEncoder))
+                    .request(MediaType.TEXT_PLAIN_TYPE)
+                    .acceptEncoding("gzip")
+                    .get(String.class)
+        }
+        if (res.status != 200) {
+            throw new WebApplicationException("Error: " + res.getStatus())
+        }
+        return res.readEntity(String.class)
     }
 
     void checkRedirect(String url, String redirectStartsWith) {
-        def httpBuilder = new HTTPBuilder(url)
-        // Make sure that HttpClient doesn't perform a redirect
-        (httpBuilder.client as AbstractHttpClient).setRedirectStrategy([
-                getRedirect : { request, response, context -> null},
-                isRedirected : { request, response, context -> false}
-        ] as RedirectStrategy)
+        Client client = ClientBuilder.newBuilder()
+                .hostnameVerifier((hostname, session) -> true).build();
+        Response response = client.target(url)
+                .property(ClientProperties.FOLLOW_REDIRECTS, false)
+                .request(MediaType.TEXT_HTML_TYPE)
+                .get()
 
-        httpBuilder.ignoreSSLIssues()
-
-        // Execute a GET request and expect a redirect
-        httpBuilder.request(Method.GET, ContentType.HTML) {
-            req ->
-                response.success = { response, reader ->
-                    assert response.statusLine.statusCode == 302
-                    assert response.headers['Location'].value.startsWith(redirectStartsWith)
-                }
-                response.failure = { response, reader ->
-                    // redirect expected
-                    assert false
-                }
-        }
+        assert response.status == 302
+        assert response.getHeaderString('Location').startsWith(redirectStartsWith)
     }
 }

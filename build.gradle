@@ -23,37 +23,27 @@ wrapper {
 
 ext {
     orient = '3.2.46'
-    dropwizard = '3.0.0'
-    groovy = '2.5.18'
+    dropwizard = '3.0.16'
 }
 
 repositories { mavenLocal(); mavenCentral() }
 dependencies {
     implementation platform("io.dropwizard:dropwizard-bom:$dropwizard")
 
-    compileOnly 'com.github.spotbugs:spotbugs-annotations:4.7.2'
     provided "com.orientechnologies:orientdb-studio:$orient"
 
     implementation 'io.dropwizard:dropwizard-core'
     implementation "com.orientechnologies:orientdb-server:$orient"
     implementation "com.orientechnologies:orientdb-tools:$orient"
 
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'ru.vyarus:spock-junit5:1.2.0'
     testImplementation "com.orientechnologies:orientdb-object:$orient"
     testImplementation 'io.dropwizard:dropwizard-testing'
-    testImplementation "io.dropwizard.modules:dropwizard-testing-junit4:$dropwizard"
-    testImplementation 'org.spockframework:spock-core:1.3-groovy-2.5'
-    // groovy bundled with spock (2.5.2) does not work well with java 11
-    testImplementation "org.codehaus.groovy:groovy:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-json:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-macro:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-nio:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-sql:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-templates:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-test:$groovy"
-    testImplementation "org.codehaus.groovy:groovy-xml:$groovy"
+    testImplementation 'org.spockframework:spock-core:2.4-M6-groovy-4.0'
+
     // used to catch System.exit statements
-    testImplementation 'com.github.stefanbirkner:system-rules:1.19.0'
-    testImplementation 'org.codehaus.groovy.modules.http-builder:http-builder:0.7.1'
+    testImplementation 'uk.org.webcompere:system-stubs-jupiter:2.1.8'
 
     // check everything works together
     // lucene includes graph dependency
@@ -65,6 +55,8 @@ dependencies {
     // OLDAPImporter by default is released only with Enterprise Edition, but technically it’s part
     // of the security module, that is open-source, so you can add it to your CE distribution
     testImplementation "com.orientechnologies:orientdb-security:$orient"
+
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 group = 'ru.vyarus'
@@ -134,7 +126,9 @@ afterReleaseBuild {
 }
 
 test {
-    //useJUnitPlatform()
+    useJUnitPlatform()
+    // all tests use the same folder and so can't be run in parallel
+    maxParallelForks = 1
     testLogging {
         events 'skipped', 'failed'
         exceptionFormat 'full'

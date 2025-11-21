@@ -1,12 +1,12 @@
 package ru.vyarus.dropwizard.orient
 
-import com.orientechnologies.common.log.OLogManager
-import com.orientechnologies.orient.core.config.OGlobalConfiguration
+
 import com.orientechnologies.orient.core.db.ODatabaseType
 import com.orientechnologies.orient.core.db.OrientDB
 import com.orientechnologies.orient.core.db.OrientDBConfig
+import org.junit.jupiter.api.extension.ExtendWith
 import ru.vyarus.dropwizard.orient.support.TestApplication
-import spock.lang.Shared
+import ru.vyarus.dropwizard.orient.util.DbFolderExtension
 import spock.lang.Specification
 
 /**
@@ -15,22 +15,8 @@ import spock.lang.Specification
  * @author Vyacheslav Rusakov
  * @since 16.07.2014
  */
+@ExtendWith(DbFolderExtension)
 abstract class AbstractTest extends Specification {
-
-    @Shared
-    String dbFolderPath = System.getProperty("java.io.tmpdir") + '/db/';
-
-    void setupSpec() {
-        OGlobalConfiguration.SCRIPT_POLYGLOT_USE_GRAAL.setValue(false)
-        OGlobalConfiguration.CREATE_DEFAULT_USERS.setValue(true)
-        new File(dbFolderPath).deleteDir()
-    }
-
-    void cleanupSpec() {
-        // no way to reset shutdown state properly
-        OLogManager.instance.shutdownFlag.set(false)
-        new File(dbFolderPath).deleteDir()
-    }
 
     def command(String attrs) {
         new TestApplication().run(attrs.split(' '))
@@ -45,7 +31,7 @@ abstract class AbstractTest extends Specification {
 
     def createLocalDb(String name) {
         OrientDB orientDb = new OrientDB(
-                "embedded:${dbFolderPath}/databases/", OrientDBConfig.defaultConfig());
+                "embedded:${DbFolderExtension.dbFolderPath}/databases/", OrientDBConfig.defaultConfig());
         orientDb.createIfNotExists(name, ODatabaseType.PLOCAL)
         orientDb.close()
     }

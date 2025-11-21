@@ -1,20 +1,23 @@
 package ru.vyarus.dropwizard.orient.configuration
 
-import org.junit.Rule
-import org.junit.contrib.java.lang.system.ExpectedSystemExit
-import org.junit.contrib.java.lang.system.internal.CheckExitCalled
+
+import org.junit.jupiter.api.extension.ExtendWith
 import ru.vyarus.dropwizard.orient.AbstractTest
 import ru.vyarus.dropwizard.orient.support.DummyCommand
+import uk.org.webcompere.systemstubs.jupiter.SystemStub
+import uk.org.webcompere.systemstubs.jupiter.SystemStubsExtension
+import uk.org.webcompere.systemstubs.security.SystemExit
 
 /**
  *
  * @author Vyacheslav Rusakov
  * @since 16.07.2014
  */
+@ExtendWith(SystemStubsExtension)
 class ConfigurationTest extends AbstractTest {
 
-    @Rule
-    ExpectedSystemExit exit = ExpectedSystemExit.none();
+    @SystemStub
+    SystemExit exit = new SystemExit()
 
     def "Check single config"() {
 
@@ -60,25 +63,23 @@ class ConfigurationTest extends AbstractTest {
 
     def "Check no server config"() {
 
-        setup:
-        exit.expectSystemExitWithStatus(1)
-
         when: "no server config specified in file"
-        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/bad/noServerConfig.yml'
+        exit.execute {
+            command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/bad/noServerConfig.yml'
+        }
 
         then: "configuration validation failed"
-        thrown(CheckExitCalled)
+        exit.getExitCode() > 0
     }
 
     def "Check no server files path in config"() {
 
-        setup:
-        exit.expectSystemExitWithStatus(1)
-
         when: "no server files path specified in file"
-        command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/bad/noPathConfig.yml'
+        exit.execute {
+            command 'dummy src/test/resources/ru/vyarus/dropwizard/orient/bad/noPathConfig.yml'
+        }
 
         then: "configuration validation failed"
-        thrown(CheckExitCalled)
+        exit.getExitCode() > 0
     }
 }
