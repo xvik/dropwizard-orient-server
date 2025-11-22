@@ -87,7 +87,7 @@ Configuration folder (config/) in orient distribution reference:
 ## Graph server
 
 By default, server supports document and object databases.
-If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:3.0.26`.
+If graph db required you'll need to add graph dependency: `com.orientechnologies:orientdb-graphdb:3.2.46`.
 
 Graph related sections are commented in default [yaml config](default-configs.md#yaml-config):
 
@@ -112,7 +112,7 @@ implementation: com.orientechnologies.orient.server.network.protocol.http.comman
 ## Lucene plugin
 
 Orient 2 distribution includes lucene plugin out of the box.
-To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:3.0.26`.
+To enable lucene indexes in embedded server add dependency: `com.orientechnologies:orientdb-lucene:3.2.46`.
 
 Plugin will be automatically registered. 
 
@@ -124,7 +124,7 @@ Lucene plugin includes dependency on graph, so explicit graph dependency could b
 ## ETL
 
 To use [ETL](https://orientdb.dev/docs/3.2.x/etl/ETL-Introduction.html)
-add dependency `com.orientechnologies:orientdb-etl:3.0.26`
+add dependency `com.orientechnologies:orientdb-etl:3.2.46`
 
 ETL plugin includes dependency on graph, so explicit graph dependency could be avoided.
 
@@ -133,7 +133,7 @@ ETL plugin includes dependency on graph, so explicit graph dependency could be a
     and would conflict with logback in dropwizard. So it must be excluded:
 
     ```
-    implementation ("com.orientechnologies:orientdb-etl:3.2.3") {
+    implementation ("com.orientechnologies:orientdb-etl:3.2.46") {
         exclude module: 'chromeinspector'
     }
     ```

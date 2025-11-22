@@ -37,7 +37,7 @@ For example, for lucene plugin:
     Lucene plugin is not activated like this anymore. It's just as an example:
 
 ```groovy
-com.orientechnologies:orientdb-lucene:2.0.5
+com.orientechnologies:orientdb-lucene:3.2.46
 ```
 
 And enabling in configuration

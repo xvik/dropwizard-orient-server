@@ -12,7 +12,7 @@ but you can also configure it directly in [yaml configuration](configuration.md)
     that is open-source, so you can add it to your CE distribution.
     [source](https://community.orientdb.org/t/oldapimporter-class-not-found/904)
     
-To enable LDAP users import attach `com.orientechnologies:orientdb-security:3.0.26`
+To enable LDAP users import attach `com.orientechnologies:orientdb-security:3.2.46`
 and configure [ldap importer](https://orientdb.dev/docs/3.2.x/security/Security-Config.html#ldapimporter)
 in the security config.
 
