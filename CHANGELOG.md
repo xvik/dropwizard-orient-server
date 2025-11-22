@@ -1,4 +1,4 @@
-# 4.0.0 (2025-11-21)
+# 4.0.0 (2025-11-22)
 * Update to orient 3.2
 * (breaking) Update to dropwizard 5 (core api change, jakarta api)
 * (breaking) Drop java 8-16 support
