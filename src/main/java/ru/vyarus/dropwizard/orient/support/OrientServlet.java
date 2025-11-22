@@ -53,9 +53,9 @@ public class OrientServlet extends HttpServlet {
                     + "    <li>Http ports: {2}</li>%n"
                     + "    <li>Studio installed: {3}</li>%n"
                     + "    <li>Plugins: {4}</li>%n"
-                    + "    <li>Profiler: {7}</li>%n"
+                    + "    <li>Profiler: {5}</li>%n"
                     + "  </ul>%n"
-                    + "  {8}%n"
+                    + "  {6}%n"
                     + "</body>%n"
                     + "</html>"
     );
