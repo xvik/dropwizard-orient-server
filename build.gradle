@@ -40,7 +40,7 @@ dependencies {
     testImplementation 'ru.vyarus:spock-junit5:1.2.0'
     testImplementation "com.orientechnologies:orientdb-object:$orient"
     testImplementation 'io.dropwizard:dropwizard-testing'
-    testImplementation 'org.spockframework:spock-core:2.4-M6-groovy-4.0'
+    testImplementation 'org.spockframework:spock-core:2.4-M7-groovy-5.0'
 
     // used to catch System.exit statements
     testImplementation 'uk.org.webcompere:system-stubs-jupiter:2.1.8'
