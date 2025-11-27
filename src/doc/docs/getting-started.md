@@ -20,7 +20,7 @@ Gradle:
 implementation 'ru.vyarus:dropwizard-orient-server:{{ gradle.version }}'
 ```
 
-Version works with orient 3.0 and dropwizard 2.0.0.
+Version works with orient 3.2 and dropwizard 5.0.0.
 For other versions see [compatibility matrix](about/compatibility.md). 
 
 ## Usage
