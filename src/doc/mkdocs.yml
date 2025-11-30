@@ -105,6 +105,6 @@ nav:
   - About:
       - Compatibility: about/compatibility.md
       - Release notes: about/release-notes.md
-      - Release notes: about/history.md
+      - History: about/history.md
       - Support: about/support.md
       - License: about/license.md
