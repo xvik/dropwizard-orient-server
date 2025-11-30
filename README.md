@@ -7,6 +7,8 @@
 
 **DOCUMENTATION** https://xvik.github.io/dropwizard-orient-server
 
+Example: [Sample todo application](sample)
+
 ### About
 
 Embeds [OrientDB](https://orientdb.dev) server into [dropwizard](https://dropwizard.io/).
@@ -90,6 +92,8 @@ Snapshots could be used through JitPack:
 ### Usage
 
 Read [documentation](https://xvik.github.io/dropwizard-orient-server/)
+
+Use provided [sample application](sample).
 
 ### Might also like
 

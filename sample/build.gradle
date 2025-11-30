@@ -1,0 +1,56 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+wrapper {
+    gradleVersion = '8.14'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+description = 'Todo app'
+group = 'ru.vyarus.app'
+
+repositories { mavenLocal(); mavenCentral() }
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    implementation platform('ru.vyarus.guicey:guicey-bom:8.0.0')
+
+    implementation 'ru.vyarus:dropwizard-guicey'
+    implementation 'io.dropwizard:dropwizard-assets'
+    implementation 'ru.vyarus:dropwizard-orient-server:4.0.0'
+    implementation 'ru.vyarus:guice-persist-orient:5.0.0'
+    implementation 'com.orientechnologies:orientdb-studio:3.2.46'
+    implementation "com.orientechnologies:orientdb-object:3.2.46"
+
+    testImplementation 'io.dropwizard:dropwizard-testing'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.assertj:assertj-core'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClassName = 'ru.vyarus.app.todo.TodoApp'
+    applicationDefaultJvmArgs = ['-Dfile.encoding=UTF-8']
+}
+
+startScripts {
+    // change start scripts name (in delivery bin dir)
+    applicationName = 'startup'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// local run with dev config
+tasks.named('run', JavaExec).configure { JavaExec task ->
+    task.args 'server', 'config.yml'
+}
+
+defaultTasks 'clean', 'distZip'

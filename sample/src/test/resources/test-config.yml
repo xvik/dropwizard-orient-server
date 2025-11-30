@@ -1,0 +1,24 @@
+db:
+  uri: 'memory:test'
+  user: 'admin'
+  pass: 'admin'
+
+orient-server:
+  files-path: $TMP/db/
+  start: false
+
+  config:
+    users:
+      - name: root
+        password: root
+        resources: '*'
+
+server:
+  rootPath: '/rest/*'
+
+  type: simple
+  applicationContextPath: /
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 9999
