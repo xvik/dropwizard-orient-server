@@ -23,7 +23,7 @@ wrapper {
 
 ext {
     orient = '3.2.53'
-    dropwizard = '5.0.1'
+    dropwizard = '5.0.2'
 }
 
 repositories { mavenLocal(); mavenCentral() }
